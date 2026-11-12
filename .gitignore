@@ -6,6 +6,8 @@ env/
 venv/
 ENV/
 offline_packages/
+chatbot/paraphrase-multilingual-MiniLM-L12-v2/
+paraphrase-multilingual-MiniLM-L12-v2/
 node_modules/
 
 # Django / Wagtail

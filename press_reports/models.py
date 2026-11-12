@@ -27,4 +27,12 @@ class DocumentsPage(Page):
             FieldPanel("documents"),
         ]
         
-    
+    def get_context(self, request):
+        context = super().get_context(request)
+        sorted_docs = sorted(
+            self.documents,
+            key=lambda block: block.value.get('date') if block.value.get('date') else '',
+            reverse=True 
+        )
+        context['sorted_documents'] = sorted_docs
+        return context
