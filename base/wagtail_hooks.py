@@ -7,7 +7,7 @@ from wagtail.models import Page
 from wagtail_flexible_forms.models import StreamFormMixin
 from wagtail import hooks
 from wagtail.contrib.forms.models import FormMixin
-
+from wagtailcache.cache import clear_cache
 
 @hooks.register('insert_global_admin_css')
 def global_admin_css():
@@ -95,3 +95,19 @@ class ChatbotAdminGroup(SnippetViewSetGroup):
 
 register_snippet(ChatbotAdminGroup)
 
+
+
+
+@hooks.register('after_publish_page')
+def clear_cache_on_publish(request, page):
+    clear_cache()
+
+
+@hooks.register('after_unpublish_page')
+def clear_cache_on_unpublish(request, page):
+    clear_cache()
+
+
+@hooks.register('after_delete_page')
+def clear_cache_on_delete(request, page):
+    clear_cache()

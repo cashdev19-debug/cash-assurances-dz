@@ -13,7 +13,7 @@
     <div class="flex w-max {%if lang == 'ar' %}animate-scroll-arabic{%else%}animate-scroll{%endif%}   hover:[animation-play-state:paused]" id="row1">   
       {% for temoignage in self.temoignage %}
       <a href="{{temoignage.link}}" target="_blank">  
-      <div class="shrink-0 w-72 sm:w-80 lg:w-96 mx-3 bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)] transition-shadow duration-300 flex flex-col justify-between">
+      <div data-aos ="zoom-in-left" class="shrink-0 w-72 sm:w-80 lg:w-96 mx-3 bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)] transition-shadow duration-300 flex flex-col justify-between">
           <div class="flex items-center justify-between mb-3">
             <div class="flex">
               {% autoescape off %}

@@ -130,27 +130,22 @@
 </div>
 {% endif %}
 {% endcomment %}
-    {% block content %}{% endblock %}
-    {% include 'includes/prefooter.html' %}
-    {% include 'includes/footer.html' %}
-    {% include "chatbot/widget.html" %}
+{% block content %}{% endblock %}{% include 'includes/prefooter.html' %}{% include 'includes/footer.html' %}{% include "chatbot/widget.html" %}
 {% compress js %}
 <script  src="{% static 'js/aos.js' %}"></script>     
 <script>AOS.init();</script>
 <script defer src="{%static 'js/intersect.js'%}"></script>
-    <script defer src="{%static 'js/alpine/alpine.js'%}"></script>
-    <script defer src="{%static 'js/htmx.min.js'%}"></script>
-      <script src="{% static 'js/alpine/focus.js' %}"></script>
-      <script src="{% static 'js/mobile_menu.js' %}"></script>
-      <script src="{% static 'js/website.js' %}"></script>
-      
-      <script src="{% static 'chatbot/chat.js' %}" defer></script>
+<script defer src="{%static 'js/alpine/alpine.js'%}"></script>
+<script defer src="{%static 'js/htmx.min.js'%}"></script>
+<script src="{% static 'js/alpine/focus.js' %}"></script>
+<script src="{% static 'js/mobile_menu.js' %}"></script>
+<script src="{% static 'js/website.js' %}"></script>
+<script src="{% static 'chatbot/chat.js' %}" defer></script>
 {% endcompress %}
 {% compress js inline%}
 <script>window.CHATBOT_CONFIG = { apiUrl: "{% url 'chatbot:chat_api' %}", suggestionsUrl: "{% url 'chatbot:suggestions_api' %}", historyUrl: "{% url 'chatbot:history_api' %}", dir: document.documentElement.getAttribute('dir') || 'ltr', };</script>
 {% endcompress %}
-    {% block extra_js %}
-    {% endblock %}
+{% block extra_js %}{% endblock %}
   </body>
 </html>
 {% endspaceless %}

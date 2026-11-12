@@ -80,12 +80,15 @@ INSTALLED_APPS = [
     'wagtailvideos',
     "modeltranslation",
     "wagtail_color_panel",
+    'wagtailcache',
 ]
 TAILWIND_APP_NAME = "theme"
 
-
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+SESSION_CACHE_ALIAS = 'default'
     
 MIDDLEWARE = [
+    'wagtailcache.cache.UpdateCacheMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -95,6 +98,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    'wagtailcache.cache.FetchFromCacheMiddleware',
     "website.middleware.OneLineHtmlMinifyMiddleware"
 ]
 
@@ -147,6 +151,18 @@ DATABASES = {
             "driver": "ODBC Driver 17 for SQL Server",
         },
     },
+}
+
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': 'C:/Users/mhadjaissa/Desktop/FileBasedCache',
+        'OPTIONS': {
+            'MAX_ENTRIES': 10000  
+        }
+    }
 }
 
 # Password validation
