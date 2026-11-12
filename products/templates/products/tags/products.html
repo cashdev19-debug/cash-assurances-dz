@@ -1,0 +1,21 @@
+{% load wagtailcore_tags wagtailimages_tags%}
+<div class="row g-4 isotope-container" data-aos="fade-up" data-aos-delay="200" style="position: relative; height: 696px;">
+  {% for assurance in products %}
+    <div class="col-lg-4 col-md-6 portfolio-item isotope-item {{ assurance.product_category.slug }}" style="position: absolute; left: 0px; top: 0px;">
+      <div class="project-card">
+        {%image assurance.image fill-295x300  class="img-fluid" loading="lazy"%}
+        <img src="{{ assurance.image }}" alt="" class="img-fluid" loading="lazy" />
+        <div class="card-overlay">
+          <div class="card-content">
+            <span class="tag">{{ assurance.slug }}</span>
+            <h3>{{ assurance.title }}</h3>
+            <p>{{ assurance.description|safe|truncatechars_html:120 }}</p>
+          </div>
+          <div class="card-actions">
+            <a href="#" class="card-action" title="View Details"><i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>

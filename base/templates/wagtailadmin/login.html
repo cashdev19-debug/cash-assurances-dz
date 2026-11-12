@@ -1,0 +1,19 @@
+{% extends 'wagtailadmin/login.html' %}
+
+{% load static %}
+
+{# Override the login message #}
+{% block branding_login %}
+  <h1>CASH Assurances</h1>
+{% endblock %}
+
+{# Add content below the form #}
+{% block below_login %}
+  <p>Contact <strong>DDD</strong> for access issues.</p>
+{% endblock %}
+
+{% block branding_logo %}
+  <div class="login-logo">
+        <img src="{% static 'img/logos/logo-cash.svg' %}" alt="Custom Project" class="icon-wagtail" width="80" />
+  </div>
+{% endblock %}

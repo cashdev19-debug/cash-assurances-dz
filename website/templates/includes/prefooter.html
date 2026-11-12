@@ -1,0 +1,48 @@
+{% load wagtailcore_tags navigation_tags %}
+{% load wagtailimages_tags %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+{% get_site_root as site_root %}
+{% spaceless %}
+<footer>
+  <div class="bg-cash-800/80 dark:bg-neutral-900 py-8 px-4 md:px-8">
+    <div class="max-w-[75%] mx-auto flex md:flex-row flex-col text-center items-center justify-between gap-6">
+      <div class="max-w-sm">
+        <h1 class="text-white dark:text-slate-50 text-lg font-bold mb-4">
+          {% if lang == 'fr' %}
+            {{ settings.base.preFooter.title_fr }}
+          {% elif lang == 'en' %}
+            {{ settings.base.preFooter.title_en }}
+          {% elif lang == 'ar' %}
+            {{ settings.base.preFooter.title_ar }}
+          {% endif %}
+        </h1>
+      </div>
+
+      {% for btn in settings.base.preFooter.buttons %}
+        <div class="flex flex-col gap-x-5 items-center mx-auto gap-y-2">
+          <a href="{% if lang == 'fr' %}
+              {% pageurl btn.value.link_page_fr %}
+            {% elif lang == 'en' %}
+              {% pageurl btn.value.link_page_en %}
+            {% elif lang == 'ar' %}
+              {% pageurl btn.value.link_page_ar %}
+            {% endif %}" target="_blank"
+            class="rounded-2xl px-5 py-3 bg-white font-medium hover:bg-slate-100 cursor-pointer border text-black border-slate-400">
+            {% if lang == 'fr' %}
+              {{ btn.value.title_fr }}
+            {% elif lang == 'en' %}
+              {{ btn.value.title_en }}
+            {% elif lang == 'ar' %}
+              {{ btn.value.title_ar }}
+            {% endif %}
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <hr class="border-slate-300 dark:border-neutral-700" />
+</footer>
+{% endspaceless %}

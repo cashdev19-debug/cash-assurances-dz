@@ -1,0 +1,63 @@
+{% load wagtailcore_tags widget_tweaks %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<section class="bg-[#FAFAFA] border border-slate-300 p-10">
+  <div class="contact-page max-w-7xl mx-auto w-full">
+    <div class="w-full rounded-3xl overflow-hidden p-5 md:p-7 transition-all">
+      <div class="text-center mb-12 px-4">
+        <p class="text-sm font-semibold tracking-widest text-cash uppercase mb-3">{{ self.title|richtext }}</p>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">{{ self.subtitle|richtext }}</h2>
+      </div>
+      {% if self.form %}
+        <div id="contact-container" class="max-w-3xl mx-auto">
+          <form hx-post="{% pageurl self.form %}" hx-target="#contact-container" hx-swap="outerHTML" class="grid md:grid-cols-1 gap-6 bg-white p-6 rounded-md border border-slate-300 md:p-8 dark:bg-neutral-800 dark:border-neutral-700">
+            {% csrf_token %}
+            <div class="grid md:grid-cols-2 gap-2.5">
+              {% for field in self.form.get_form %}
+                <div class="{{ field.field.widget.attrs.class_div }}">
+                  {% if field|widget_type == 'textarea' %}
+                    {% render_field field class='textarea w-full focus:border-cash/30 focus:outline-cash' placeholder=field.label %}
+                  {% elif field|widget_type == 'checkboxinput' %}
+                    <div class="flex items-center flex-nowrap gap-x-2 mt-2">
+                      {% render_field field class='h-4 w-4 shrink-0 rounded border-gray-300 text-cash accent-cash focus:ring-cash cursor-pointer' %}
+                      <div class="text-sm font-medium text-gray-700">
+                        <label for="{{ field.id_for_label }}" class="cursor-pointer">
+                          {{ field.help_text }}
+                          <a href="{% if LANGUAGE_CODE == 'fr' %}
+                              {% pageurl settings.base.loi_18_07_consentement.privacy_policy_page_fr %}
+                            {% elif LANGUAGE_CODE == 'en' %}
+                              {% pageurl settings.base.loi_18_07_consentement.privacy_policy_page_en %}
+                            {% elif LANGUAGE_CODE == 'ar' %}
+                              {% pageurl settings.base.loi_18_07_consentement.privacy_policy_page_ar %}
+                            {% endif %}"
+                            target="_blank"
+                            class="font-semibold text-cash underline hover:text-cash-800 transition-colors ms-1 whitespace-nowrap">
+                            {% if LANGUAGE_CODE == 'fr' %}
+                              {{ settings.base.loi_18_07_consentement.privacy_policy_title_fr }}
+                            {% elif LANGUAGE_CODE == 'en' %}
+                              {{ settings.base.loi_18_07_consentement.privacy_policy_title_en }}
+                            {% elif LANGUAGE_CODE == 'ar' %}
+                              {{ settings.base.loi_18_07_consentement.privacy_policy_title_ar }}
+                            {% endif %}
+                          </a>
+                          {% if field.field.required %}
+                            <span class="text-red-500">*</span>
+                          {% endif %}
+                        </label>
+                      </div>
+                    </div>
+                  {% else %}
+                    {% render_field field class='input w-full focus:border-cash/30 focus:outline-cash' placeholder=field.label %}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+            <button type="submit" class="mt-6 py-2.5 px-4 text-sm rounded-3xl max-w-full font-semibold cursor-pointer text-white border border-cash bg-cash hover:bg-cash-800 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cash">{{ self.form.button_text }}</button>
+          </form>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

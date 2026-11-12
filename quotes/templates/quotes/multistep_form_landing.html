@@ -1,0 +1,13 @@
+{# Full landing page (no-JS / refresh) #}
+{% extends "base.html" %}
+
+{% block content %}
+<main class="mx-auto max-w-2xl px-4 py-12 sm:py-20">
+  <div id="form-card" class="rounded-2xl bg-white p-6 shadow-xl ring-1 ring-slate-200 sm:p-10">
+    {% include "quotes/partials/_progress.html" with done=True %}
+    <div id="step-slot" aria-live="polite" data-dir="forward">
+      {% include "quotes/partials/_landing_panel.html" %}
+    </div>
+  </div>
+</main>
+{% endblock %}

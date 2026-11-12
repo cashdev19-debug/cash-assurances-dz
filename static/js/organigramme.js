@@ -1,0 +1,1 @@
+function toggleAcc(element) { element.classList.toggle('active'); const content = element.nextElementSibling; if (content) { content.classList.toggle('active'); } }

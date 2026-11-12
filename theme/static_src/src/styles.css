@@ -1,0 +1,307 @@
+@import "tailwindcss";
+
+@plugin "daisyui";
+@tailwindcss/typography
+
+@custom-variant taos (&.taos-init:where(:not(.taos-animate)));
+html.js :where([class*="taos:"]:not(.taos-init)) { visibility: hidden; }
+@source inline('!duration-[0ms] !delay-[0ms]');
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-ThinItalic.woff2') format('woff2');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-ExtraLight.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-ExtraLightItalic.woff2') format('woff2');
+  font-weight: 200;
+  font-style: italic;
+}
+
+/* --- 300: Light --- */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-LightItalic.woff2') format('woff2');
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* --- 400: Regular --- */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* --- 500: Medium --- */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-MediumItalic.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* --- 600: Semi-Bold --- */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-SemiBoldItalic.woff2') format('woff2');
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* --- 700: Bold --- */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* --- 800: Extra-Bold --- */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-ExtraBoldItalic.woff2') format('woff2');
+  font-weight: 800;
+  font-style: italic;
+}
+
+/* --- 900: Black --- */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../fonts/montserrat/Montserrat-BlackItalic.woff2') format('woff2');
+  font-weight: 900;
+  font-style: italic;
+}
+
+
+
+
+@theme {
+    --color-cash: oklch(0.496 0.1915 28.15);
+  --color-cash-50: oklch(99% 0.005 28.15);
+  --color-cash-100: oklch(95.23% 0.024 28.15);
+  --color-cash-200: oklch(89.5% 0.056 28.15);
+  --color-cash-300: oklch(82.76% 0.100 28.15);
+  --color-cash-400: oklch(75.36% 0.156 28.15);
+  --color-cash-500: oklch(67.55% 0.226 28.15);
+  --color-cash-600: oklch(59.54% 0.230 28.15);
+  --color-cash-700: oklch(51.47% 0.198 28.15);
+  --color-cash-800: oklch(43.45% 0.167 28.15);
+  --color-cash-900: oklch(35.6% 0.136 28.15);
+  --color-cash-950: oklch(28% 0.107 28.15);
+
+
+  --animate-scroll: scroll 35s linear infinite;
+  --animate-scroll-arabic: scroll_ar 35s linear infinite;
+  --color-ink1: #b61641;
+  --color-ink: #b61615;
+  --color-line: #232A4B;
+  --color-paper: #F6F5F0;
+  --color-card: #FFFFFF;
+  --color-teal: #999999;
+  --color-amber: #FFB020;
+  --color-slate: #5B6478;
+
+
+  --font-montserrat: "Montserrat", sans-serif;
+  --grid-template-columns-fill-full: repeat(auto-fill, minmax(300px, 1fr));
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+  @keyframes scroll_ar {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(50%);
+    }
+  }
+
+  
+}
+
+  @supports (animation-timeline: view()) {
+      .timeline-track {
+        view-timeline-name: --timeline-track;
+        view-timeline-axis: block;
+      }
+
+      .timeline-fill {
+        height: 100%;
+        transform-origin: top;
+        transform: scaleY(0);
+        opacity: 0;
+        animation: fill-line linear both;
+        animation-timeline: --timeline-track;
+        animation-range: entry 0% cover 60%;
+      }
+
+      @keyframes fill-line {
+        0% {
+          transform: scaleY(0);
+          opacity: 0;
+        }
+        15% {
+          opacity: 1;
+        }
+        100% {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+      }
+    }
+
+    @supports not (animation-timeline: view()) {
+      .timeline-fill {
+        height: 100%;
+        opacity: 1;
+      }
+    }
+
+
+/**
+  * A catch-all path to Django template files, JavaScript, and Python files
+  * that contain Tailwind CSS classes and will be scanned by Tailwind to generate the final CSS file.
+  *
+  * If your final CSS file is not being updated after code changes, you may want to broaden or narrow
+  * the scope of this path.
+  */
+
+
+
+@source "../../../**/*.{html,py,js}";
+@source "../../templates/**/*.html";
+
+@source "../../../home/templates/**/*.html";
+@source "../../../home/templates/home/*.html";
+
+@source "../../../products/templates/**/*.html";
+@source "../../../products/templates/products/*.html";
+
+@source "../../../news/templates/**/*.html";
+@source "../../../news/templates/news/*.html";
+
+@source "../../../agencies/templates/**/*.html";
+@source "../../../agencies/templates/agencies/*.html";
+
+@source "../../../faq/templates/**/*.html";
+@source "../../../faq/templates/faq/*.html";
+
+
+@source "../../../quotes/templates/**/*.html";
+@source "../../../quotes/templates/quotes/*.html";
+
+@source "../../../press_reports/templates/**/*.html";
+@source "../../../press_reports/templates/press_reports/*.html";
+
+
+@source "../../../organigramme/templates/**/*.html";
+@source "../../../organigramme/templates/organigramme/*.html";
+
+
+
+@source "../../../devis/templates/**/*.html";
+@source "../../../devis/templates/devis/*.html";
+
+
+@source "../../../base/templates/**/*.html";
+@source "../../../base/templates/base/*.html";
+
+
+@source "../../../search/templates/**/*.html";
+
+@source "../../../siteplan/templates/**/*.html";
+@source "../../../siteplan/templates/siteplan/*.html";
+
+@source "../../../recruitment/templates/**/*.html";
+@source "../../../recruitment/templates/recruitment/*.html";
+
+@source "../../../**/templates/**/*.html";
+@source "../../../website/templates/blocks/products/*.html";
+
+@source "../../../website/templates/blocks/home/*.html";
+
+@source "../../../website/templates/blocks/about/*.html";
+
+@source "../../../website/templates/blocks/press_reports/*.html";
+
+@source "../../../website/templates/blocks/faq/*.html";
+
+@source "../../../website/templates/blocks/quotes/*.html";
+
+@source "../../../website/templates/blocks/base/*.html";
+
+@source "../../../website/templates/includes/*.html";
+
+@source "../../../website/templates/*.html";
+
+@source "../../../base/templates/wagtailadmin/*.html"

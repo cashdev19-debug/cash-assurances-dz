@@ -1,0 +1,25 @@
+# Python / Virtual Environment
+__pycache__/
+*.py[cod]
+*$py.class
+env/
+venv/
+ENV/
+offline_packages/
+node_modules/
+
+# Django / Wagtail
+*.log
+local_settings.py
+db.sqlite3
+media/
+static/
+
+# IDE / OS specific
+.vscode/
+.idea/
+.env
+.DS_Store
+Thumbs.db
+*.whl
+*.tar.gz

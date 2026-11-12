@@ -1,0 +1,31 @@
+function imageGallery() {
+  return {
+    images: window.galleryImages || [],
+    activeIndex: 0,
+    currentIndex: 0,
+    showCarousel: false,
+    isDark: false,
+
+    init() {
+      this.activeIndex = 0;
+    },
+    openCarousel(index) {
+      this.currentIndex = index;
+      this.showCarousel = true;
+    },
+    nextImage() {
+      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+    },
+    prevImage() {
+      this.currentIndex =
+        (this.currentIndex - 1 + this.images.length) % this.images.length;
+    },
+    toggleTheme() {
+      this.isDark = !this.isDark;
+      document.documentElement.setAttribute(
+        "data-theme",
+        this.isDark ? "dark" : "light"
+      );
+    },
+  };
+}

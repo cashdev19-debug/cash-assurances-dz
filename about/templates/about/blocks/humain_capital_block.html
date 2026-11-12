@@ -1,0 +1,13 @@
+{% load wagtailcore_tags wagtailimages_tags navigation_tags %}
+
+<section class="flex justify-center bg-white text-cash py-10 md:py-15 px-5">
+<div>
+    <div class="text-center mb-12 px-4">
+      <p class="text-sm font-semibold tracking-widest text-cash uppercase mb-3">{{ self.title }}</p>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">{{ self.subtitle }}</h2>
+    </div>
+<div>
+{%picture self.image original class="mx-auto"%}
+</div>
+
+</section>

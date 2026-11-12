@@ -1,0 +1,453 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{%comment%}
+<div class="min-h-screen bg-gray-50 py-10">
+    <div x-data="cashDevisApp()" x-cloak class="max-w-7xl mx-auto  px-4">
+        
+
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-800">Devis Assurance Automobile</h1>
+            <p class="text-gray-500 mt-2">Faites votre devis d'assurance automobile en ligne et obtenez notre tarif, vous pouvez ainsi choisir la formule d’assurance qui vous convient</p>
+        </div>
+
+
+        <div x-show="step === 'complete'" class="bg-white rounded-lg p-10 shadow-sm border text-center">
+            <svg class="mb-4 h-20 w-20 text-cash mx-auto" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <h2 class="text-2xl mb-2 text-gray-800 font-bold">Votre devis est prêt !</h2>
+            <p class="text-gray-600 mb-8">Un récapitulatif a été envoyé à votre adresse email.</p>
+            <button @click="resetForm()" class="px-6 py-2 bg-cash text-white rounded-lg hover:bg-cash/90 transition font-medium">
+                Nouveau devis
+            </button>
+        </div>
+
+        <div x-show="step !== 'complete'" class="bg-white rounded-xl shadow-sm  border border-cash/20 overflow-hidden">
+
+            <div class="border-b bg-gray-50/50 p-6">
+                <div class="flex items-center justify-between mb-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <span x-text="`Étape ${step} sur 3`"></span>
+                    <span x-text="`${parseInt(step / 3 * 100)}% Complété`"></span>
+                </div>
+
+                <div class="w-full bg-gray-200 rounded-full h-2 mb-6">
+                    <div class="bg-cash h-2 rounded-full transition-all duration-300" :style="`width: ${(step / 3) * 100}%`"></div>
+                </div>
+
+                <div class="flex items-center text-lg font-bold text-gray-800">
+                    <span x-show="step === 1">1. Description du bien</span>
+                    <span x-show="step === 2">2. Vos Informations</span>
+                    <span x-show="step === 3">3. Devis et Paiement</span>
+                </div>
+            </div>
+
+            <form x-ref="form" @submit.prevent="completeForm" class="p-6 md:p-8">
+                
+                <!-- STEP 1: Description du bien -->
+                <div x-show="step === 1" data-step="1" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
+                        <!-- Type du véhicule -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Type du véhicule *</label>
+                            <select x-model="formData.typeVehicule" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                                <option value="">Sélectionner</option>
+                                <option value="particulier">Véhicule Particulier</option>
+                            </select>
+                        </div>
+
+                        <!-- Genre du véhicule -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Genre du véhicule *</label>
+                            <select x-model="formData.genreVehicule" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                                <option value="">Sélectionner</option>
+                                <option value="vp">Voiture Particulière sans remorque</option>
+                            </select>
+                        </div>
+
+                        <!-- Usage -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Usage du véhicule *</label>
+                            <select x-model="formData.usageVehicule" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                                <option value="">Sélectionner</option>
+                                <option value="affaire">Affaire</option>
+                                <option value="fonctionnaire">Fonctionnaire</option>
+                                <option value="commerce">Commerce</option>
+                                <option value="professionnel">Auto-École, Taxi, Location</option>
+                            </select>
+                        </div>
+
+                        <!-- Puissance fiscale -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Puissance du véhicule (CV) *</label>
+                            <select x-model="formData.puissance" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                                <option value="">Sélectionner</option>
+                                <option value="2">2 C.V.</option>
+                                <option value="3-4">3 C.V - 4 C.V.</option>
+                                <option value="5-6">5 C.V - 6 C.V.</option>
+                                <option value="7-10">7 C.V - 10 C.V.</option>
+                                <option value="11-14">11 C.V - 14 C.V.</option>
+                                <option value="15-23">15 C.V - 23 C.V.</option>
+                                <option value="24+">24 C.V +</option>
+                            </select>
+                        </div>
+
+                        <!-- Valeur / Prix du véhicule -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Valeur estimée du véhicule (DZD) *</label>
+                            <input type="number" min="100000" x-model="formData.valeurVehicule" placeholder="Ex: 2500000" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+
+                        <!-- Nombre de places -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Nombre de places *</label>
+                            <input type="number" min="1" max="9" x-model="formData.nombrePlaces" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+
+                        <!-- Durée du contrat -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Durée du contrat *</label>
+                            <select x-model="formData.dureeContrat" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                                <option value="">Sélectionnez</option>
+                                <option value="12">01 année</option>
+                            </select>
+                        </div>
+
+                        <!-- Formule de Couverture -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Type de couverture *</label>
+                            <select x-model="formData.typeCouverture" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                                <option value="">Choisir une formule</option>
+                                <option value="tous_risques">Tous Risque (DASC)</option>
+                                <option value="collision_venale">Dommage Collision à valeur vénale</option>
+                                <option value="collision_limite">Dommage Collision à valeur limitée</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Année de mise en circulation *</label>
+                            <input type="date" x-model="formData.annee_circulation" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Date de livraison du permis de conduire *</label>
+                            <input type="date" x-model="formData.date_livraison" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Zone de circulation (Wilaya) *</label>
+                            <select x-model="formData.wilaya" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                                <option value="">Sélectionnez la Wilaya</option>
+                                <option value="01">01 - Adrar</option>
+                                <option value="02">02 - Chlef</option>
+                                <option value="16">16 - Alger</option>
+                                <option value="25">25 - Constantine</option>
+                                <option value="31">31 - Oran</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Garanties Optionnelles (Checkboxes) -->
+                    <div class="pt-6 border-t">
+                        <h4 class="font-bold text-gray-800 mb-1">Cochez les garanties pour votre véhicule :</h4>
+                        <p class="text-xs text-gray-500 mb-4">Sélectionnez toutes les options souhaitées</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <template x-for="g in listGaranties" :key="g.id">
+                                <label 
+                                    class="relative flex items-start p-3.5 rounded-xl border transition-all cursor-pointer select-none"
+                                    :class="formData.garanties.includes(g.id) ? 'border-cash bg-cash/5 ring-2 ring-cash/20' : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50/50'"
+                                >
+                                    <div class="flex items-center h-5">
+                                        <input 
+                                            type="checkbox" 
+                                            :value="g.id" 
+                                            x-model="formData.garanties" 
+                                            class="sr-only"
+                                        >
+                                        <div 
+                                            class="w-5 h-5 rounded-md border flex items-center justify-center transition-colors"
+                                            :class="formData.garanties.includes(g.id) ? 'bg-cash border-cash text-white' : 'border-gray-300 bg-white'"
+                                        >
+                                            <svg x-show="formData.garanties.includes(g.id)" class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
+                                                <path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="ml-3 text-sm">
+                                        <span class="font-medium text-gray-800" x-text="g.label"></span>
+                                    </div>
+                                </label>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Options de véhicule (Checkboxes) -->
+                    <div class="pt-6 border-t">
+                        <h4 class="font-bold text-gray-800 mb-1">Cochez les options de votre véhicule :</h4>
+                        <p class="text-xs text-gray-500 mb-4">Sélectionnez les équipements ou options correspondant à votre véhicule</p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <template x-for="opt in listOptionsVehicule" :key="opt.id">
+                                <label 
+                                    class="relative flex items-center p-3.5 rounded-xl border transition-all cursor-pointer select-none"
+                                    :class="formData.optionsVehicule.includes(opt.id) ? 'border-cash bg-cash/5 ring-2 ring-cash/20' : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50/50'"
+                                >
+                                    <div class="flex items-center h-5">
+                                        <input 
+                                            type="checkbox" 
+                                            :value="opt.id" 
+                                            x-model="formData.optionsVehicule" 
+                                            class="sr-only"
+                                        >
+                                        <div 
+                                            class="w-5 h-5 rounded-md border flex items-center justify-center transition-colors"
+                                            :class="formData.optionsVehicule.includes(opt.id) ? 'bg-cash border-cash text-white' : 'border-gray-300 bg-white'"
+                                        >
+                                            <svg x-show="formData.optionsVehicule.includes(opt.id)" class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
+                                                <path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <span class="ml-3 text-sm font-medium text-gray-800" x-text="opt.label"></span>
+                                </label>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Vos Informations -->
+                <div x-show="step === 2" data-step="2" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Nom *</label>
+                            <input type="text" x-model="formData.nom" placeholder="Votre nom" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Prénom *</label>
+                            <input type="text" x-model="formData.prenom" placeholder="Votre prénom" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Date de naissance *</label>
+                            <input type="date" x-model="formData.date_naissance" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Adresse Email *</label>
+                            <input type="email" x-model="formData.email" placeholder="exemple@mail.com" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Numéro de Téléphone *</label>
+                            <input type="tel" x-model="formData.telephone" pattern="^0[5-7][0-9]{8}$" placeholder="06XXXXXXXX" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Numéro d'identité national *</label>
+                            <input type="text" x-model="formData.nin" placeholder="18 chiffres" pattern="[0-9]{18}" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+                        
+                        <!-- Sexe -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Votre sexe *</label>
+                            <select x-model="formData.sexe" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                                <option value="">Sélectionner</option>
+                                <option value="M">Homme</option>
+                                <option value="F">Femme</option>
+                            </select>
+                        </div>
+
+                        <!-- Wilaya Client -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Votre Wilaya *</label>
+                            <select x-model="formData.wilaya_client" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                                <option value="">Sélectionnez la Wilaya</option>
+                                <option value="01">01 - Adrar</option>
+                                <option value="02">02 - Chlef</option>
+                                <option value="16">16 - Alger</option>
+                                <option value="25">25 - Constantine</option>
+                                <option value="31">31 - Oran</option>
+                            </select>
+                        </div>
+
+                        <!-- Commune -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Votre Commune *</label>
+                            <input type="text" x-model="formData.commune" placeholder="Votre commune" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+
+                        <!-- Agence -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Choisissez votre agence *</label>
+                            <select x-model="formData.agence" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                                <option value="">Sélectionnez une agence</option>
+                                <option value="agence_1">Agence Alger Centre</option>
+                                <option value="agence_2">Agence Oran</option>
+                                <option value="agence_3">Agence Constantine</option>
+                            </select>
+                        </div>
+
+                        <!-- Adresse -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Votre adresse *</label>
+                            <input type="text" x-model="formData.adresse" placeholder="Numéro, rue, quartier..." required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+
+                        <!-- Code Postal -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Code postal *</label>
+                            <input type="text" x-model="formData.code_postal" placeholder="Ex: 16000" pattern="[0-9]{5}" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+
+                        <!-- Profession -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Votre Profession *</label>
+                            <input type="text" x-model="formData.profession" placeholder="Ex: Ingénieur, Enseignant..." required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Devis et Paiement -->
+                <div x-show="step === 3" data-step="3" class="space-y-6">
+                    <div class="bg-gray-50 rounded-lg p-6 border space-y-3">
+                        <h4 class="font-bold text-gray-800 text-lg border-b pb-2">Récapitulatif de la simulation</h4>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <span class="text-gray-500">Souscripteur:</span>
+                            <span class="font-medium text-gray-800" x-text="`${formData.nom} ${formData.prenom}`"></span>
+                            
+                            <span class="text-gray-500">Couverture sélectionnée:</span>
+                            <span class="font-medium text-gray-800 uppercase" x-text="formData.typeCouverture"></span>
+                            
+                            <span class="text-gray-500">Valeur assurée:</span>
+                            <span class="font-medium text-gray-800" x-text="`${formData.valeurVehicule || 0} DZD`"></span>
+
+                            <span class="text-gray-500">Garanties choisies:</span>
+                            <span class="font-medium text-gray-800" x-text="`${formData.garanties.length} sélectionnée(s)`"></span>
+
+                            <span class="text-gray-500">Options véhicule:</span>
+                            <span class="font-medium text-gray-800" x-text="`${formData.optionsVehicule.length} sélectionnée(s)`"></span>
+                        </div>
+
+                        <div class="pt-4 border-t mt-4 flex items-center justify-between">
+                            <span class="text-lg font-bold text-gray-800">Prime Totale Estimée:</span>
+                            <span class="text-2xl font-extrabold text-cash" x-text="`${calculatePremium()} DZD`"></span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-red-50 rounded-lg border border-red-200 text-cash text-sm font-medium">
+                        Paiement sécurisé disponible en ligne via carte CIB / Edahabia.
+                    </div>
+                </div>
+
+                <!-- Actions / Navigation Buttons -->
+                <div class="mt-8 pt-6 border-t flex justify-between">
+                    <button type="button" x-show="step > 1" @click="step--" class="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 font-medium transition">
+                        Retour
+                    </button>
+                    
+                    <div class="ml-auto">
+                        <button type="button" x-show="step < 3" @click="nextStep()" class="px-6 py-2.5 rounded-lg bg-cash text-white hover:bg-cash/90 font-medium shadow-sm transition">
+                            Suivant
+                        </button>
+                        <button type="submit" x-show="step === 3" class="px-6 py-2.5 rounded-lg bg-cash text-white hover:bg-cash/90 font-medium shadow-sm transition">
+                            Valider le devis
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function cashDevisApp() {
+        return {
+            step: 1,
+            formData: {
+                typeVehicule: '',
+                genreVehicule: '',
+                usageVehicule: '',
+                puissance: '',
+                valeurVehicule: '',
+                nombrePlaces: '',
+                dureeContrat: '',
+                typeCouverture: '',
+                annee_circulation: '',
+                date_livraison: '',
+                wilaya: '',
+                garanties: [],
+                optionsVehicule: [],
+                nom: '',
+                prenom: '',
+                date_naissance: '',
+                email: '',
+                telephone: '',
+                nin: '',
+                sexe: '',
+                wilaya_client: '',
+                commune: '',
+                agence: '',
+                adresse: '',
+                code_postal: '',
+                profession: ''
+            },
+            listGaranties: [
+                { id: 'rc', label: 'Responsabilité Civile' },
+                { id: 'pj', label: 'Protection Juridique' },
+                { id: 'multimedia', label: 'Vol objet Multimédia (non d\'origine)' },
+                { id: 'passagers', label: 'Assurance des personnes transportées' },
+                { id: 'depannage', label: 'Assistance dépannage' },
+                { id: 'vol_incendie', label: 'Vols & incendies' },
+                { id: 'bris_glace', label: 'Bris de glace' },
+                { id: 'terrorisme', label: 'Actes de terrorisme et de sabotage' },
+                { id: 'emeutes', label: 'Émeutes et mouvements populaires' },
+                { id: 'seisme', label: 'Tremblement de terre' }
+            ],
+            listOptionsVehicule: [
+                { id: 'turbo', label: 'Turbo' },
+                { id: 'abs', label: 'Système ABS / ESP' },
+                { id: 'climatisation', label: 'Climatisation' }
+            ],
+            validateStep() {
+                const currentStepElement = this.$refs.form.querySelector(`[data-step="${this.step}"]`);
+                if (!currentStepElement) return true;
+
+                const inputs = currentStepElement.querySelectorAll('input, select, textarea');
+                for (let input of inputs) {
+                    if (!input.checkValidity()) {
+                        input.reportValidity();
+                        return false;
+                    }
+                }
+                return true;
+            },
+            nextStep() {
+                if (this.validateStep()) {
+                    this.step++;
+                }
+            },
+            calculatePremium() {
+                return 0; // Replace with your calculation logic
+            },
+            completeForm() {
+                if (this.validateStep()) {
+                    this.step = 'complete';
+                }
+            },
+            resetForm() {
+                this.step = 1;
+                this.formData.garanties = [];
+                this.formData.optionsVehicule = [];
+            }
+        }
+    }
+</script>
+
+{%endcomment%}
+<main class="min-h-screen items-center flex flex-col">
+  <section class="flex-1 flex flex-col justify-center px-6 sm:px-12 pb-10">
+    <h1 class="font-display font-extrabold leading-[.88] tracking-tighter text-[22vw] sm:text-[16vw] lg:text-[13rem] text-cash">
+      Coming<br>soon.
+    </h1>
+</main>
+
+{% endblock %}

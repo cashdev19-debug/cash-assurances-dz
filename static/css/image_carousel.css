@@ -1,0 +1,51 @@
+.accordion-container {
+            display: flex;
+            gap: 0.5rem;
+            height: 500px;
+            overflow: hidden;
+        } 
+        .accordion-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            flex: 0.15;
+            min-width: 80px;
+        }    
+        .accordion-item:hover,
+        .accordion-item.active {
+            flex: 1.5;
+        }
+        .accordion-item:not(:hover):not(.active) {
+            flex: 0.15;
+        }
+        .accordion-container:hover .accordion-item:not(:hover) {
+            flex: 0.1;
+        }
+        .carousel-transition {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gallery-image {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .gallery-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }   
+        .accordion-content {
+            transition: all 0.4s ease;
+        }
+        .writing-mode-vertical {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+        @media (max-width: 768px) {
+            .accordion-container {
+                height: 400px;
+            }
+            .accordion-item {
+                min-width: 60px;
+            }
+        }

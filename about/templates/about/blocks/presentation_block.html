@@ -1,0 +1,32 @@
+{% load static wagtailcore_tags wagtailimages_tags %}
+{% load i18n %}
+{% get_current_language as lang %}
+
+<section>
+  <div class="mx-auto max-w-405 py-10 sm:px-6 sm:py-22 lg:px-8">
+    <div class="relative isolate max-md:h-fit md:overflow-hidden border-dashed px-6 pt-16 sm:rounded-3xl sm:px-16 md:pt-24 xl:flex xl:gap-x-20 xl:px-24 xl:pt-0">
+      <div class="mx-auto max-w-2xl text-center xl:mx-0 xl:flex-auto xl:py-10 xl:text-start">
+        <h1 class="text-3xl font-bold tracking-tight text-balance sm:text-4xl">{{ self.title|richtext }}</h1>
+        <p class="mt-6 text-lg text-pretty font-medium text-justify">{{ self.text|striptags }}</p>
+        <div class="flex flex-row gap-y-5 gap-x-0 md:gap-1 text-start border border-[#292929]/12 rounded-[18px] bg-cash/6 p-5 my-5">
+          {% for number in self.numbers %}
+            <div class="flex flex-col">
+              <span class="text-cash font-extrabold text-3xl/7">{{ number.title }}</span>
+              <span class="text-slate-600 font-medium text-xl/6">{{ number.subtitle }}</span>
+            </div>
+            <div class="mx-4 h-10 w-px bg-gray-300"></div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="relative mb-10 overflow-hidden h-fit mt-16 mx-auto w-full lg:mt-8 md:py-10">
+        <div class="columns-2 space-y-4 mt-10">
+          {% for image in self.images %}
+            <div class="break-inside-avoid">
+              {% picture image width-400 class='w-full h-full object-cover object-top rounded-lg max-h-90' %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

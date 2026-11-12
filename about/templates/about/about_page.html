@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags tailwind_tags %}
+{% load compress %}
+{% block extra_css %}
+  {% compress css %}
+  {% tailwind_css %}
+  {% endcompress %}
+{% endblock %}
+
+{% block content %}
+  {% for sections in page.pages_sections %}
+    {% include_block sections %}
+  {% endfor %}
+{% endblock %}
+{% block extra_js %}
+
+{% endblock %}

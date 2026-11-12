@@ -1,0 +1,75 @@
+{% load static wagtailcore_tags wagtailimages_tags i18n compress %}
+{% get_current_language as lang %}
+
+{% block extra_css %}
+  {% compress css %}
+  <link href="{% static 'css/carousel.css' %}" rel="stylesheet" />
+  {% endcompress %}
+{% endblock %}
+
+<section>
+  <div class="w-full max-w-full relative">
+    <div id="carousel" class="relative w-full h-[calc(100vh-6.5rem)] top-0 md:aspect-video bg-white overflow-hidden shadow-2xl" role="region" aria-label="Elegant carousel">
+      <video id="slideImage" class="absolute inset-0 w-full h-full object-cover slide-image enter" autoplay muted loop playsinline preload="none" loading="lazy">
+        {% comment %}
+        <source src="{% static 'media/4.mp4' %}" type="video/mp4" />Your browser does not support the video tag.{% endcomment %}
+      </video>
+      <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent pointer-events-none"></div>
+      <div class="relative z-2 w-full h-full top-0 flex container mx-auto items-center justify-start p-4 md:p-8 lg:p-12">
+        <div class="max-w-2xl w-full bg-white/40 backdrop-blur-sm rounded-2xl p-6 md:p-10 shadow-xl border border-white/30 transition-all duration-300">
+          <div class="flex flex-col gap-2 md:gap-3">
+            <div id="collectionNum" class="flex items-center gap-3 text-xs tracking-[0.15em] text-black/50 uppercase slide-content transition-all duration-500 ease-in-out enter">
+              <span class="w-8 md:w-10 h-px bg-black/20"></span>
+              <span id="slideCounter"></span>
+            </div>
+            <h2 id="slideTitle" class="text-3xl sm:text-4xl md:text-5xl font-bold text-black leading-tight slide-content transition-all duration-500 ease-in-out enter"></h2>
+            <p id="slideSubtitle" class="text-xs sm:text-sm font-semibold tracking-[0.12em] uppercase text-cash slide-content transition-all duration-500 ease-in-out enter"></p>
+            <p id="slideDescription" class="text-sm sm:text-base text-black/70 leading-relaxed slide-content transition-all duration-500 ease-in-out enter"></p>
+            <button id="slideButton" class="group rounded-3xl max-w-50 bg-cash hover:bg-cash-800 p-2 text-lg text-white border-none slide-content transition-all duration-500 ease-in-out enter"></button>
+            <div id="navArrows" class="flex gap-3 mt-4 slide-content transition-all duration-500 ease-in-out enter">
+              <button id="prevBtn" class="group w-10 h-10 md:w-12 md:h-12 rounded-full border border-black/10 bg-white/50 text-black/40 hover:bg-cash hover:text-white hover:border-[#b61615] transition-all duration-200 flex items-center justify-center shadow-sm" aria-label="Previous slide">
+                {% if lang == 'ar' %}
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                {% else %}
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                  </svg>
+                {% endif %}
+              </button>
+              <button id="nextBtn" class="group w-10 h-10 md:w-12 md:h-12 rounded-full border border-black/10 bg-white/50 text-black/40 hover:bg-cash hover:text-white hover:border-[#b61615] transition-all duration-200 flex items-center justify-center shadow-sm" aria-label="Next slide">
+                {% if lang == 'ar' %}
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                  </svg>
+                {% else %}
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                {% endif %}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="progressBar" class="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-8 md:right-8 z-20 flex gap-2 md:gap-4 items-center"></div>
+    </div>
+  </div>
+</section>
+{% block extra_js %}
+  {% compress js %}
+  <script>window.carouselSlides = [
+        {% for slide in self.slide %}{
+            title: "{{ slide.title|escapejs }}",
+            subtitle: "",
+            description: "{{ slide.subtitle|escapejs }}",
+            button: "{{ slide.button_text|escapejs }}",
+            imageUrl: "{{ slide.video.url }}"
+        },
+        {% endfor %}
+    ];
+</script>
+  <script defer src="{% static 'js/home.js' %}"></script>
+  {% endcompress %}
+{% endblock %}

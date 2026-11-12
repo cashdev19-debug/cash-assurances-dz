@@ -1,0 +1,102 @@
+{# One step. Swapped into #step-slot by HTMX. #}
+{% load static wagtailcore_tags widget_tweaks navigation_tags %}
+<div class="step-panel" {% if form.errors %}data-has-errors="true"{% endif %}>
+  <h2 class="mb-6 text-2xl font-semibold">{{ step.name }}</h2>
+  <form id="step-form" method="post" action="{% pageurl page %}"
+        enctype="{{ form_enctype }}"
+        hx-post="{% pageurl page %}"
+        hx-target="#step-slot"
+        hx-swap="innerHTML swap:200ms settle:30ms"
+        hx-encoding="{{ form_enctype }}"
+        hx-disabled-elt="find button"
+        novalidate>
+    {% csrf_token %}
+
+    <div class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {% for item in markups_and_bound_fields %}
+        {% if item.type == "markup" %}
+          <div class="field prose max-w-none">{% include_block item.block %}</div>
+        {% elif item.type == "field" %}
+            {% if not item.block.block|is_instance:'CheckboxesFieldBlock' and not item.block.block|is_instance:'CustomCheckboxesFieldBlock' and not item.block.block|is_instance:'CustomRadioButtonsFieldBlock' %}
+          <div class="field {% if item.field.errors %}has-error{% endif %}">
+            <label for="{{ item.field.id_for_label }}" class="block text-sm font-bold text-gray-700 mb-1">
+              {{ item.field.label }}{% if item.field.field.required %}<span class="text-rose-500"> *</span>{% endif %}
+            </label>
+             {% render_field item.field class+="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cash focus:border-cash" placeholder=item.field.label %}
+            {% if item.field.help_text %}<p class="mt-1 text-xs text-slate-500">{{ item.field.help_text }}</p>{% endif %}
+            {% for error in item.field.errors %}
+              <p class="field-error mt-1 text-sm text-rose-600">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% endif %}
+      {% endfor %}
+
+      {% for error in form.non_field_errors %}
+        <p class="field-error text-sm text-rose-600">{{ error }}</p>
+      {% endfor %}
+    </div>
+    
+                {% for Onefield in form %}
+                    {% if Onefield.field.widget.input_type == 'checkbox' %}
+                        <div class="pt-6 border-t mt-6">
+                            <h4 class="font-bold text-gray-800 mb-1">{{ Onefield.field.label }}</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                {% for widget in Onefield.subwidgets %}
+                                    <label for="{{widget.id_for_label}}"  class="relative flex items-start p-3.5 rounded-xl border border-gray-200 bg-white  transition-all cursor-pointer has-checked:bg-cash/5 has-checked:border-cash has-checked:ring-cash/30 has-checked:ring-2 hover:border-cash/30 hover:bg-cash/5">
+                                        <div class="flex items-center h-5">
+                                            <input 
+                                                id="{{widget.id_for_label}}"
+                                                type="checkbox" 
+                                                name="{{ Onefield.html_name }}" 
+                                                value="{{ widget.data.value }}" 
+                                                {% if widget.is_checked %}checked{% endif %}
+                                                class="w-4 h-4 text-cash border-gray-300 rounded focus:ring-cash peer sr-only"
+                                            >
+                                            <div class="peer-focus-visible:bg-cash  w-5 h-5 rounded-md border flex items-center justify-center duration-75 transition-colors bg-white border-gray-300 peer-focus-visible:text-white peer-checked:bg-cash   peer-checked:border-cash text-white">
+                                            
+                                                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
+                                                    <path d="M0 11l2-2 5 5L18 3l2 2L7 18z"></path>
+                                                </svg>
+                                            </div>
+
+                                        </div>
+                                        
+                                        <div class="ml-3 text-sm font-medium text-gray-800">
+                                          <span class="font-medium text-slate-800 group-has-[:checked]:text-emerald-950">  {{ widget.choice_label }}
+                                          </span></div>
+                                    </label>
+                                {% endfor %}
+                            </div>
+                                {% for error in Onefield.errors %}
+                                        <p class="field-error mt-1 text-sm text-rose-600">{{ error }}</p>
+                                    {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+</div>
+
+    <div class="mt-8 flex items-center justify-between gap-3">
+      {% if step != steps|first %}
+        <button type="submit" name="step" value="prev" formnovalidate
+                class="rounded-xl px-5 py-3 font-medium text-slate-600 ring-1 ring-slate-300 transition hover:bg-slate-100 active:scale-95 disabled:opacity-50">
+          ← Back
+        </button>
+      {% else %}<span></span>{% endif %}
+
+      <button type="submit" name="step" value="next"
+              class="px-6 py-2.5 rounded-lg bg-cash text-white hover:bg-cash/90 font-medium shadow-sm transition">
+        {% if steps|last == step %}Submit{% else %}Continue →{% endif %}
+      </button>
+    </div>
+  </form>
+</div>
+
+
+
+
+
+
+

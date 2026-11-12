@@ -1,0 +1,44 @@
+{% load wagtailcore_tags wagtailimages_tags navigation_tags %}
+{% load i18n %}
+{% get_current_language as lang %}
+{% spaceless %}
+<section>
+<div class="bg-[#FAFAFA] py-16 px-4 flex flex-col items-center ">
+ <div class="text-center mb-12 px-4">
+    <p class="text-sm font-semibold tracking-widest text-cash uppercase mb-3" data-aos="zoom-out" data-aos-duration="900">{{self.title}}</p>
+    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight" data-aos="zoom-out" data-aos-duration="1500">
+      {{self.subtitle}}
+    </h2>
+  </div>
+  <div class="flex flex-wrap items-center justify-center gap-6 max-w-6xl w-full">
+       {% for serviceCard in self.produit %}
+       {% widthratio forloop.counter 1 250 as duration %}
+       <a href="{%pageurl serviceCard.linked_page%}">
+      <div  data-aos="fade-right" data-aos-easing="linear" data-aos-duration={{duration}} class="group bg-white shadow-md  rounded-lg overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-lg p-4 flex flex-col ">
+         <div class='w-full max-w-80 object-cover mb-6 rounded-2xl overflow-hidden'> 
+        {%image serviceCard.image width-400%}
+         </div>
+        <div class="w-full max-w-56  flex flex-col h-full">
+          <h3 class="text-xl font-semibold self-start text-slate-900 mb-2"> {{serviceCard.title}}</h3>
+          <p class="text-md text-slate-700 leading-relaxed mb-3">{{serviceCard.text}}</p>
+        </div>
+        <div class="flex items-end justify-end">
+          <button class="inline-flex items-center gap-2 bg-transparent border-0 text-slate-700 text-xs cursor-pointer p-0 group-hover:gap-2 group">
+            {{serviceCard.button_text}}
+            {%if lang == 'ar' %}
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none" viewBox="0 0 16 16" class="transition-transform duration-300 group-hover:-translate-x-1">
+              <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" stroke="#314158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>           
+            {%else%}
+            <svg width="22" height="15" viewBox="0 0 22 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-300 group-hover:translate-x-1">
+              <path d="M4.583 7.5h12.834M11 3.125 17.417 7.5 11 11.875" stroke="#314158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            {%endif%}
+          </button>
+        </div>
+      </div>
+       </a>
+   {%endfor%}
+</div></div>
+  </section>
+{% endspaceless %}

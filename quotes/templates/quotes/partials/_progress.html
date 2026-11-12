@@ -1,0 +1,43 @@
+{# Step indicator + animated bar. `oob` => out-of-band swap, `done` => 100% #}
+{% if done %}
+  {% widthratio 1 1 100 as pct %}
+{% else %}
+  {% widthratio step.index|add:1 steps|length 100 as pct %}
+{% endif %}
+
+
+
+<div id="form-progress" {% if oob %}hx-swap-oob="true"{% endif %} class="mb-8 border-b bg-gray-50/50 p-6"
+     role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ pct }}">
+  <ol class="mb-3 flex items-center justify-between text-sm">
+    {% for s in steps %}
+      <li class="flex items-center gap-2 {% if done or s.index < step.index %}text-cash{% elif s.index == step.index %}font-semibold text-slate-900{% else %}text-slate-400{% endif %}">
+        <span class="step-dot grid h-7 w-7 place-items-center rounded-full text-xs font-bold ring-2
+          {% if done or s.index < step.index %}bg-cash text-white ring-cash
+          {% elif s.index == step.index %}step-dot-current bg-white text-cash ring-cash
+          {% else %}bg-white text-slate-400 ring-slate-300{% endif %}">
+          {% if done or s.index < step.index %}
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 111.4-1.4l3.8 3.8 6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
+          {% else %}{{ forloop.counter }}{% endif %}
+        </span>
+        <span class="hidden sm:inline">{{ s.name|default:"Step" }}</span>
+      </li>
+    {% endfor %}
+       <li class="flex items-center gap-2 {% if done %}font-semibold text-emerald-600{% else %}text-slate-400{% endif %}">
+      <span class="step-dot grid h-7 w-7 place-items-center rounded-full text-xs font-bold ring-2
+        {% if done %}step-dot-current bg-emerald-500 text-white ring-emerald-500{% else %}bg-white text-slate-400 ring-slate-300{% endif %}">
+        {% if done %}
+          <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 111.4-1.4l3.8 3.8 6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
+        {% else %}{{ steps|length|add:1 }}{% endif %}
+      </span>
+      <span class="hidden sm:inline">{{ page.landing_step_title|default:"Done" }}</span>
+    </li>
+  </ol>
+  <div class="h-2 overflow-hidden rounded-full bg-slate-200">
+    <div data-progress-fill data-pct="{{ pct }}"
+         class="bg-cash h-2 rounded-full transition-all duration-300"
+         style="width: {{ pct }}%"></div>
+  </div>
+  
+</div>
+

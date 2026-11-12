@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags navigation_tags %}
+
+{% block content %}
+  <section>
+    <div class="max-w-full p-10 mx-auto text-center bg-gray-100">
+      <h2 class="text-black text-3xl font-bold mb-6 md:text-4xl dark:text-cash-50">{{ self.title }}</h2>
+      <p class="text-slate-600 text-base leading-relaxed dark:text-slate-400">{{ self.subtitle }}</p>
+    </div>
+  </section>
+  <section class="my-6 mb-15">
+    {% if self.sections %}
+      {% for section in self.sections %}
+        <div class="space-y-4 pt-4 px-5">
+          <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-4 my-10">
+            <div class="h-0.5 bg-cash/80"></div>
+            <h2 class="text-2xl shrink-0 text-md font-bold uppercase tracking-wider text-slate-700 dark:text-slate-500">{{ section.value.title }}</h2>
+            <div class="h-0.5 bg-cash/80"></div>
+          </div>
+          <div class="grid gap-3 sm:grid-cols-3 px-5">
+            {% for doc in section.value.documents %}
+              <a href="{{ doc.document.url }}" target="_blank" rel="noopener noreferrer" class="group flex items-center p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-400/80 dark:border-slate-800 hover:border-cash/40 transition-all shadow-sm hover:shadow-md">
+                <div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 text-cash flex items-center justify-center shrink-0 group-hover:bg-cash group-hover:text-white transition-colors">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div class="ml-3.5 flex-1 min-w-0">
+                  <p class="text-sm font-semibold text-slate-900 dark:text-white truncate group-hover:text-cash transition-colors">{{ doc.title }}</p>
+                  <p class="text-xs text-slate-400 uppercase font-medium">{{ doc.file_extension|default:'PDF' }}</p>
+                </div>
+                <svg class="w-4 h-4 text-slate-400 group-hover:text-cash ml-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </section>
+{% endblock %}

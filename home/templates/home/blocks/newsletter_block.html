@@ -1,0 +1,67 @@
+{% load static wagtailcore_tags widget_tweaks wagtailimages_tags%}
+{% load i18n %}
+{%spaceless%}
+<section>
+  <div class="relative w-full  flex items-center justify-center overflow-hidden">
+    {% image self.background_img width-1920 class="absolute inset-0 w-full h-full object-cover -z-10" alt="newsletter" %}
+    <div class="z-10  text-center p-8 relative isolate overflow-hidden bg-white/70 backdrop-blur-md border border-cash/10 text-black py-16 w-full mx-auto sm:py-24 lg:py-32">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
+          <div class="mx-auto text-center lg:mx-0 lg:flex-auto lg:text-start">
+            <h2 class="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">{{ self.subtitle }}</h2>
+            <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start"></div>
+          </div>
+          {% if self.form %}
+            <div id="newsletter-container" class="max-w-xl lg:max-w-lg">
+              <form hx-post="{% pageurl self.form %}" hx-target="#newsletter-container" hx-swap="outerHTML">
+                {% csrf_token %}
+                <div class="mt-6 grid grid-cols-1 sm:grid-cols-[1fr_auto] items-start gap-3 sm:gap-x-4 w-full">
+                  {% for field in self.form.get_form %}
+                    {% if field|widget_type == 'checkboxinput' %}
+                      <div class="min-w-0 sm:col-start-1 flex flex-col text-start justify-center">
+                        <div class="flex items-start flex-nowrap gap-x-2">
+                          {% render_field field class='mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300 text-cash accent-cash focus:ring-cash cursor-pointer' %}
+                          <div class="text-sm font-medium text-gray-700">
+                            <label for="{{ field.id_for_label }}" class="cursor-pointer">
+                              {{ field.help_text }}
+                              <a href="{% if LANGUAGE_CODE == 'fr' %}
+                                  {% pageurl settings.base.loi_18_07_consentement.privacy_policy_page_fr %}
+                                {% elif LANGUAGE_CODE == 'en' %}
+                                  {% pageurl settings.base.loi_18_07_consentement.privacy_policy_page_en %}
+                                {% elif LANGUAGE_CODE == 'ar' %}
+                                  {% pageurl settings.base.loi_18_07_consentement.privacy_policy_page_ar %}
+                                {% endif %}"
+                                target="_blank"
+                                class="font-semibold text-cash underline hover:text-cash-800 transition-colors ms-1 whitespace-nowrap">
+                                {% if LANGUAGE_CODE == 'fr' %}
+                                  {{ settings.base.loi_18_07_consentement.privacy_policy_title_fr }}
+                                {% elif LANGUAGE_CODE == 'en' %}
+                                  {{ settings.base.loi_18_07_consentement.privacy_policy_title_en }}
+                                {% elif LANGUAGE_CODE == 'ar' %}
+                                  {{ settings.base.loi_18_07_consentement.privacy_policy_title_ar }}
+                                {% endif %}
+                              </a>
+                              {% if field.field.required %}
+                                <span class="text-red-500">*</span>
+                              {% endif %}
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    {% else %}
+                      <div class="min-w-0 sm:col-start-1 sm:row-start-1 flex flex-col">
+                        {% render_field field autocomplete='email' class='input w-full rounded-md bg-white px-3.5 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-cash text-start' placeholder=field.label %}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                  <button type="submit" class="w-full sm:w-auto sm:col-start-2 sm:row-start-1 rounded-md bg-cash px-3.5 py-2 text-sm font-semibold text-white shadow-xs hover:outline-cash focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cash">{{ self.form.button_text }}</button>
+                </div>
+              </form>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{%endspaceless%}

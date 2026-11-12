@@ -1,0 +1,113 @@
+{% load wagtailcore_tags widget_tweaks %}
+{% if self.form_type == 'Newsletter' %}
+  <div id="newsletter-container" class="max-w-xl lg:max-w-lg">
+    <form hx-post="{% pageurl self %}" hx-target="#newsletter-container" hx-swap="outerHTML">
+      {% csrf_token %}
+      <div class="mt-6 grid grid-cols-1 sm:grid-cols-[1fr_auto] items-start gap-3 sm:gap-x-4 w-full">
+        {% for field in form %}
+          {% if field|widget_type == 'checkboxinput' %}
+            <div class="min-w-0 sm:col-start-1 flex flex-col">
+              <div class="flex items-start flex-nowrap gap-x-2">
+                {% render_field field class='mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300 text-cash accent-cash focus:ring-cash cursor-pointer' %}
+                <div class="text-sm font-medium text-gray-700">
+                  <label for="{{ field.id_for_label }}" class="cursor-pointer">
+                    {{ field.help_text }}
+                    <a href="{% if LANGUAGE_CODE == 'fr' %}
+                        {% pageurl settings.base.loi_18_07_consentement.privacy_policy_page_fr %}
+                      {% elif LANGUAGE_CODE == 'en' %}
+                        {% pageurl settings.base.loi_18_07_consentement.privacy_policy_page_en %}
+                      {% elif LANGUAGE_CODE == 'ar' %}
+                        {% pageurl settings.base.loi_18_07_consentement.privacy_policy_page_ar %}
+                      {% endif %}"
+                      target="_blank"
+                      class="font-semibold text-cash underline hover:text-cash-800 transition-colors ms-1 whitespace-nowrap">
+                      {% if LANGUAGE_CODE == 'fr' %}
+                        {{ settings.base.loi_18_07_consentement.privacy_policy_title_fr }}
+                      {% elif LANGUAGE_CODE == 'en' %}
+                        {{ settings.base.loi_18_07_consentement.privacy_policy_title_en }}
+                      {% elif LANGUAGE_CODE == 'ar' %}
+                        {{ settings.base.loi_18_07_consentement.privacy_policy_title_ar }}
+                      {% endif %}
+                    </a>
+                    {% if field.field.required %}
+                      <span class="text-red-500">*</span>
+                    {% endif %}
+                  </label>
+                </div>
+              </div>
+              {% if field.errors %}
+                <div class="w-full mt-2 bg-red-50 border border-red-200 rounded-md p-2 text-red-600 text-xs flex flex-col gap-1 box-border">
+                  {% for error in field.errors %}
+                    <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              {% if form.is_bound and form.is_valid %}
+                <div id="success" class="bg-green-50 border my-2 border-green-200 rounded-md p-2 text-green-700 text-xs flex items-start gap-2">
+                  <span>{{ self.thank_you_text|safe }}</span>
+                </div>
+              {% endif %}
+            </div>
+          {% else %}
+            <div class="min-w-0 sm:col-start-1 sm:row-start-1 flex flex-col">
+              {% render_field field autocomplete='email' class='input w-full rounded-md bg-white px-3.5 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-cash text-start' placeholder=field.label %}
+              {% if field.errors %}
+                <div class="w-full mt-2 bg-red-50 border border-red-200 rounded-md p-2 text-red-600 text-xs flex flex-col gap-1 box-border">
+                  {% for error in field.errors %}
+                    <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+        <button type="submit" class="w-full sm:w-auto sm:col-start-2 sm:row-start-1 rounded-md bg-cash px-3.5 py-2 text-sm font-semibold text-white shadow-xs hover:outline-cash focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cash">{{ self.button_text }}</button>
+      </div>
+    </form>
+  </div>
+
+  {% comment %}----------------------------------------------------------------------------------------------------------------------------------------------------------------------{% endcomment %}
+{% elif self.form_type == 'Contact' %}
+  <div id="contact-container" class="max-w-3xl mx-auto">
+    <form hx-post="{% pageurl self %}" hx-target="#contact-container" hx-swap="outerHTML" class="grid md:grid-cols-1 gap-6 bg-white p-6 rounded-md border border-slate-300 md:p-8 dark:bg-neutral-800 dark:border-neutral-700">
+      {% csrf_token %}
+      <div class="grid md:grid-cols-2 gap-2.5">
+        {% for field in form %}
+          <div class="{{ field.field.widget.attrs.class_div }}">
+            {% if field|widget_type == 'textarea' %}
+              {% render_field field class='textarea w-full focus:border-cash/30 focus:outline-cash' placeholder=field.label %}
+            {% elif field|widget_type == 'checkboxinput' %}
+              <div class="flex items-center flex-nowrap gap-x-2 mt-2">
+                {% render_field field class='h-4 w-4 shrink-0 rounded border-gray-300 text-cash accent-cash focus:ring-cash cursor-pointer' %}
+                <div class="text-sm font-medium text-gray-700">
+                  <label for="{{ field.id_for_label }}" class="cursor-pointer">
+                    {{ field.help_text }}
+                    <a href="{% slugurl 'terms-of-use' %}" class="font-semibold text-cash underline hover:text-cash-800 transition-colors ms-1 whitespace-nowrap">politique de confidentialité</a>
+                    {% if field.field.required %}
+                      <span class="text-red-500">*</span>
+                    {% endif %}
+                  </label>
+                </div>
+              </div>
+            {% else %}
+              {% render_field field class='input w-full focus:border-cash/30 focus:outline-cash' placeholder=field.label %}
+            {% endif %}
+            {% if field.errors %}
+              <div class="w-full mt-2 bg-red-50 border border-red-200 rounded-md p-2 text-red-600 text-xs flex flex-col gap-1 box-border">
+                {% for error in field.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      {% if form.is_bound and form.is_valid %}
+        <div id="success" class="bg-green-50 border my-2 border-green-200 rounded-md p-2 text-green-700 text-xs flex items-start gap-2">
+          <span>{{ self.thank_you_text|safe }}</span>
+        </div>
+      {% endif %}
+      <button type="submit" class="mt-6 py-2.5 px-4 text-sm rounded-3xl max-w-full font-semibold cursor-pointer text-white border border-cash bg-cash hover:bg-cash-800 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cash">{{ self.button_text }}</button>
+    </form>
+  </div>
+{% endif %}

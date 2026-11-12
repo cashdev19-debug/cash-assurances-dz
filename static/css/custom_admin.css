@@ -1,0 +1,23 @@
+:root {
+    --w-color-primary: #971d20;
+    --w-color-primary-blur: #b9383a;
+    --w-color-surface-button-default: #b61615;
+    --w-color-focus: #d19a9a;
+    --w-color-surface-menu-item-active: #5e3542;
+    --w-color-text-button-outline-default :#b61615;
+    --w-color-text-button-outline-hover:#b61615;
+
+    --w-color-surface-button-hover:#5e3542;
+    /* Any valid CSS format is supported. */
+        --w-color-primary-200: oklch(53.476% 0.00006 271.152);
+    /* Set each HSL component separately to change all hues at once. */
+    --w-color-secondary-hue: 180.5;
+    --w-color-secondary-saturation: 100%;
+    --w-color-secondary-lightness: 24.7%;
+
+
+    --w-login-fullscreen-background: url("/media/bg.svg") ,radial-gradient(100% 300.28% at 100% 0%, var(--w-color-primary-blur) 0%, var(--w-color-primary-blur) 32.94%, var(--w-color-primary-blur) 49.9%, var(--w-color-primary-blur) 50.2%, #fff 100%) ;
+}
+.login {
+    background: url("/media/bg.svg") ,radial-gradient(100% 300.28% at 100% 0%, var(--w-color-primary-blur) 0%, var(--w-color-primary-blur) 32.94%, var(--w-color-primary-blur) 49.9%, var(--w-color-primary-blur) 50.2%, #fff 100%) , url("/media/bg.svg");
+}

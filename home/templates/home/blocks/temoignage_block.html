@@ -1,0 +1,78 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load navigation_tags %}
+{% load i18n %}
+{% get_current_language as lang %}
+{% spaceless %}
+<section id="testimonials" class="bg-cash/2  border border-gray-200 md:bg-[url('/media/comment-1-text.svg')] md:bg-size-[50rem] md:bg-no-repeat md:bg-start md:bg-fixed">
+  <div class="bg-white/80 p-5 backdrop-brightness-75">
+  <div class="text-center mb-12 px-4 " data-aos ="zoom-out" data-aos-duration="1000">
+    <p class="text-sm font-semibold tracking-widest text-cash uppercase mb-3">{{self.title}}</p>
+    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">{{self.subtitle}}</h2>
+  </div>
+  <div class="mask-x-from-92% max-md:mask-x-from-96% overflow-hidden mb-5 p-5">
+    <div class="flex w-max {%if lang == 'ar' %}animate-scroll-arabic{%else%}animate-scroll{%endif%}   hover:[animation-play-state:paused]" id="row1">   
+      {% for temoignage in self.temoignage %}
+      <a href="{{temoignage.link}}" target="_blank">  
+      <div class="shrink-0 w-72 sm:w-80 lg:w-96 mx-3 bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)] transition-shadow duration-300 flex flex-col justify-between">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex">
+              {% autoescape off %}
+                {% print_multiple '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>'|safe temoignage.rating %}
+              {% endautoescape %}
+            </div>
+            <span class="text-xs text-gray-400 flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-300">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              {{ temoignage.date }}
+            </span>
+          </div> 
+          <p class="text-gray-700 text-sm sm:text-base leading-relaxed mb-5 flex-1">" {{temoignage.text|striptags }} "</p>
+          <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+            {% image temoignage.image width-100 class='w-11 h-11 rounded-full object-cover ring-2 ring-indigo-100' alt='Client' loading='lazy' %}
+            <div>
+              <p class="text-sm font-semibold text-gray-900">{{ temoignage.nom }}</p>
+              <p class="text-xs text-gray-400">{{ temoignage.agence }}</p>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+      {% for temoignage in self.temoignage %}
+      <a href="{{temoignage.link}}"target="_blank">
+        <div class="shrink-0 w-72 sm:w-80 lg:w-96 mx-3 bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)] transition-shadow duration-300 flex flex-col justify-between">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex">
+              {% autoescape off %}
+                {% print_multiple '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>'|safe temoignage.rating %}
+              {% endautoescape %}
+            </div>
+            <span class="text-xs text-gray-400 flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-300">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              {{ temoignage.date }}
+            </span>
+          </div>
+          <p class="text-gray-700 text-sm sm:text-base leading-relaxed mb-5 flex-1">" {{temoignage.text|striptags }} "</p>
+          <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+            {% image temoignage.image width-100 class='w-11 h-11 rounded-full object-cover ring-2 ring-indigo-100' alt='Client' loading='lazy' %}
+            <div>
+              <p class="text-sm font-semibold text-gray-900">{{ temoignage.nom }}</p>
+              <p class="text-xs text-gray-400">{{ temoignage.agence }}</p>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  </div>
+</section>
+{% endspaceless %}

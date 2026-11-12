@@ -1,0 +1,47 @@
+{% load wagtailcore_tags %}
+{% load i18n %}
+{% get_current_language as lang %}
+
+{%if screen == 'mobile'%}
+<a href="{% if self.link_page_fr %}
+    {% if lang == 'fr' %}
+      {% pageurl self.link_page_fr %}
+    {% elif lang == 'en' %}
+      {% pageurl self.link_page_en %}
+    {% elif lang == 'ar' %}
+      {% pageurl self.link_page_ar %}
+    {% endif %}
+  {% else %}
+    {{ self.link_url }}
+  {% endif %}"
+  class="px-4 py-2.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-50">
+  {% if lang == 'fr' %}
+    {{ self.title_fr }}
+  {% elif lang == 'en' %}
+    {{ self.title_en }}
+  {% elif lang == 'ar' %}
+    {{ self.title_ar }}
+  {% endif %}
+</a>
+{%else%}
+<a href="{% if self.link_page_fr %}
+    {% if lang == 'fr' %}
+      {% pageurl self.link_page_fr %}
+    {% elif lang == 'en' %}
+      {% pageurl self.link_page_en %}
+    {% elif lang == 'ar' %}
+      {% pageurl self.link_page_ar %}
+    {% endif %}
+  {% else %}
+    {{ self.link_url }}
+  {% endif %}"
+  class="text-sm text-zinc-500 font-medium hover:text-zinc-800">
+  {% if lang == 'fr' %}
+    {{ self.title_fr }}
+  {% elif lang == 'en' %}
+    {{ self.title_en }}
+  {% elif lang == 'ar' %}
+    {{ self.title_ar }}
+  {% endif %}
+</a>
+{%endif%}

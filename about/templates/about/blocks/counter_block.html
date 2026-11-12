@@ -1,0 +1,92 @@
+
+{%comment%}
+<section>
+  <div class="w-full overflow-hidden py-5 md:py-7 bg-cash-50 transition-all">
+    <!-- Title -->
+    <div class="text-center mb-12 px-4">
+      <p class="text-sm font-semibold tracking-widest text-cash uppercase mb-3">{{ self.title }}</p>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">{{ self.subtitle }}</h2>
+    </div>
+    <!-- End Title -->
+
+    <div class="grid overflow-hidden bg-white border border-black/20 shadow mx-auto my-5">
+      <div class="group">
+        <div class="flex shrink-0 items-center  justify-around min-w-full gap-8 stats stats-horizontal mx-auto animate-scroll hover:[animation-play-state:paused]">
+          {% for unChiffre in self.chiffre %}
+            <div class="stat hover:bg-cash/5">
+              <div class="stat-figure text-cash">
+              {%svg_icon name=unChiffre.icon fill="none" classname="inline-block h-8 w-8"%}
+              </div>
+
+              <div class="stat-title font-bold text-lg">{{ unChiffre.title }}</div>
+              <div class="stat-value">{{ unChiffre.valeur }}</div>
+              <div class="stat-desc"> {{ unChiffre.unite }}</div>
+            </div>
+          {% endfor %}
+          {% for unChiffre in self.chiffre %}
+            <div class="stat hover:bg-cash/5">
+              <div class="stat-figure text-cash">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block h-8 w-8 stroke-current">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+
+              <div class="stat-title font-bold text-lg">{{ unChiffre.title }}</div>
+              <div class="stat-value">{{ unChiffre.valeur }} </div>
+              <div class="stat-desc">{{ unChiffre.unite }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{%endcomment%}
+
+{% load wagtailcore_tags wagtailimages_tags navigation_tags %}
+
+
+
+
+<section class="flex justify-center bg-white text-cash  py-10 md:py-15 px-5">
+  <div>
+    <div class="text-center mb-12 px-4">
+      <p class="text-sm font-semibold tracking-widest text-cash uppercase mb-3">{{ self.title }}</p>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">{{ self.subtitle }}</h2>
+    </div>
+    <div class="flex flex-wrap justify-center items-center gap-5 mb-20">
+      
+        {% for card in self.chiffre %}
+        <div class="flex  items-center gap-5 border border-black/30 max-lg:w-md max-lg:text-start  justify-start shadow rounded-2xl p-6 hover:bg-cash/10 hover:shadow-2xl">
+        <div class="bg-cash rounded-lg p-2.5 text-white">
+          {% svg_icon name=card.icon fill="none" classname="size-5"%}
+
+        </div>
+        
+        <div  x-data="{ 
+    counter: 0, 
+    target: {{card.valeur|safe}}, 
+    duration: 1500, 
+    init() {
+      let step = Math.ceil(this.target / (this.duration / 15));
+      let timer = setInterval(() => {
+        this.counter += step;
+        if (this.counter >= this.target) {
+          this.counter = this.target;
+          clearInterval(timer);
+        }
+      }, 15);
+    } 
+  }" >
+  <p class="text-[14px] sm:text-[18px] font-bold text-slate-700 leading-4 sm:leading-7.5" >{{ card.title }}</p>
+  <h1 class="text-[18px] sm:text-[36px] text-black font-bold tracking-[-0.36px] leading-6 sm:leading-11.5 mb-0.5"><span x-text="counter">0</span><span class="text-sm px-2 text-cash">{{card.unite}}</span></h1>
+          <p class="text-[14px] sm:text-[18px] text-cash leading-4 sm:leading-7.5">{{ card.subtitle }}</p>
+        </div>
+      </div>
+
+        {% endfor %}
+
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,1 @@
+document.addEventListener("input", function (e) { if (e.target.matches('input[type="tel"]')) { e.target.value = e.target.value.replace(/[^0-9+\s\-\(\)]/g, ''); } });

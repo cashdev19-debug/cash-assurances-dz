@@ -1,0 +1,23 @@
+{% load wagtailcore_tags wagtailimages_tags wagtailadmin_tags navigation_tags %}
+
+<section class="bg-white dark:bg-gray-900">
+  <div class="container px-6 py-10 mx-auto">
+    <!-- Title -->
+    <div class="text-center mb-12 px-4">
+      <p class="text-sm font-semibold tracking-widest text-cash uppercase mb-3">{{ self.title|richtext }}</p>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">{{ self.subtitle|richtext }}</h2>
+    </div>
+    <!-- End title -->
+    <div class="grid grid-cols-1 gap-8 mt-8 xl:mt-12 xl:gap-3 md:grid-cols-2 xl:grid-cols-3">
+      {% for unPoint in self.points %}
+        <div class="relative h-full duration-400 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] bg-white group before:content-[''] before:absolute before:top-0 before:-inset-s-100 before:w-full before:h-full before:bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,#b61615,transparent_95%),transparent)] before:transition-[left] before:duration-500 before:ease-out hover:before:inset-s-[100%] overflow-hidden p-8 space-y-3 border border-black/5 hover:border-cash shadow-md dark:border-blue-300 rounded-xl hover:-translate-y-3.5 transition-all">
+          <span class="inline-block border border-cash/10 text-cash group-hover:bg-cash/10 p-3 rounded-2xl dark:text-blue-400">    
+            {% svg_icon name=unPoint.icon fill='currentColor'  classname="w-8 h-8"%}
+          </span>
+          <h1 class="text-xl font-semibold text-gray-700 capitalize dark:text-white">{{ unPoint.title }}</h1>
+          <p class="text-gray-500 dark:text-gray-300">{{ unPoint.body|safe }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

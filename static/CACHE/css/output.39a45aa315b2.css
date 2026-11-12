@@ -1,0 +1,1 @@
+.slide-content.exit{opacity:0;transform:translateY(12px)}.slide-content.enter{opacity:1;transform:translateY(0)}.slide-image{transition:opacity 0.8s ease,transform 0.8s ease}.slide-image.exit{opacity:0;transform:scale(1.05)}.slide-image.enter{opacity:0.5;transform:scale(1)}.carousel-progress-fill{transition:width 0.1s linear,background 0.3s ease}::-webkit-scrollbar{display:none}

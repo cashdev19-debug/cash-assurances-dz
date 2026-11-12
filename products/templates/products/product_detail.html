@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static i18n navigation_tags %}
+{% get_current_language as lang %}
+{% load wagtailcore_tags wagtailimages_tags navigation_tags %}
+{% block extra_css %}
+{% endblock %}
+{% block content %}
+  <section>
+    <div class="max-w-full p-10 mx-auto text-center bg-gray-100">
+      <div class="container flex flex-col text-start px-6 py-10 mx-auto space-y-6 lg:h-128 lg:py-16 lg:flex-row lg:items-center">
+        <div class="w-full lg:w-1/2">
+          <div class="lg:max-w-lg space-y-3">
+            <h2 class="text-black text-3xl font-bold mb-6 md:text-4xl dark:text-cash-50">{{ self.title }}</h2>
+            <p class="text-slate-600 text-base leading-relaxed dark:text-slate-400">{{ self.subtitle }}</p>
+            <a href="{{ self.button_link.url }}" target="_blank" class="btn group rounded-xl w-full bg-cash py-5 text-[15px] text-white border-transparent hover:bg-white hover:border-solid hover:border hover:border-cash hover:text-cash">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+              </svg>{{ self.button_text }}
+            </a>
+          </div>
+        </div>
+        <div class="flex items-center justify-center w-full h-96 lg:w-1/2">
+          {% picture self.cover_image format-{avif} width-700 alt="Cover image" class="object-cover w-full h-full mx-auto rounded-2xl lg:max-w-2xl" %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="md:grid md:grid-cols-2 px-5 max-w-400 mx-auto">
+    <div class="md:flex-1 md:p-5 my-10">
+      <div class="max-md:text-xl text-justify">{{ self.description|safe }}</div>
+    </div>
+    <div class="md:flex-1 md:p-5">
+      <div class="px-5 py-3 border my-3 rounded-2xl border-cash">
+        {% for segment in self.garanties|richtext_lists %}
+          {% if segment.type == 'list' %}
+            {% if segment.ordered %}
+              <ol class="list-decimal pl-6 space-y-2 my-4 text-gray-700 marker:text-cash marker:font-semibold">
+                {% for item in segment.items %}
+                  <li class="leading-relaxed">{{ item }}</li>
+                {% endfor %}
+              </ol>
+            {% else %}
+              
+              <ul class="text-heading text-heading font-medium divide-y divide-black/15 max-w-fit">
+                {% for item in segment.items %}
+                <div class="flex gap-x-3">  
+                <li >
+                    <span class="size-5 flex justify-center items-center rounded-full bg-teal-500 text-foreground-inverse">
+                      <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </span>
+                  </li>
+                  <span class="flex text-foreground">{{ item }}</span></div>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          {% else %}
+            <div class="my-3 [&_h1]:text-4xl [&_h1]:font-bold [&_h1]:text-gray-900 [&_h1]:mt-8 [&_h1]:mb-4
+            [&_h2]:text-3xl [&_h2]:font-bold [&_h2]:text-gray-900 [&_h2]:mt-6 [&_h2]:mb-3
+            [&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:text-gray-900 [&_h3]:mt-5 [&_h3]:mb-2
+            [&_h4]:text-xl [&_h4]:font-semibold [&_h4]:mt-4 [&_h4]:mb-2
+            [&_p]:my-4
+            [&_a]:text-blue-600 [&_a]:underline hover:[&_a]:text-blue-800
+            [&_strong]:font-semibold [&_strong]:text-gray-900
+            [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ul]:space-y-1
+            [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4 [&_ol]:space-y-1
+            [&_li]:leading-relaxed
+            [&_blockquote]:border-l-4 [&_blockquote]:border-blue-500 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-gray-600 [&_blockquote]:my-4
+            [&_img]:rounded-lg [&_img]:my-6 [&_img]:shadow-md">{{ segment.content|safe }}</div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  
+  <section class="max-w-[80%] mx-auto">
+    <div class="p-5 my-3 rounded-2xl">
+      <h1 class="text-3xl font-bold">{%if LANGUAGE_CODE == "fr"%}
+        Autre produits
+      {%elif LANGUAGE_CODE == "en"%}
+Other products
+    {%elif LANGUAGE_CODE == "ar"%}
+منتجات أخرى
+  {%endif%}
+  </h1>
+      <div class="max-w-full my-5 px-3 grid grid-cols-fill-full gap-4">
+        {% for product in related_products %}
+          <a href="{{ product.url }}" target="_blank">
+            <div class="flex items-center p-2 border border-black/10 hover:border-black/20 hover:bg-cash/10 transition-colors rounded-xl w-full max-w-105">
+              {% picture product.cover_image width-400 alt='Product' class='w-full max-w-29.5 rounded-lg object-cover' %}
+              <div class="ms-4">
+                <h3 class="text-lg text-zinc-900">{{ product.title }}</h3>
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

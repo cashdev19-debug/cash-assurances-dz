@@ -1,0 +1,14 @@
+{% load navigation_tags %}
+{% comment %}
+{% for card in self.devis %}
+  <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="100">
+    <div class="featured-item position-relative floating_div">
+      <div class="icon">
+        {% svg_icon name=card.icon fill='currentColor' %}
+      </div>
+      <h4><a href="{{ card.linked_page.url }}" class="stretched-link">{{ card.title }}</a></h4>
+      <p>{{ card.text }}</p>
+    </div>
+  </div>
+{% endfor %}
+{% endcomment %}

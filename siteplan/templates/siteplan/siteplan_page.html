@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags tailwind_tags compress navigation_tags %}
+{% load i18n %}
+{% load compress %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block content %}
+  <main class="max-w-2xl mx-auto px-6 py-12">
+    <div class="border border-cash rounded-lg bg-white p-6 shadow-sm">
+      <div class="flex items-center justify-between mb-5 pb-4 border-b border-gray-200">
+        <div class="flex items-center gap-2 text-sm">
+          <span class="font-bold  text-lg">{{ self.title }}</span>
+        </div>
+      </div>
+      {% for page in settings.base.top_navbar.links %}
+        <ul class="tree-root [&>.tree-item]:ps-0 text-sm font-medium space-y-0.5">
+          <li class="tree-item">
+            <div class="transition-all duration-120 ease-[ease] border-s-3 border-s-transparent hover:border-s-cash hover:bg-[#fafafa] flex items-center gap-2 py-2 px-3 rounded-e-md cursor-pointer select-none group" data-toggle="{{ page.value.title_fr|cut:' ' }}">
+              <span class="{% if page.value.menu_items %}toggle-icon{% endif %} w-4 h-4 flex items-center justify-center text-xs font-bold text-black">
+                {% if page.value.menu_items %}
+                  <svg class="w-3.5 h-3.5 transform transition-transform duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
+                {% else %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
+                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
+                  </svg>
+                {% endif %}
+              </span>
+              <span class="flex-1 flex items-center gap-2">
+                <span class="font-bold">
+                  {% if LANGUAGE_CODE == 'fr' %}
+                    {{ page.value.title_fr }}
+                  {% elif LANGUAGE_CODE == 'en' %}
+                    {{ page.value.title_en }}
+                  {% elif LANGUAGE_CODE == 'ar' %}
+                    {{ page.value.title_ar }}
+                  {% endif %}
+                </span>
+                <span class="text-xs text-gray-400 ms-1">/</span>
+                <span class="text-xs text-gray-500 font-normal">
+                  {% if LANGUAGE_CODE == 'fr' %}
+                    {{ page.value.link_page_fr }}
+                  {% elif LANGUAGE_CODE == 'en' %}
+                    {{ page.value.link_page_en }}
+                  {% elif LANGUAGE_CODE == 'ar' %}
+                    {{ page.value.link_page_ar }}
+                  {% endif %}
+                </span>
+              </span>
+              {% if page.block_type == 'link' %}
+                <a href="{% if LANGUAGE_CODE == 'fr' %}
+                    {% pageurl page.value.link_page_fr %}
+                  {% elif LANGUAGE_CODE == 'en' %}
+                    {% pageurl page.value.link_page_en %}
+                  {% elif LANGUAGE_CODE == 'ar' %}
+                    {% pageurl page.value.link_page_ar %}
+                  {% endif %}"
+                  target="_blank"
+                  class="text-xs text-cash px-2 py-0.5 rounded-full font-semibold">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g opacity="0.4">
+                      <path d="M2 6.75C2 5.50736 3.00736 4.5 4.25 4.5H19.7514C20.9941 4.5 22.0014 5.50736 22.0014 6.75L22.0014 16.7909C21.8781 16.6358 21.733 16.4956 21.568 16.375L18.5167 14.146C18.6795 14.0718 18.8048 13.9266 18.8501 13.7454L19.6501 10.5454C19.7304 10.2239 19.535 9.89819 19.2135 9.81782C18.892 9.73745 18.5663 9.9329 18.4859 10.2544L18.1532 11.5851L17.6298 10.1892C17.542 9.95505 17.3181 9.7999 17.068 9.7999C16.8179 9.7999 16.594 9.95505 16.5062 10.1892L15.9828 11.5851L15.6501 10.2544C15.5697 9.9329 15.2439 9.73745 14.9225 9.81782C14.7482 9.86138 14.611 9.97703 14.5347 10.125C14.4583 9.97703 14.3211 9.86138 14.1468 9.81782C13.8254 9.73745 13.4996 9.9329 13.4192 10.2544L13.0866 11.5851L12.5631 10.1892C12.4753 9.95505 12.2514 9.7999 12.0013 9.7999C11.7512 9.7999 11.5273 9.95505 11.4395 10.1892L10.9161 11.5851L10.5834 10.2544C10.503 9.9329 10.1773 9.73745 9.8558 9.81782C9.6819 9.86129 9.54487 9.97658 9.46844 10.1242C9.392 9.97658 9.25497 9.86129 9.08107 9.81782C8.75959 9.73745 8.43383 9.9329 8.35346 10.2544L8.02079 11.5851L7.49734 10.1892C7.40953 9.95505 7.18565 9.7999 6.93555 9.7999C6.68544 9.7999 6.46157 9.95505 6.37375 10.1892L5.85031 11.5851L5.51763 10.2544C5.43726 9.9329 5.1115 9.73745 4.79003 9.81782C4.46855 9.89819 4.27309 10.2239 4.35346 10.5454L5.15346 13.7454C5.21716 14.0002 5.4392 14.184 5.70143 14.1989C5.96366 14.2139 6.20512 14.0565 6.29734 13.8106L6.93555 12.1087L7.57375 13.8106C7.66597 14.0565 7.90744 14.2139 8.16967 14.1989C8.4319 14.184 8.65393 14.0002 8.71763 13.7454L9.46844 10.7422L10.2192 13.7454C10.2829 14.0002 10.505 14.184 10.7672 14.1989C11.0294 14.2139 11.2709 14.0565 11.3631 13.8106L12.0013 12.1087L12.6395 13.8106C12.7251 14.0388 12.9392 14.1908 13.1792 14.1995C13.1343 14.4216 13.1227 14.6526 13.1478 14.8855L13.6449 19.5H4.25C3.00736 19.5 2 18.4926 2 17.25V6.75Z" fill="#b61615" />
+                      <path d="M14.0025 12.8692C14.0834 12.8062 14.1693 12.7482 14.2598 12.696C14.4805 12.5686 14.7167 12.4818 14.9584 12.4352L14.5347 10.7404L14.0025 12.8692Z" fill="#b61615" />
+                      <path d="M16.7798 12.8772L17.5736 13.4571L17.068 12.1087L16.7798 12.8772Z" fill="#b61615" />
+                    </g>
+                    <path d="M15.8252 14.0389C15.5855 13.8638 15.265 13.8466 15.0078 13.995C14.7507 14.1435 14.6053 14.4297 14.6371 14.7249L15.2813 20.7039C15.3133 21.0015 15.5194 21.2516 15.8054 21.3401C16.0914 21.4285 16.4027 21.3384 16.5971 21.1108L17.5838 19.9561L18.3854 21.3443C18.5925 21.7031 19.0512 21.826 19.4099 21.6189C19.7686 21.4118 19.8915 20.9531 19.6844 20.5943L18.883 19.2063L20.3756 18.9293C20.6699 18.8746 20.9036 18.6502 20.97 18.3583C21.0365 18.0663 20.9229 17.7629 20.6811 17.5863L15.8252 14.0389Z" fill="#b61615" />
+                  </svg>
+                </a>
+              {% endif %}
+            </div>
+            {% if page.value.menu_items %}
+              <ul class="tree-children mt-0.5 space-y-0.5 {{ page.value.title_fr|cut:' ' }}-children">
+                {% for dropdown in page.value.menu_items %}
+                  <li class="tree-item">
+                    <div class="transition-all duration-120 ease-[ease] border-s-3 border-s-transparent hover:border-s-cash flex items-center gap-2 py-1.5 px-3 rounded-e-md cursor-pointer hover:bg-gray-50">
+                      <span class="w-4"></span>
+                      <span class="flex-1 flex items-center gap-2">
+                        <span class="text-xs text-black p-1.5 rounded">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
+                            <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
+                          </svg>
+                        </span>
+                        <span>
+                          {% if LANGUAGE_CODE == 'fr' %}
+                            {{ dropdown.value.title_fr }}
+                          {% elif LANGUAGE_CODE == 'en' %}
+                            {{ dropdown.value.title_en }}
+                          {% elif LANGUAGE_CODE == 'ar' %}
+                            {{ dropdown.value.title_ar }}
+                          {% endif %}
+                        </span>
+                      </span>
+                      {% if dropdown.block_type == 'link' %}
+                        <a href="{% if LANGUAGE_CODE == 'fr' %}
+                            {% pageurl dropdown.value.link_page_fr %}
+                          {% elif LANGUAGE_CODE == 'en' %}
+                            {% pageurl dropdown.value.link_page_en %}
+                          {% elif LANGUAGE_CODE == 'ar' %}
+                            {% pageurl dropdown.value.link_page_ar %}
+                          {% endif %}"
+                          target="_blank"
+                          class="text-xs text-cash px-2 py-0.5 rounded-full font-semibold">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g opacity="0.4">
+                              <path d="M2 6.75C2 5.50736 3.00736 4.5 4.25 4.5H19.7514C20.9941 4.5 22.0014 5.50736 22.0014 6.75L22.0014 16.7909C21.8781 16.6358 21.733 16.4956 21.568 16.375L18.5167 14.146C18.6795 14.0718 18.8048 13.9266 18.8501 13.7454L19.6501 10.5454C19.7304 10.2239 19.535 9.89819 19.2135 9.81782C18.892 9.73745 18.5663 9.9329 18.4859 10.2544L18.1532 11.5851L17.6298 10.1892C17.542 9.95505 17.3181 9.7999 17.068 9.7999C16.8179 9.7999 16.594 9.95505 16.5062 10.1892L15.9828 11.5851L15.6501 10.2544C15.5697 9.9329 15.2439 9.73745 14.9225 9.81782C14.7482 9.86138 14.611 9.97703 14.5347 10.125C14.4583 9.97703 14.3211 9.86138 14.1468 9.81782C13.8254 9.73745 13.4996 9.9329 13.4192 10.2544L13.0866 11.5851L12.5631 10.1892C12.4753 9.95505 12.2514 9.7999 12.0013 9.7999C11.7512 9.7999 11.5273 9.95505 11.4395 10.1892L10.9161 11.5851L10.5834 10.2544C10.503 9.9329 10.1773 9.73745 9.8558 9.81782C9.6819 9.86129 9.54487 9.97658 9.46844 10.1242C9.392 9.97658 9.25497 9.86129 9.08107 9.81782C8.75959 9.73745 8.43383 9.9329 8.35346 10.2544L8.02079 11.5851L7.49734 10.1892C7.40953 9.95505 7.18565 9.7999 6.93555 9.7999C6.68544 9.7999 6.46157 9.95505 6.37375 10.1892L5.85031 11.5851L5.51763 10.2544C5.43726 9.9329 5.1115 9.73745 4.79003 9.81782C4.46855 9.89819 4.27309 10.2239 4.35346 10.5454L5.15346 13.7454C5.21716 14.0002 5.4392 14.184 5.70143 14.1989C5.96366 14.2139 6.20512 14.0565 6.29734 13.8106L6.93555 12.1087L7.57375 13.8106C7.66597 14.0565 7.90744 14.2139 8.16967 14.1989C8.4319 14.184 8.65393 14.0002 8.71763 13.7454L9.46844 10.7422L10.2192 13.7454C10.2829 14.0002 10.505 14.184 10.7672 14.1989C11.0294 14.2139 11.2709 14.0565 11.3631 13.8106L12.0013 12.1087L12.6395 13.8106C12.7251 14.0388 12.9392 14.1908 13.1792 14.1995C13.1343 14.4216 13.1227 14.6526 13.1478 14.8855L13.6449 19.5H4.25C3.00736 19.5 2 18.4926 2 17.25V6.75Z" fill="#b61615" />
+                              <path d="M14.0025 12.8692C14.0834 12.8062 14.1693 12.7482 14.2598 12.696C14.4805 12.5686 14.7167 12.4818 14.9584 12.4352L14.5347 10.7404L14.0025 12.8692Z" fill="#b61615" />
+                              <path d="M16.7798 12.8772L17.5736 13.4571L17.068 12.1087L16.7798 12.8772Z" fill="#b61615" />
+                            </g>
+                            <path d="M15.8252 14.0389C15.5855 13.8638 15.265 13.8466 15.0078 13.995C14.7507 14.1435 14.6053 14.4297 14.6371 14.7249L15.2813 20.7039C15.3133 21.0015 15.5194 21.2516 15.8054 21.3401C16.0914 21.4285 16.4027 21.3384 16.5971 21.1108L17.5838 19.9561L18.3854 21.3443C18.5925 21.7031 19.0512 21.826 19.4099 21.6189C19.7686 21.4118 19.8915 20.9531 19.6844 20.5943L18.883 19.2063L20.3756 18.9293C20.6699 18.8746 20.9036 18.6502 20.97 18.3583C21.0365 18.0663 20.9229 17.7629 20.6811 17.5863L15.8252 14.0389Z" fill="#b61615" />
+                          </svg>
+                        </a>
+                      {% endif %}
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+        </ul>
+      {% endfor %}
+    </div>
+  </main>
+
+  <script>
+    ;(function () {
+      const toggleNodes = document.querySelectorAll('[data-toggle]')
+      toggleNodes.forEach((node) => {
+        node.addEventListener('click', function (e) {
+          e.stopPropagation()
+          const toggleId = this.getAttribute('data-toggle')
+          const childrenContainer = document.querySelector(`.${toggleId}-children`)
+          const icon = this.querySelector('.toggle-icon svg')
+          if (childrenContainer) {
+            childrenContainer.classList.toggle('hidden')
+            if (childrenContainer.classList.contains('hidden')) {
+              icon.classList.add('-rotate-90')
+              icon.classList.add('rtl:rotate-90')
+            } else {
+              icon.classList.remove('-rotate-90')
+              icon.classList.remove('rtl:rotate-90')
+            }
+          }
+        })
+      })
+    })()
+  </script>
+{% endblock %}

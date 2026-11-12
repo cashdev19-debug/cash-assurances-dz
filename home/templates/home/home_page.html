@@ -1,0 +1,3 @@
+{% extends 'base.html' %}
+{% load static  wagtailcore_tags wagtailimages_tags tailwind_tags compress%}
+{% spaceless %}{% block content %}  <main class="main">{% for oneSlide in page.sections %}{% include_block oneSlide %}{% endfor %}</main>{% endblock %}{% endspaceless %}

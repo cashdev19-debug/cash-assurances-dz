@@ -1,0 +1,31 @@
+{% load wagtailcore_tags widget_tweaks navigation_tags wagtailimages_tags %}
+{% load static %}
+{%spaceless%}
+<section class="mt-20 py-5">
+  <div class="max-w-2xl lg:max-w-full mx-auto">
+    <div class="bg-slate-100/30 border border-slate-300 px-6 min-[1200px]:px-16! w-full">
+      <div class="grid relative lg:grid-cols-5 -top-22.5 lg:top-0">
+        <div class="lg:col-span-3 relative max-lg:-order-1" data-aos="slide-right" data-aos-duration="1000">
+            {% picture self.cover_image format-{avif} width-400 alt="mobile app" class="w-full lg:h-[125%] object-contain lg:absolute lg:-top-22.5 lg:right-0" %}
+        </div>
+        <div class="w-full pt-12 texe-center lg:py-12 lg:col-span-2 lg:text-start" data-aos="slide-left" data-aos-duration="1000">
+          <div class="text-center lg:text-start">
+            <h2 class="text-3xl font-bold text-slate-900 mb-6 md:text-4xl lg:text-5xl">{{ self.title }}</h2>
+            <p class="text-slate-600 text-base leading-relaxed">{{ self.subtitle }}</p>
+          </div>
+          <div class="flex gap-4 max-lg:justify-center mt-8">
+            {% for button in self.button %}
+              <a href="{{button.button_url.url}}" class="px-4 py-2 inline-flex items-center rounded-lg text-black text-md bg-white hover:text-white hover:bg-cash duration-100 border tracking-wider cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                <div class="flex gap-1">
+                  {% svg_icon name=button.button_icon fill='currentColor' classname='size-5 self-center  group-hover:text-white transition-colors duration-300' %}
+                  {{ button.button_text }}
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{%endspaceless%}

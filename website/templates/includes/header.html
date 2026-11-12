@@ -1,0 +1,175 @@
+{% load wagtailcore_tags navigation_tags %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+{% spaceless %}
+<header class="sticky z-50 top-0">
+    {% for social in ReseauxSociaux %}
+          <a href="{{ social.link }}"><i class="{{ social.icon }}"></i></a>
+        {% endfor %}
+      <div class="px-4 py-2.5 bg-[#3c3c3c] z-50">
+        <div class="max-w-7xl mx-auto text-center">
+          <div class="flex items-center text-slate-50 text-[13px]">
+            <i class="pe-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-at" viewBox="0 0 16 16">
+                <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2zm3.708 6.208L1 11.105V5.383zM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2z" />
+                <path d="M14.247 14.269c1.01 0 1.587-.857 1.587-2.025v-.21C15.834 10.43 14.64 9 12.52 9h-.035C10.42 9 9 10.36 9 12.432v.214C9 14.82 10.438 16 12.358 16h.044c.594 0 1.018-.074 1.237-.175v-.73c-.245.11-.673.18-1.18.18h-.044c-1.334 0-2.571-.788-2.571-2.655v-.157c0-1.657 1.058-2.724 2.64-2.724h.04c1.535 0 2.484 1.05 2.484 2.326v.118c0 .975-.324 1.39-.639 1.39-.232 0-.41-.148-.41-.42v-2.19h-.906v.569h-.03c-.084-.298-.368-.63-.954-.63-.778 0-1.259.555-1.259 1.4v.528c0 .892.49 1.434 1.26 1.434.471 0 .896-.227 1.014-.643h.043c.118.42.617.648 1.12.648m-2.453-1.588v-.227c0-.546.227-.791.573-.791.297 0 .572.192.572.708v.367c0 .573-.253.744-.564.744-.354 0-.581-.215-.581-.8Z" />
+              </svg>
+            </i>
+            <a href="mailto:{{settings.base.contactstInfos.email}}">{{settings.base.contactstInfos.email}}</a>
+            <i class="flex items-center ms-4 me-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-phone" viewBox="0 0 16 16">
+                <path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+              </svg>
+            </i>
+            <a href="tel:+213{{settings.base.contactstInfos.numero_telephone|cut:" "}}" dir="ltr">{{settings.base.contactstInfos.numero_telephone}}</a>
+          </div>
+        </div>
+      </div>
+      <nav class="flex py-2 px-4 md:px-8 bg-white shadow-md border-b border-slate-300 dark:border-neutral-700 dark:bg-neutral-900 min-h-17 relative z-20" aria-label="Main navigation">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 w-full">
+          
+              {% include_block settings.base.top_navbar.logo %}
+            
+          <div id="collapseMenu" tabindex="-1" class="hidden lg:block max-lg:bg-white dark:max-lg:bg-neutral-900 max-lg:border-l max-lg:border-slate-300 dark:max-lg:border-neutral-700 max-lg:w-1/2 max-lg:fixed max-lg:top-0 max-lg:right-0 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto max-sm:w-full z-50 outline-none">
+            <div class="py-2 px-4 flex justify-between items-center border-b border-slate-300 sticky top-0 bg-white dark:border-neutral-700 dark:bg-neutral-900 lg:hidden max-lg:min-h-[68px]">
+         
+                  {% include_block settings.base.top_navbar.logo %}
+         
+              <button type="button" aria-controls="collapseMenu" id="toggleClose" class="cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-cash rounded">
+                <span class="sr-only">Close main menu</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-4 fill-slate-900 dark:fill-slate-50" aria-hidden="true" viewBox="0 0 329.269 329">
+                  <path d="M194.8 164.77 323.013 36.555c8.343-8.34 8.343-21.825 0-30.164-8.34-8.34-21.825-8.34-30.164 0L164.633 134.605 36.422 6.391c-8.344-8.34-21.824-8.34-30.164 0-8.344 8.34-8.344 21.824 0 30.164l128.21 128.215L6.259 292.984c-8.344 8.34-8.344 21.825 0 30.164a21.27 21.27 0 0 0 15.082 6.25c5.46 0 10.922-2.09 15.082-6.25l128.21-128.214 128.216 128.214a21.27 21.27 0 0 0 15.082 6.25c5.46 0 10.922-2.09 15.082-6.25 8.343-8.34 8.343-21.824 0-30.164zm0 0" data-original="#000000" />
+                </svg>
+              </button>
+            </div>
+            <div class="hidden lg:flex items-center w-full justify-center mx-auto gap-8">
+
+            {% include_block settings.base.top_navbar.links %}
+          </div>
+          </div>
+          <div class="flex items-center gap-6">
+            
+
+{% partialdef searchResult %}
+<div id="search_results">
+ {% if search_query %}
+    {% if search_results %}
+        <div class="pb-1 space-y-1"><div class="px-2 py-1 my-1 text-xs font-medium text-neutral-500 uppercase tracking-wider">{{settings.search.SearchPageText.pages_title}}</div>
+            {% for result in search_results %}<div class="px-1"><a href="{% pageurl result %}" @click="modalIsOpen = false" class="relative flex cursor-default select-none items-center rounded px-3 py-2 text-sm text-slate-700  hover:bg-cash/80 hover:text-black  transition-colors group"><svg  class="w-4 h-4 me-2 shrink-0 text-cash group-hover:text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.5-6.923c-.67.204-1.335.82-1.887 1.855A8 8 0 0 0 5.145 4H7.5zM4.09 4a9.3 9.3 0 0 1 .64-1.539 7 7 0 0 1 .597-.933A7.03 7.03 0 0 0 2.255 4zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a7 7 0 0 0-.656 2.5zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5zM8.5 5v2.5h2.99a12.5 12.5 0 0 0-.337-2.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5zM5.145 12q.208.58.468 1.068c.552 1.035 1.218 1.65 1.887 1.855V12zm.182 2.472a7 7 0 0 1-.597-.933A9.3 9.3 0 0 1 4.09 12H2.255a7 7 0 0 0 3.072 2.472M3.82 11a13.7 13.7 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5zm6.853 3.472A7 7 0 0 0 13.745 12H11.91a9.3 9.3 0 0 1-.64 1.539 7 7 0 0 1-.597.933M8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855q.26-.487.468-1.068zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.7 13.7 0 0 1-.312 2.5m2.802-3.5a7 7 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7 7 0 0 0-3.072-2.472c.218.284.418.598.597.933M10.855 4a8 8 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4z"/></svg> <span class="font-medium">{{ result.title }}</span><span class="ms-auto text-xs opacity-60 group-hover:text-white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-index-thumb" viewBox="0 0 16 16"><path d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 0 0 1 0V6.435l.106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 1 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.118a.5.5 0 0 1-.447-.276l-1.232-2.465-2.512-4.185a.517.517 0 0 1 .809-.631l2.41 2.41A.5.5 0 0 0 6 9.5V1.75A.75.75 0 0 1 6.75 1M8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v6.543L3.443 6.736A1.517 1.517 0 0 0 1.07 8.588l2.491 4.153 1.215 2.43A1.5 1.5 0 0 0 6.118 16h6.302a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5 5 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.6 2.6 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046zm2.094 2.025"/></svg></span></a></div>{% endfor %}
+        </div>
+    {% endif %}
+
+    {% if doc_results %}
+        <div class="pb-1 space-y-1 mt-2 pt-2 border-t border-gray-100 dark:border-slate-800">
+            <div class="px-2 py-1 my-1 text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                {{settings.search.SearchPageText.documents_title}}
+            </div>
+            {% for doc in doc_results %}
+                <div class="px-1">
+                    <a href="{{ doc.url }}" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       @click="modalIsOpen = false"
+                       class="relative flex cursor-default select-none items-center rounded px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 transition-colors group">
+                        <svg class="w-4 h-4 me-2 shrink-0 text-emerald-500 group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        <span class="font-medium">{{ doc.title }}</span>
+                        <span class="ms-auto text-xs opacity-60 group-hover:text-white uppercase">
+                            {{ doc.file_extension }}
+                        </span>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if not search_results and not doc_results %}<div class="p-6 text-center text-sm text-neutral-500">{{settings.search.SearchPageText.modal_no_results_text}} {{ search_query }}"</div>{% else %}<div class="border-t border-gray-200 dark:border-slate-800 text-center"><a href="{% url 'search' %}?query={{ search_query }}" @click="modalIsOpen = false" class="text-xs font-medium text-cash p-3 mx-auto max-w-fit hover:underline block"> {{settings.search.SearchPageText.modal_view_all_text}} "{{ search_query }}" </a></div>{% endif %}
+{% else %}<div class="p-6 text-center text-sm text-neutral-400">{{settings.search.SearchPageText.modal_first_heading_text}}</div>{% endif %}
+  </div>
+{% endpartialdef %}
+
+<div x-data="{modalIsOpen: false}">
+  <button x-on:click="modalIsOpen = true" class=" my-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-cash rounded">
+    <span class="sr-only">Search</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192.904 192.904" class="size-4 fill-slate-900 dark:fill-slate-50" aria-hidden="true">
+      <path d="m190.707 180.101-47.078-47.077c11.702-14.072 18.752-32.142 18.752-51.831C162.381 36.423 125.959 0 81.191 0 36.422 0 0 36.423 0 81.193c0 44.767 36.422 81.187 81.191 81.187 19.688 0 37.759-7.049 51.831-18.751l47.079 47.078a7.474 7.474 0 0 0 5.303 2.197 7.498 7.498 0 0 0 5.303-12.803zM15 81.193C15 44.694 44.693 15 81.191 15c36.497 0 66.189 29.694 66.189 66.193 0 36.496-29.692 66.187-66.189 66.187C44.693 147.38 15 117.689 15 81.193z"></path>
+    </svg>
+  </button>
+  <div x-cloak x-show="modalIsOpen" x-transition.opacity.duration.200ms x-trap.inert.noscroll="modalIsOpen" x-on:keydown.esc.window="modalIsOpen = false" x-on:click.self="modalIsOpen = false" class="fixed inset-0 z-51 flex items-end justify-center bg-black/20 p-4 pb-8 backdrop-blur-md sm:items-center lg:p-8" role="dialog" aria-modal="true">
+      <div x-show="modalIsOpen" x-transition:enter="transition ease-out duration-200 delay-100" x-transition:enter-start="opacity-0 scale-50" x-transition:enter-end="opacity-100 scale-100" class="flex max-w-4xl w-full flex-col overflow-hidden rounded-lg shadow-xl bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100">         
+          <div class="flex min-h-20  justify-center w-full max-w-7xl items-start">
+              <div class="flex flex-col w-full h-full overflow-hidden bg-white dark:bg-slate-900 rounded-lg"><div class="flex items-center px-3 border-b border-gray-300 dark:border-slate-800"><svg class="w-4 h-4 me-2 text-neutral-400 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line></svg><input type="text" name="q" hx-get="{%url 'my_search'%}" hx-target="#search_results" hx-trigger="keyup changed delay:200ms" hx-indicator="#spinner" class="flex w-full px-2 py-3 text-sm bg-transparent border-0 rounded-md outline-none focus:outline-none placeholder:text-neutral-400 h-11" placeholder="{{settings.search.SearchPageText.modal_search_placeholder}}" autocomplete="off" autocorrect="off" spellcheck="false"><svg xmlns="http://www.w3.org/2000/svg" class="htmx-indicator animate-spin" id="spinner" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-circle preview-icon"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>{%partial searchResult%}</div></div>
+      </div>
+  </div>
+</div>
+ {% get_available_languages as LANGUAGES %}
+<div class="relative group border border-slate-300 rounded-3xl px-2 hover:bg-cash/5 hover:border-cash/50">
+  <button class="flex items-center gap-1.5 text-sm text-zinc-700 font-medium cursor-pointer bg-transparent border-0 py-2">
+    {% with current_code=lang %}
+       <svg width="24" height="24" viewBox="0 0 24 24" class="text-cash" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path opacity="0.4" d="M7.25195 11.9993C7.25197 11.0658 7.31072 10.1593 7.41992 9.2981C6.8088 9.45741 6.2503 9.64627 5.75684 9.85962C4.97587 10.1973 4.39119 10.5802 4.0127 10.967C3.63766 11.3504 3.50009 11.6985 3.5 11.9993L3.50684 12.1145C3.53833 12.3878 3.68462 12.696 4.0127 13.0315C4.39116 13.4184 4.97596 13.8013 5.75684 14.1389C6.25028 14.3523 6.80884 14.5411 7.41992 14.7004C7.31076 13.8393 7.25195 12.9326 7.25195 11.9993ZM14.7021 16.5803C13.9922 16.6704 13.2515 16.7268 12.4902 16.7434L12 16.7493C11.067 16.7493 10.1606 16.6894 9.2998 16.5803C9.45909 17.1912 9.64902 17.7491 9.8623 18.2424C10.1999 19.0233 10.582 19.608 10.9688 19.9866C11.3521 20.3617 11.7002 20.5001 12.001 20.5002C12.3018 20.5002 12.6497 20.3618 13.0332 19.9866C13.4201 19.608 13.803 19.0235 14.1406 18.2424C14.3538 17.7492 14.5429 17.1911 14.7021 16.5803ZM12.001 3.50025C11.7002 3.50038 11.3521 3.63797 10.9688 4.01294C10.5819 4.39141 10.199 4.97618 9.86133 5.75708C9.64818 6.25006 9.45902 6.80781 9.2998 7.41822C10.1606 7.30915 11.067 7.25025 12 7.25025C12.9338 7.25026 13.8407 7.30894 14.7021 7.41822C14.5429 6.80779 14.3538 6.25006 14.1406 5.75708C13.803 4.97619 13.4201 4.3914 13.0332 4.01294C12.6499 3.63807 12.3018 3.50025 12.001 3.50025ZM8.75195 11.9993C8.75195 13.0665 8.8325 14.0839 8.97852 15.0208C9.91535 15.1668 10.9327 15.2493 12 15.2493L12.4609 15.2434C13.361 15.2236 14.2211 15.1457 15.0225 15.0208C15.1473 14.2196 15.2254 13.3599 15.2451 12.4602L15.251 11.9993C15.251 10.9315 15.1686 9.91399 15.0225 8.97681C14.0853 8.83066 13.0677 8.75027 12 8.75025C10.9328 8.75025 9.91528 8.83081 8.97852 8.97681C8.83235 9.91392 8.75197 10.9315 8.75195 11.9993ZM16.7451 12.4905C16.7285 13.2511 16.6719 13.9911 16.582 14.7004C17.1921 14.5413 17.7494 14.352 18.2422 14.1389C19.0231 13.8013 19.6078 13.4184 19.9863 13.0315C20.3613 12.6481 20.499 12.3001 20.499 11.9993C20.4989 11.6984 20.3614 11.3504 19.9863 10.967C19.6078 10.5802 19.0231 10.1973 18.2422 9.85962C17.7494 9.6466 17.1921 9.45725 16.582 9.2981C16.6912 10.1593 16.751 11.0658 16.751 11.9993L16.7451 12.4905ZM21.999 11.9993C21.999 12.8026 21.6194 13.5069 21.0586 14.0803C20.501 14.6503 19.7307 15.1298 18.8379 15.5159C18.0938 15.8376 17.2398 16.1033 16.3076 16.3059C16.1049 17.2389 15.8395 18.0935 15.5176 18.8381C15.1316 19.7309 14.6529 20.5011 14.083 21.0588C13.5096 21.6199 12.8045 22.0002 12.001 22.0002C11.1976 22.0001 10.4933 21.6198 9.91992 21.0588C9.35003 20.5012 8.87137 19.7309 8.48535 18.8381C8.16337 18.0934 7.89607 17.239 7.69336 16.3059C6.76064 16.1033 5.90661 15.8377 5.16211 15.5159C4.26916 15.1298 3.49812 14.6504 2.94043 14.0803C2.41462 13.5427 2.04856 12.8901 2.00488 12.1487L2 11.9993C2.00009 11.196 2.37955 10.4916 2.94043 9.91822C3.49812 9.34816 4.26917 8.86972 5.16211 8.48365C5.90673 8.16172 6.76046 7.89433 7.69336 7.69165C7.89603 6.75932 8.16356 5.90559 8.48535 5.16138C8.87142 4.26866 9.34994 3.49824 9.91992 2.94068C10.4933 2.37981 11.1977 2.00038 12.001 2.00025C12.8044 2.00025 13.5096 2.37969 14.083 2.94068C14.6529 3.49826 15.1316 4.26866 15.5176 5.16138C15.8393 5.9055 16.105 6.75946 16.3076 7.69165C17.2399 7.89431 18.0937 8.16188 18.8379 8.48365C19.7306 8.86968 20.501 9.34826 21.0586 9.91822C21.6195 10.4916 21.9989 11.1959 21.999 11.9993Z" fill="currentColor"/>
+<path d="M20.4912 11.5627C20.2636 7.07198 16.5501 3.50025 12.0029 3.50025C7.30913 3.50026 3.50391 7.30627 3.50391 12.0002C3.50396 16.6942 7.30917 20.5002 12.0029 20.5002C16.6967 20.5002 20.5019 16.6942 20.502 12.0002L20.4912 11.5627ZM21.9893 12.5149C21.7214 17.798 17.3527 22.0002 12.0029 22.0002C6.48057 22.0002 2.00396 17.5224 2.00391 12.0002C2.00391 6.47802 6.48053 2.00026 12.0029 2.00025C17.5253 2.00025 22.0019 6.47802 22.002 12.0002L21.9893 12.5149Z" fill="#323544"/>
+</svg><span class="font-semibold">{{ current_code|upper }}</span>
+    {% endwith %}
+    <svg id="desktopChevron" class="transition-transform text-cash group-hover:rotate-180" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m1 1 4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </button>
+  <div class="absolute top-full left-0 mt-1 w-44 bg-white border  border-zinc-200 rounded-xl shadow-lg py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+    {%if page%}
+    {% for translation in page.get_translations.live %}
+      {% get_language_info for translation.locale.language_code as lang_info %}
+      <a href="{% pageurl translation %}" hreflang="{{ lang_info.code }}" class="block px-4 py-2 text-sm text-zinc-600 font-semibold hover:bg-zinc-50">
+        <span>{{ lang_info.name_local|capfirst }}</span>
+      </a>
+    {% endfor %}
+    {%else%}
+    {% get_available_languages as AVAILABLE_LANGUAGES %}
+    {% for lang_code, lang_name in AVAILABLE_LANGUAGES %}
+      {% get_language_info for lang_code as lang_info %}
+      {% if lang_code != lang %}
+      <a href="/{{ lang_code }}/search{% if request.GET.query %}?query={{ request.GET.query }}{% endif %}" hreflang="{{ lang_info.code }}" class="block px-4 py-2 text-sm text-zinc-600 font-semibold hover:bg-zinc-50">
+        <span>{{ lang_info.name_local|capfirst }}</span>
+      </a>
+      {%endif%}
+    {% endfor %}
+    {%endif%}
+  </div>
+</div>
+
+{%comment%}
+{%elif lang == 'ar'%}{{settings.base.top_navbar.cta_button.0.value.title_ar}}<span class="w-7 h-7 rounded-full bg-white flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16"><path fill-rule="evenodd" stroke="#3f3f47" stroke-width="1.2" stroke-linecap="round"  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/></svg></span>
+   {%elif lang == 'en'%}{{settings.base.top_navbar.cta_button.0.value.title_en}}<span class="w-7 h-7 rounded-full bg-white flex items-center justify-center"><svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M.6 4.602h10m-4-4 4 4-4 4" stroke="#3f3f47" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg></span>{%endif%}
+{%endcomment%}
+{% if settings.base.top_navbar.cta_button.0.value %}
+
+<a href="{{ settings.base.top_navbar.cta_button.0.value.href }}" target="_blank" class="hidden lg:flex items-center gap-2.5 bg-cash/90 text-white hover:text-zinc-200 text-sm font-medium ps-5 pe-2 py-2 rounded-full cursor-pointer border-0">
+{{ settings.base.top_navbar.cta_button.0.value.title }}
+<span class="w-7 h-7 rounded-full bg-white flex items-center justify-center">{%if lang == 'ar'%}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16"><path fill-rule="evenodd" stroke="#3f3f47" stroke-width="1.2" stroke-linecap="round"  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/></svg>{%else%}<svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M.6 4.602h10m-4-4 4 4-4 4" stroke="#3f3f47" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>{%endif%}
+</span></a>
+{%endif%}
+<button onclick="toggleMenu()" class="lg:hidden flex flex-col gap-1.5 cursor-pointer bg-transparent border-0 p-1"><span id="bar1" class="block w-6 h-0.5 bg-zinc-800 transition-transform"></span><span id="bar2" class="block w-6 h-0.5 bg-zinc-800 transition-opacity"></span><span id="bar3" class="block w-6 h-0.5 bg-zinc-800 transition-transform"></span></button></div></div>
+<div id="mobileMenu" class="absolute top-full left-0 w-full bg-white border-t border-zinc-200 flex-col p-5 gap-1 lg:hidden z-50 hidden">       
+       {% include_block settings.base.top_navbar.links with screen='mobile'%}
+          <a href="http://espace-client.cash.local/" target="_blank" class="flex items-center justify-center gap-2.5 text-white bg-cash/90 text-sm font-medium px-5 py-2.5 rounded-full cursor-pointer border-0 mt-3 w-fit">
+              {%if lang == 'fr'%}{{settings.base.top_navbar.cta_button.0.value.title_fr}}
+              <span class="w-7 h-7 rounded-full bg-white flex items-center justify-center">
+                <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M.6 4.602h10m-4-4 4 4-4 4" stroke="#3f3f47" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              {%elif lang == 'ar'%}{{settings.base.top_navbar.cta_button.0.value.title_ar}}
+            <span class="w-7 h-7 rounded-full bg-white flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" stroke="#3f3f47" stroke-width="1.2" stroke-linecap="round"  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+</svg>  </span>
+   {%elif lang == 'en'%}{{settings.base.top_navbar.cta_button.0.value.title_en}}
+         <span class="w-7 h-7 rounded-full bg-white flex items-center justify-center">
+                <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M.6 4.602h10m-4-4 4 4-4 4" stroke="#3f3f47" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              {%endif%}
+            </a>
+        </div>
+      </nav>
+    </header>
+  {% endspaceless %}

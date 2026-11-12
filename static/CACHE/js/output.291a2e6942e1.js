@@ -1,0 +1,1 @@
+window.CHATBOT_CONFIG={apiUrl:"/chatbot/api/chat/",suggestionsUrl:"/chatbot/api/suggestions/",historyUrl:"/chatbot/api/history/",dir:document.documentElement.getAttribute('dir')||'ltr',};;

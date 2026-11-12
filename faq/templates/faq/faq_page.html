@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags navigation_tags %}
+
+{% block body_class %}faq{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{%static 'css/faq.css'%}">
+
+{% endblock %}
+
+{% block content %}
+  <style>
+
+  </style>
+  <section>
+    <div class="max-w-full p-10 mx-auto text-center bg-gray-100">
+      <h2 class="text-black text-3xl font-bold mb-6 md:text-4xl dark:text-cash-50">{{ self.title }}</h2>
+      <p class="text-slate-600 text-base leading-relaxed dark:text-slate-400">{{ self.subtitle }}</p>
+    </div>
+    <section>
+      <div class="max-w-7xl w-full mx-auto rounded-3xl overflow-hidden p-5 md:p-8 transition-all">
+        <div class="items-center gap-3 border-b border-cash/20 pb-4 mb-6">
+          <div class="flex flex-nowrap overflow-x-auto gap-2 pb-2 scrollbar-thin mt-6 mx-auto max-w-fit [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-track]:bg-[#f0eeeb] [&::-webkit-scrollbar-track]:rounded-xl [&::-webkit-scrollbar-thumb]:bg-cash [&::-webkit-scrollbar-thumb]:rounded-xl" id="tabContainer">
+            {% for category in page.faq_categories %}
+              <button class="tab-btn {% if forloop.first %}active{% endif %}" data-tab="tab-{{ forloop.counter0 }}"><i class="fas fa-globe"></i> {{ category.value.title }}</button>
+            {% endfor %}
+          </div>
+        </div>
+        <div id="faqPanels" class="max-w-5xl mx-auto">
+          {% for category in page.faq_categories %}
+            <div class="tab-panel {% if forloop.first %}active{% endif %}" data-panel="tab-{{ forloop.counter0 }}">
+              <div class="space-y-3">
+                {% for faq in category.value.faqs %}
+                  <div class="bg-[#fcfbfa] border border-[#ece8e4] rounded-2xl overflow-hidden transition-shadow duration-150 hover:shadow-[0_4px_12px_rgba(0,0,0,0.03)] [&:not(:last-child)]:mb-3">
+                    <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-gray-800 font-medium text-sm md:text-base hover:bg-cash/5 transition-colors focus:outline-none rounded-2xl" aria-expanded="false">
+                      <span class="flex items-center gap-3">
+                        <span class="w-6 h-6 rounded-full bg-cash/10 text-cash flex items-center justify-center text-xs font-bold">{{ forloop.counter }}</span>
+                        {{ faq.question }}
+                      </span>
+                      <i class="fas fa-chevron-down text-gray-400 text-sm transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-[max-height,padding] duration-300 ease-in-out px-5 pb-0 text-sm text-gray-600 leading-relaxed">
+                      <div class="pb-4 border-t border-[#ece8e4] pt-3">{{ faq.response|safe }}</div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </section>
+{% endblock %}
+{% block extra_js %}
+      <script src="{% static 'js/faq.js' %}"></script>
+{% endblock %}

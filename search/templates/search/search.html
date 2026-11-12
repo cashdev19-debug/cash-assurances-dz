@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags navigation_tags%}
+{% block body_class %}
+
+{% endblock %}
+
+{% block title %}
+  {{ search_query|default:'All Content' }}
+{% endblock %}
+
+{% block content %}
+   <div class="max-w-full p-10 mx-auto text-center bg-gray-100">
+      <h2 class="text-black text-3xl font-bold mb-6 md:text-4xl dark:text-cash-50">{{search_settings.subtitle}}</h2>
+    </div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+    <form action="{% url 'search' %}" method="GET" class="flex-1 max-w-xl mx-auto">
+      <div class="relative">
+        <input type="text" name="query" value="{{ search_query|default:'' }}" placeholder="{{search_settings.search_placeholder}}" class="w-full pl-10 pr-24 py-2 text-sm bg-slate-100 dark:bg-slate-800 border-0 rounded-full focus:ring-2 focus:ring-cash focus:bg-white dark:focus:bg-slate-900 transition-all outline-none" />
+        <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <button type="submit" class="absolute right-1 top-1 bottom-1 bg-cash hover:bg-cash-hover text-white text-xs font-semibold px-4 rounded-full transition-colors">{{search_settings.search_button_text}}</button>
+      </div>
+    </form>
+  </div>
+  <section class="border-slate-200/60 py-10 sm:py-14">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      {% if search_query %}
+        <p class="mt-2 text-sm sm:text-base text-slate-600 ">
+          {{search_settings.result_heading_text}} <span class="font-bold text-slate-900 ">“{{ search_query }}”</span>
+        </p>
+      {% else %}
+        <p class="mt-2 text-sm text-slate-500">Tapez ici pour effectuer une recherche</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 gap-4 pb-4">
+      <div class="text-xs text-slate-500 font-medium">
+        {% if search_query %}
+        {% found_results  search_settings.found_heading search_results.paginator.count|default:0 doc_results|length|default:0 %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="mt-8 space-y-10">
+      {% if search_query %}
+        {% if search_results %}
+          <div class="space-y-4">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{{search_settings.pages_title}}</h2>
+            <div class="grid gap-4 sm:grid-cols-1">
+              {% for page in search_results %}
+                <article class="group bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 hover:border-cash/40 transition-all shadow-sm hover:shadow-md">
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="space-y-1.5 flex-1">
+                      <span class="inline-block px-2.5 py-0.5 text-[11px] font-semibold text-cash bg-cash-light dark:bg-cash/10 rounded-full">{{ page.specific|title|default:'Page' }}</span>
+                      <h3 class="text-lg font-bold text-slate-700 dark:text-white group-hover:text-slate-950 transition-colors"><a href="{% pageurl page %}">{{ page.title }}</a></h3>
+                      {% if page.search_description %}<p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">{{ page.search_description }}</p>{% endif %}
+                    </div>
+                    <a href="{% pageurl page %}" class="shrink-0 p-2 text-slate-400 group-hover:text-cash group-hover:translate-x-0.5 transition-all">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </a>
+                  </div>
+                </article>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+        {% if doc_results %}
+          <div class="space-y-4 pt-4">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{{search_settings.documents_title}}</h2>
+            <div class="grid gap-3 sm:grid-cols-2">
+              {% for doc in doc_results %}
+                <a href="{{ doc.url }}" target="_blank" rel="noopener noreferrer" class="group flex items-center p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 hover:border-cash/40 transition-all shadow-sm hover:shadow-md">
+                  <div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 text-cash flex items-center justify-center shrink-0 group-hover:bg-cash group-hover:text-white transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div class="ml-3.5 flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-slate-900 dark:text-white truncate group-hover:text-cash transition-colors">{{ doc.title }}</p>
+                    <p class="text-xs text-slate-400 uppercase font-medium">{{ doc.file_extension|default:'PDF' }}</p>
+                  </div>
+                  <svg class="w-4 h-4 text-slate-400 group-hover:text-cash ml-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+        {% if not search_results and not doc_results %}
+          <div class="text-center py-16 bg-white dark:bg-slate-900 rounded-3xl border border-dashed border-slate-300 dark:border-slate-800">
+            <h3 class="text-lg text-slate-900 dark:text-white">
+                {{search_settings.no_results_text|safe}}{%if search_query%}<span>“{{ search_query }}”</span>{%endif%}
+          </div>
+        {% endif %}
+        {% if search_results.has_other_pages %}
+          <div class="pt-8 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+            {% if search_results.has_previous %}
+              <a href="?query={{ search_query }}&page={{ search_results.previous_page_number }}" class="px-4 py-2 border border-slate-300 dark:border-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">&larr; Previous</a>
+            {% else %}
+              <span class="px-4 py-2 text-slate-400 text-sm font-medium cursor-not-allowed opacity-50">&larr; Previous</span>
+            {% endif %}
+
+            <span class="text-xs font-semibold text-slate-500">Page {{ search_results.number }} of {{ search_results.paginator.num_pages }}</span>
+
+            {% if search_results.has_next %}
+              <a href="?query={{ search_query }}&page={{ search_results.next_page_number }}" class="px-4 py-2 bg-cash hover:bg-cash-hover text-white text-sm font-semibold rounded-lg transition-colors">Next &rarr;</a>
+            {% else %}
+              <span class="px-4 py-2 text-slate-400 text-sm font-medium cursor-not-allowed opacity-50">Next &rarr;</span>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="text-center py-20 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800">
+         {{search_settings.no_results_text|safe}} {%if search_query%}<span>“{{ search_query }}”</span>{%endif%}
+        </div>
+      {% endif %}
+    </div>
+  </main>
+{% endblock %}

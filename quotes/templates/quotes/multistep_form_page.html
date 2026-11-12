@@ -1,0 +1,24 @@
+{# Full page (first load, refresh, no-JS fallback) #}
+{% extends 'base.html' %}
+{% load wagtailcore_tags static %}
+
+{% block content %}
+  <div class="min-h-screen bg-gray-50 py-10">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="mb-8 text-center">
+        <h1 class="text-3xl font-bold text-gray-800">{{ page.title }}</h1>
+        {% if page.intro %}
+          <p class="text-gray-500 mt-2">{{ page.intro|richtext }}</p>
+        {% endif %}
+      </div>
+
+      <div id="form-card" class="bg-white rounded-xl shadow-sm border border-cash/20 overflow-hidden">
+        {% include 'quotes/partials/_progress.html' %}
+        <div id="step-slot" class="p-6 md:p-8" aria-live="polite" data-dir="forward">
+          {% include 'quotes/partials/_step_panel.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load compress %}
+{% load wagtailcore_tags wagtailimages_tags tailwind_tags compress navigation_tags %}
+{% block extra_css %}
+{% compress css %}
+<link rel="stylesheet" type="text/css" href="{%static 'css/organigramme.css'%}">
+{% endcompress %}
+{% endblock %}
+{% block content %}
+  <div class="h-full flex flex-col justify-between bg-slate-50 text-slate-800">
+    {% with niveau_0=self.grouped_blocks.niveau_0 niveau_1=self.grouped_blocks.niveau_1 niveau_2=self.grouped_blocks.niveau_2 %}
+      <main class="grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="block md:hidden space-y-4">
+          {% for niveau in niveau_0 %}
+            <div class="bg-slate-900 text-white rounded-2xl p-5 border-l-4 border-cash">
+              <h2 class="text-lg font-bold">{{ niveau.value.title }}</h2>
+              <p class="text-xs text-slate-300 mt-1">{{ niveau.value.subtitle }}</p>
+            </div>
+          {% endfor %}
+          {% for niveau in niveau_1 %}
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+              <button onclick="toggleAcc(this)" class="accordion-header w-full flex items-center justify-between p-4 bg-slate-100 hover:bg-slate-200/70 transition text-left">
+                <span class="font-bold text-cash text-sm flex items-center gap-2">
+                  <i class="fa-solid fa-user-tie text-cash"></i>
+                  {{ niveau.value.title }}
+                </span>
+                <i class="fa-solid fa-chevron-down accordion-icon text-slate-500"></i>
+              </button>
+            </div>
+          {% endfor %}
+          {% for niveau in niveau_2 %}
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+              <button onclick="toggleAcc(this)" class="accordion-header w-full flex items-center justify-between p-4 bg-blue-50 hover:bg-blue-100/70 transition text-left border-l-4 border-cash">
+                <span class="font-bold text-blue-950 text-sm flex items-center gap-2">
+                  <i class="fa-solid fa-chart-line text-blue-600"></i>
+                  {{ niveau.value.title }}
+                </span>
+              </button>
+              <div class="accordion-content">
+                <div class="p-4 space-y-2 bg-slate-50 border-t border-slate-200 text-xs">
+                  {% for direction in niveau.value.subDirection %}
+                    <div class="p-2.5 bg-white rounded-lg border border-slate-200 font-medium text-slate-800">{{ direction.title }}</div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="hidden md:grid lg:hidden grid-cols-2 gap-4">
+          {% for niveau in niveau_0 %}
+            <div class="col-span-2 bg-slate-900 text-white rounded-2xl p-6 flex items-center justify-between border-b-4 border-cash">
+              <div>
+                <h2 class="text-xl font-extrabold">{{ niveau.value.title }}</h2>
+                <p class="text-xs text-slate-300 mt-1">{{ niveau.value.subtitle }}</p>
+              </div>
+            </div>
+          {% endfor %}
+          {% for niveau in niveau_1 %}
+            <div style="--bg: {{ niveau.value.background_color }}" class="bg-(--bg) rounded-xl col-span-2 p-4 border border-slate-200 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 text-sm  font-bold text-cash-700 uppercase tracking-wider mb-2">
+                  <span>{{ niveau.value.title }}</span>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          {% for niveau in niveau_2 %}
+            <div style="--bg: {{ niveau.value.background_color }}" class="bg-(--bg) border border-slate-500/50 text-black rounded-xl p-4 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">
+                  <i class="fa-solid fa-shield-halved"></i>
+                  <span>{{niveau.value.title}}</span>
+                </div>
+                <ul class="text-xs space-y-2 text-slate-900">
+                  {% for direction in niveau.value.subDirection %}
+                    <li class="p-2 bg-slate-100 rounded-md border border-slate-300/60">{{ direction.title }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="hidden lg:block w-full overflow-x-auto py-6">
+          <div class="min-w-[1050px] flex flex-col items-center">
+            {% for niveau in niveau_0 %}
+              <div class="relative mb-12 tree-connector-down">
+                <div class="bg-cash text-white rounded-2xl p-5 w-80 text-center relative z-10">
+                  <h2 class="text-xl font-extrabold tracking-tight">{{ niveau.value.title }}</h2>
+                  <p class="text-xs text-slate-300 mt-1">{{ niveau.value.title }}</p>
+                </div>
+              </div>
+            {% endfor %}
+            <div class="relative w-full max-w-4xl mb-12">
+              <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-0.5 h-12 bg-slate-300"></div>
+              <div class="absolute top-0 left-1/4 right-1/4 h-0.5 bg-slate-300"></div>
+              <div class="grid grid-cols-3 gap-5 pt-6">
+                {% for niveau in niveau_1 %}
+                  <div class="relative flex justify-center tree-connector-up">
+                    <div style="--bg: {{ niveau.value.background_color }}" class="bg-(--bg) text-slate-800 rounded-xl p-4 w-72 border border-slate-200 text-center">
+                      <div class="text-xs font-bold text-cash uppercase tracking-wide flex items-center justify-center gap-1.5 mb-1">
+                        <span>{{ niveau.value.title }}</span>
+                      </div>
+                      <p class="text-[11px] text-slate-500">{{ niveau.value.title }}</p>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="w-0.5 h-10 bg-slate-300"></div>
+            <div class="w-full max-w-6xl relative h-0.5 bg-slate-300 mb-8">
+              <div class="absolute top-0 left-0 w-full h-0.5 bg-slate-300"></div>
+            </div>
+            <div class="w-full max-w-6xl grid grid-cols-4 gap-3">
+              {% for niveau in niveau_2 %}
+                <div class="relative pt-4 tree-connector-up">
+                  <div style="--bg: {{ niveau.value.background_color }}" class="bg-(--bg) rounded-xl p-3 border border-slate-200 h-full flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                      <h3 class="text-sm p-1.5 rounded font-bold text-white bg-slate-500 mb-2 leading-snug">{{ niveau.value.title }}</h3>
+                      <div class="space-y-1 text-[11px] text-slate-600">
+                        {% for direction in niveau.value.subDirection %}
+                          <div class="p-1.5 bg-slate-50 rounded border border-slate-100">{{ direction.title }}</div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </main>
+    {% endwith %}
+  </div>
+{% endblock %}
+{% block extra_js %}
+{% compress js  %}
+      <script src="{% static 'js/organigramme.js' %}"></script>
+{% endcompress %}
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags navigation_tags %}
+
+{% block content %}
+  <section>
+    <div class="max-w-full p-10 mx-auto text-center bg-gray-100">
+      <h2 class="text-black text-3xl font-bold mb-6 md:text-4xl dark:text-cash-50">{{ self.title }}</h2>
+      <p class="text-slate-600 text-base leading-relaxed dark:text-slate-400">{{ self.subtitle }}</p>
+    </div>
+  </section>
+
+  <section class="w-full">
+    <div class="w-full">
+      <section class="w-full relative lg:py-18 py-6">
+        <div class="px-6 sm:px-12 xl:px-20">
+            
+          <div class="flex flex-col md:flex-row w-full gap-8 items-start">
+            <div class="w-full md:w-64 md:shrink-0 md:border-e md:border-cash/20 mt-10 md:sticky md:top-30 self-start">
+              <ul class="tab-nav flex flex-col md:items-start items-center lg:gap-6 gap-4">
+                {% for link in self.text %}
+                  <li>
+                    <a href="#{{ link.id }}" class="text-base leading-7 text-cash font-semibold hover:text-cash transition-colors">{{ link.value.title }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="w-full max-md:px-2 flex-1 min-w-0 mt-10">
+              {% for text in self.text %}
+                <div id="{{ text.id }}" class="my-10 scroll-mt-36">
+                  <h2 class="font-bold lg:text-4xl text-3xl text-gray-900 mb-5">{{ text.value.title }}</h2>
+                  {% for segment in text.value.text|richtext_lists %}
+                    {% if segment.type == 'list' %}
+                      <ul class="max-w-fit my-2">
+                        {% for item in segment.items %}
+                          <div class="flex gap-x-3">
+                            <li>
+                              <span class="size-5 flex justify-center items-center rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" class="size-3 font-semibold align-bottom self-end" height="16" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
+                                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                </svg>
+                              </span>
+                            </li>
+                            <span class="flex font-normal text-lg leading-8 text-gray-700">{{ item }}</span>
+                          </div>
+                        {% endfor %}
+                      </ul>
+                    {% else %}
+                      <div class="font-normal text-lg leading-8 text-gray-700">{{ segment.content|safe }}</div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,161 @@
+{% load static wagtailcore_tags wagtailuserbar i18n compress wagtailadmin_tags tailwind_tags%}{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+{% spaceless %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" class="font-montserrat scroll-smooth"
+  dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      {% block title %}{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}{% endblock %}
+      {% block title_suffix %}
+        {% wagtail_site as current_site %}
+        {% if current_site and current_site.site_name %}
+          - {{ current_site.site_name }}
+        {% endif %}
+      {% endblock %}
+    </title>
+    {% if page.search_description %}
+      <meta name="description" content="{{ page.search_description }}" />
+    {% endif %}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% if request.in_preview_panel %}
+      <base target="_blank" />
+    {% endif %}
+{% tailwind_css %}
+    <div style="display: none;">
+      {% include 'wagtailadmin/icons/bootstrap-icons.svg' %}
+    </div>
+
+{% compress css %}<link href="{% static 'css/aos.css' %}" rel="stylesheet">{% endcompress %}
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body class="{% block body_class %}{% endblock %}">
+    {% wagtailuserbar %}
+{% include 'includes/header.html' %}
+{% if request.session.has_consented_terms is None and settings.base.loi_18_07_consentement.active %}
+<div id="consent-modal" class="fixed bottom-0 inset-x-0  z-60 ">
+  <div class="max-w-8xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="rounded-lg bg-slate-100 shadow-lg border border-slate-500">
+      <div class="rounded-lg shadow-xs px-4 pt-5 pb-4 overflow-hidden sm:p-6">
+        <h3 class="text-lg leading-6 font-semibold text-gray-900" id="modal-headline">
+           {{settings.base.loi_18_07_consentement.title }}
+        </h3>
+        <div class="mt-2 [&_a]:text-cash [&_a]:underline hover:[&_a]:text-cash-800 transition-colors">
+          <p class="text-sm leading-5 text-gray-500 ">
+             {{settings.base.loi_18_07_consentement.text|richtext }}
+          </p>
+        </div>
+        <div class="xl:flex xl:justify-end items-end xl:items-center">
+          <div class="mt-6 items-end">
+             <div class="w-full grid grid-cols-2 gap-3">
+               <button 
+    hx-post="{%url 'acceptConsent'%}" 
+    hx-target="#consent-modal" 
+    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    hx-swap="delete swap:300ms"
+    id="consent-btn"
+    type="button" 
+    class="rounded-xl bg-cash px-4 py-2 font-semibold text-white  transition-all duration-150 active:scale-[0.98] focus:outline-none focus:ring-2  focus:ring-offset-2"
+      >
+        {{settings.base.loi_18_07_consentement.read_button_text  }}
+    </button>
+    
+             <button 
+    hx-post="{%url 'declineConsent'%}" 
+    hx-target="#consent-modal" 
+    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    hx-swap="delete swap:300ms"   
+      type="button" 
+      class="rounded-xl border border-slate-400 px-4 py-2 font-semibold text-slate-600  transition-all duration-150  active:scale-[0.98] focus:outline-none focus:ring-2  focus:ring-offset-2"
+      >
+        {{settings.base.loi_18_07_consentement.decline_button_text  }}
+    </button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+#consent-modal.htmx-swapping {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+</style>
+{%endif%}
+{%comment%}
+{% if request.session.has_consented_terms is None and settings.base.loi_18_07_consentement.active %}
+<div id="consent-modal" class="fixed inset-0 z-99 flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4">
+
+  <div 
+  class="w-full max-w-3xl rounded-2xl  bg-white p-6 sm:p-8 shadow-2xl border-t-3 border-b-3 border-cash transform transition-all animate-in fade-in zoom-in duration-200"
+  role="dialog" 
+  aria-modal="true" 
+  aria-labelledby="modal-title"
+  >
+  
+    <h2 id="modal-title" class="mb-3 border-b pb-8 border-gray-300 text-xl font-bold text-slate-900">
+      {{settings.base.loi_18_07_consentement.title }}
+    </h2>
+    <div class="mb-6 text-sm leading-relaxed text-slate-600 max-h-120  p-3">
+       {{settings.base.loi_18_07_consentement.text|richtext }}
+
+    </div>
+    <div class="w-full grid grid-cols-2 gap-5">
+    <button 
+    hx-post="{%url 'acceptConsent'%}" 
+    hx-target="#consent-modal" 
+    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    hx-swap="delete"
+    id="consent-btn"
+    type="button" 
+    class=" mt-5 rounded-xl bg-cash px-4 py-3 font-semibold text-white  transition-all duration-150 active:scale-[0.98] focus:outline-none focus:ring-2  focus:ring-offset-2"
+      >
+        {{settings.base.loi_18_07_consentement.read_button_text  }}
+    </button>
+    <button 
+    hx-post="{%url 'declineConsent'%}" 
+    hx-target="#consent-modal" 
+    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    hx-swap="delete"   
+      type="button" 
+      class="mt-5 rounded-xl border border-slate-400 px-4 py-3 font-semibold text-slate-600  transition-all duration-150  active:scale-[0.98] focus:outline-none focus:ring-2  focus:ring-offset-2"
+      >
+        {{settings.base.loi_18_07_consentement.decline_button_text  }}
+    </button>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endcomment %}
+    {% block content %}{% endblock %}
+    {% include 'includes/prefooter.html' %}
+    {% include 'includes/footer.html' %}
+    {% include "chatbot/widget.html" %}
+{% compress js %}
+<script  src="{% static 'js/aos.js' %}"></script>     
+<script>AOS.init();</script>
+<script defer src="{%static 'js/intersect.js'%}"></script>
+    <script defer src="{%static 'js/alpine/alpine.js'%}"></script>
+    <script defer src="{%static 'js/htmx.min.js'%}"></script>
+      <script src="{% static 'js/alpine/focus.js' %}"></script>
+      <script src="{% static 'js/mobile_menu.js' %}"></script>
+      <script src="{% static 'js/website.js' %}"></script>
+      
+      <script src="{% static 'chatbot/chat.js' %}" defer></script>
+<script>
+  window.CHATBOT_CONFIG = {
+    apiUrl: "{% url 'chatbot:chat_api' %}",
+    suggestionsUrl: "{% url 'chatbot:suggestions_api' %}",
+    historyUrl: "{% url 'chatbot:history_api' %}",
+    dir: document.documentElement.getAttribute('dir') || 'ltr',
+  };
+</script>
+{% endcompress %}
+    {% block extra_js %}
+    {% endblock %}
+  </body>
+</html>
+{% endspaceless %}

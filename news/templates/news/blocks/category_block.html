@@ -1,0 +1,24 @@
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="mb-4">
+  <h5 class="font-bold text-lg uppercase bordertext-gray-700 px-1 mb-2">{{ self.title }}</h5>
+  <ul>
+    {% for category in categories %}
+      <li class="px-1 py-4 border-b border-t border-white hover:border-gray-200 transition duration-300">
+        <a href="?category={{ category.slug }}" class="flex items-center text-gray-600 cursor-pointer p-4 rounded-md {% if selected_category and selected_category.slug == category.slug %}bg-cash/10{% endif %}">
+          {{ category.name }}
+          <span class="text-gray-500 ms-auto">{{ category.news_detail.all.distinct.count }} {%if LANGUAGE_CODE == 'ar' %}مقالات {%else %} articles {%endif%}</span>
+          <i class="text-gray-500 bx bx-right-arrow-alt ms-1"></i>
+        </a>
+      </li>
+    {% endfor %}
+    {% if selected_category %}
+      <p class="current-filter-info my-2">
+        {{self.clear_filter_text}} <strong class="text-black">{{ selected_category.name }}</strong>.
+        <a href="{{ page.url }}" class="text-cash">{{self.clear_filter_button_text}}</a>
+      </p>
+    {% endif %}
+  </ul>
+</div>

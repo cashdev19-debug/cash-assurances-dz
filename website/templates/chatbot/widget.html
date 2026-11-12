@@ -1,0 +1,64 @@
+{# templates/chatbot/widget.html #}
+{% load static %}
+<link rel="stylesheet" href="{% static 'chatbot/chat.css' %}">
+
+<div id="chat-widget"
+     role="complementary"
+     aria-label="Chat assistant">
+  <button id="chat-toggle"
+          aria-label="Open chat"
+          aria-expanded="false"
+          aria-controls="chat-panel">
+    <svg class="icon-chat" width="26" height="26" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+    <svg class="icon-close" width="26" height="26" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+    <span class="badge" hidden>1</span>
+  </button>
+
+  <div id="chat-panel" role="dialog" aria-modal="false" aria-label="Chat">
+    <header>
+      <span class="title">
+        <span class="dot" aria-hidden="true"></span>
+        Insurance Assistant
+      </span>
+      <button id="chat-close" aria-label="Close chat">×</button>
+    </header>
+
+    <div id="chat-messages" role="log" aria-live="polite" aria-relevant="additions"></div>
+    <div id="chat-suggestions"></div>
+
+    <form id="chat-form" autocomplete="off">
+      <input id="chat-input"
+             type="text"
+             placeholder="Ask about coverage, claims, products…"
+             maxlength="500"
+             required
+             aria-label="Message">
+      <button type="submit" aria-label="Send">
+        <svg width="20" height="20" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  window.CHATBOT_CONFIG = {
+    apiUrl: "{% url 'chatbot:chat_api' %}",
+    suggestionsUrl: "{% url 'chatbot:suggestions_api' %}",
+    historyUrl: "{% url 'chatbot:history_api' %}",
+    dir: document.documentElement.getAttribute('dir') || 'ltr',
+  };
+</script>
