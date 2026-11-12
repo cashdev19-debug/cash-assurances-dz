@@ -22,7 +22,6 @@
     </svg>
     <span class="badge" hidden>1</span>
   </button>
-
   <div id="chat-panel" role="dialog" aria-modal="false" aria-label="Chat">
     <header>
       <span class="title">
@@ -31,10 +30,8 @@
       </span>
       <button id="chat-close" aria-label="Close chat">×</button>
     </header>
-
     <div id="chat-messages" role="log" aria-live="polite" aria-relevant="additions"></div>
     <div id="chat-suggestions"></div>
-
     <form id="chat-form" autocomplete="off">
       <input id="chat-input"
              type="text"
@@ -53,12 +50,3 @@
     </form>
   </div>
 </div>
-
-<script>
-  window.CHATBOT_CONFIG = {
-    apiUrl: "{% url 'chatbot:chat_api' %}",
-    suggestionsUrl: "{% url 'chatbot:suggestions_api' %}",
-    historyUrl: "{% url 'chatbot:history_api' %}",
-    dir: document.documentElement.getAttribute('dir') || 'ltr',
-  };
-</script>

@@ -27,31 +27,24 @@
           </div>
         </div>
       </div>
-      <nav class="flex py-2 px-4 md:px-8 bg-white shadow-md border-b border-slate-300 dark:border-neutral-700 dark:bg-neutral-900 min-h-17 relative z-20" aria-label="Main navigation">
-        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 w-full">
-          
+      <nav class="flex py-2 px-4 md:px-8 bg-white shadow-md border-b border-slate-300  min-h-17 relative z-20" aria-label="Main navigation">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 w-full">          
               {% include_block settings.base.top_navbar.logo %}
-            
-          <div id="collapseMenu" tabindex="-1" class="hidden lg:block max-lg:bg-white dark:max-lg:bg-neutral-900 max-lg:border-l max-lg:border-slate-300 dark:max-lg:border-neutral-700 max-lg:w-1/2 max-lg:fixed max-lg:top-0 max-lg:right-0 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto max-sm:w-full z-50 outline-none">
-            <div class="py-2 px-4 flex justify-between items-center border-b border-slate-300 sticky top-0 bg-white dark:border-neutral-700 dark:bg-neutral-900 lg:hidden max-lg:min-h-[68px]">
-         
+          <div id="collapseMenu" tabindex="-1" class="hidden lg:block max-lg:bg-white  max-lg:border-l max-lg:border-slate-300  max-lg:w-1/2 max-lg:fixed max-lg:top-0 max-lg:right-0 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto max-sm:w-full z-50 outline-none">
+            <div class="py-2 px-4 flex justify-between items-center border-b border-slate-300 sticky top-0 bg-white   lg:hidden max-lg:min-h-[68px]">
                   {% include_block settings.base.top_navbar.logo %}
-         
               <button type="button" aria-controls="collapseMenu" id="toggleClose" class="cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-cash rounded">
                 <span class="sr-only">Close main menu</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="size-4 fill-slate-900 dark:fill-slate-50" aria-hidden="true" viewBox="0 0 329.269 329">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-4 fill-slate-900 " aria-hidden="true" viewBox="0 0 329.269 329">
                   <path d="M194.8 164.77 323.013 36.555c8.343-8.34 8.343-21.825 0-30.164-8.34-8.34-21.825-8.34-30.164 0L164.633 134.605 36.422 6.391c-8.344-8.34-21.824-8.34-30.164 0-8.344 8.34-8.344 21.824 0 30.164l128.21 128.215L6.259 292.984c-8.344 8.34-8.344 21.825 0 30.164a21.27 21.27 0 0 0 15.082 6.25c5.46 0 10.922-2.09 15.082-6.25l128.21-128.214 128.216 128.214a21.27 21.27 0 0 0 15.082 6.25c5.46 0 10.922-2.09 15.082-6.25 8.343-8.34 8.343-21.824 0-30.164zm0 0" data-original="#000000" />
                 </svg>
               </button>
             </div>
             <div class="hidden lg:flex items-center w-full justify-center mx-auto gap-8">
-
             {% include_block settings.base.top_navbar.links %}
           </div>
           </div>
           <div class="flex items-center gap-6">
-            
-
 {% partialdef searchResult %}
 <div id="search_results">
  {% if search_query %}
@@ -60,9 +53,8 @@
             {% for result in search_results %}<div class="px-1"><a href="{% pageurl result %}" @click="modalIsOpen = false" class="relative flex cursor-default select-none items-center rounded px-3 py-2 text-sm text-slate-700  hover:bg-cash/80 hover:text-black  transition-colors group"><svg  class="w-4 h-4 me-2 shrink-0 text-cash group-hover:text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.5-6.923c-.67.204-1.335.82-1.887 1.855A8 8 0 0 0 5.145 4H7.5zM4.09 4a9.3 9.3 0 0 1 .64-1.539 7 7 0 0 1 .597-.933A7.03 7.03 0 0 0 2.255 4zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a7 7 0 0 0-.656 2.5zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5zM8.5 5v2.5h2.99a12.5 12.5 0 0 0-.337-2.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5zM5.145 12q.208.58.468 1.068c.552 1.035 1.218 1.65 1.887 1.855V12zm.182 2.472a7 7 0 0 1-.597-.933A9.3 9.3 0 0 1 4.09 12H2.255a7 7 0 0 0 3.072 2.472M3.82 11a13.7 13.7 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5zm6.853 3.472A7 7 0 0 0 13.745 12H11.91a9.3 9.3 0 0 1-.64 1.539 7 7 0 0 1-.597.933M8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855q.26-.487.468-1.068zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.7 13.7 0 0 1-.312 2.5m2.802-3.5a7 7 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7 7 0 0 0-3.072-2.472c.218.284.418.598.597.933M10.855 4a8 8 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4z"/></svg> <span class="font-medium">{{ result.title }}</span><span class="ms-auto text-xs opacity-60 group-hover:text-white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-index-thumb" viewBox="0 0 16 16"><path d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 0 0 1 0V6.435l.106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 1 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.118a.5.5 0 0 1-.447-.276l-1.232-2.465-2.512-4.185a.517.517 0 0 1 .809-.631l2.41 2.41A.5.5 0 0 0 6 9.5V1.75A.75.75 0 0 1 6.75 1M8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v6.543L3.443 6.736A1.517 1.517 0 0 0 1.07 8.588l2.491 4.153 1.215 2.43A1.5 1.5 0 0 0 6.118 16h6.302a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5 5 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.6 2.6 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046zm2.094 2.025"/></svg></span></a></div>{% endfor %}
         </div>
     {% endif %}
-
     {% if doc_results %}
-        <div class="pb-1 space-y-1 mt-2 pt-2 border-t border-gray-100 dark:border-slate-800">
+        <div class="pb-1 space-y-1 mt-2 pt-2 border-t border-gray-100 ">
             <div class="px-2 py-1 my-1 text-xs font-medium text-neutral-500 uppercase tracking-wider">
                 {{settings.search.SearchPageText.documents_title}}
             </div>
@@ -72,7 +64,7 @@
                        target="_blank" 
                        rel="noopener noreferrer"
                        @click="modalIsOpen = false"
-                       class="relative flex cursor-default select-none items-center rounded px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 transition-colors group">
+                       class="relative flex cursor-default select-none items-center rounded px-3 py-2 text-sm text-slate-700  hover:bg-emerald-600 hover:text-white  transition-colors group">
                         <svg class="w-4 h-4 me-2 shrink-0 text-emerald-500 group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
                         <span class="font-medium">{{ doc.title }}</span>
                         <span class="ms-auto text-xs opacity-60 group-hover:text-white uppercase">
@@ -83,7 +75,7 @@
             {% endfor %}
         </div>
     {% endif %}
-    {% if not search_results and not doc_results %}<div class="p-6 text-center text-sm text-neutral-500">{{settings.search.SearchPageText.modal_no_results_text}} {{ search_query }}"</div>{% else %}<div class="border-t border-gray-200 dark:border-slate-800 text-center"><a href="{% url 'search' %}?query={{ search_query }}" @click="modalIsOpen = false" class="text-xs font-medium text-cash p-3 mx-auto max-w-fit hover:underline block"> {{settings.search.SearchPageText.modal_view_all_text}} "{{ search_query }}" </a></div>{% endif %}
+    {% if not search_results and not doc_results %}<div class="p-6 text-center text-sm text-neutral-500">{{settings.search.SearchPageText.modal_no_results_text}} {{ search_query }}"</div>{% else %}<div class="border-t border-gray-200  text-center"><a href="{% url 'search' %}?query={{ search_query }}" @click="modalIsOpen = false" class="text-xs font-medium text-cash p-3 mx-auto max-w-fit hover:underline block"> {{settings.search.SearchPageText.modal_view_all_text}} "{{ search_query }}" </a></div>{% endif %}
 {% else %}<div class="p-6 text-center text-sm text-neutral-400">{{settings.search.SearchPageText.modal_first_heading_text}}</div>{% endif %}
   </div>
 {% endpartialdef %}
@@ -91,14 +83,14 @@
 <div x-data="{modalIsOpen: false}">
   <button x-on:click="modalIsOpen = true" class=" my-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-cash rounded">
     <span class="sr-only">Search</span>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192.904 192.904" class="size-4 fill-slate-900 dark:fill-slate-50" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192.904 192.904" class="size-4 fill-slate-900 " aria-hidden="true">
       <path d="m190.707 180.101-47.078-47.077c11.702-14.072 18.752-32.142 18.752-51.831C162.381 36.423 125.959 0 81.191 0 36.422 0 0 36.423 0 81.193c0 44.767 36.422 81.187 81.191 81.187 19.688 0 37.759-7.049 51.831-18.751l47.079 47.078a7.474 7.474 0 0 0 5.303 2.197 7.498 7.498 0 0 0 5.303-12.803zM15 81.193C15 44.694 44.693 15 81.191 15c36.497 0 66.189 29.694 66.189 66.193 0 36.496-29.692 66.187-66.189 66.187C44.693 147.38 15 117.689 15 81.193z"></path>
     </svg>
   </button>
   <div x-cloak x-show="modalIsOpen" x-transition.opacity.duration.200ms x-trap.inert.noscroll="modalIsOpen" x-on:keydown.esc.window="modalIsOpen = false" x-on:click.self="modalIsOpen = false" class="fixed inset-0 z-51 flex items-end justify-center bg-black/20 p-4 pb-8 backdrop-blur-md sm:items-center lg:p-8" role="dialog" aria-modal="true">
-      <div x-show="modalIsOpen" x-transition:enter="transition ease-out duration-200 delay-100" x-transition:enter-start="opacity-0 scale-50" x-transition:enter-end="opacity-100 scale-100" class="flex max-w-4xl w-full flex-col overflow-hidden rounded-lg shadow-xl bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100">         
+      <div x-show="modalIsOpen" x-transition:enter="transition ease-out duration-200 delay-100" x-transition:enter-start="opacity-0 scale-50" x-transition:enter-end="opacity-100 scale-100" class="flex max-w-4xl w-full flex-col overflow-hidden rounded-lg shadow-xl bg-white text-slate-900  ">         
           <div class="flex min-h-20  justify-center w-full max-w-7xl items-start">
-              <div class="flex flex-col w-full h-full overflow-hidden bg-white dark:bg-slate-900 rounded-lg"><div class="flex items-center px-3 border-b border-gray-300 dark:border-slate-800"><svg class="w-4 h-4 me-2 text-neutral-400 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line></svg><input type="text" name="q" hx-get="{%url 'my_search'%}" hx-target="#search_results" hx-trigger="keyup changed delay:200ms" hx-indicator="#spinner" class="flex w-full px-2 py-3 text-sm bg-transparent border-0 rounded-md outline-none focus:outline-none placeholder:text-neutral-400 h-11" placeholder="{{settings.search.SearchPageText.modal_search_placeholder}}" autocomplete="off" autocorrect="off" spellcheck="false"><svg xmlns="http://www.w3.org/2000/svg" class="htmx-indicator animate-spin" id="spinner" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-circle preview-icon"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>{%partial searchResult%}</div></div>
+              <div class="flex flex-col w-full h-full overflow-hidden bg-white  rounded-lg"><div class="flex items-center px-3 border-b border-gray-300 "><svg class="w-4 h-4 me-2 text-neutral-400 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line></svg><input type="text" name="q" hx-get="{%url 'my_search'%}" hx-target="#search_results" hx-trigger="keyup changed delay:200ms" hx-indicator="#spinner" class="flex w-full px-2 py-3 text-sm bg-transparent border-0 rounded-md outline-none focus:outline-none placeholder:text-neutral-400 h-11" placeholder="{{settings.search.SearchPageText.modal_search_placeholder}}" autocomplete="off" autocorrect="off" spellcheck="false"><svg xmlns="http://www.w3.org/2000/svg" class="htmx-indicator animate-spin" id="spinner" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-circle preview-icon"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>{%partial searchResult%}</div></div>
       </div>
   </div>
 </div>

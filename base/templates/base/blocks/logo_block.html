@@ -1,10 +1,1 @@
-{% load static wagtailimages_tags %}
-
-<a href="/{{lang}}/" class="min-w-9 inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-cash rounded">
-  {% if lang == 'ar' %}
-    {% image self.logo.logo_ar width-100 class='h-10 mt-2 w-auto' %}
-    <br />
-  {% else %}
-    {% image self.logo.logo_fr width-100 class='h-10  mt-2 w-auto' %}
-  {% endif %}
-</a>
+{% load static wagtailimages_tags %} <a href="/{{lang}}/" class="min-w-9 inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-cash rounded"> {% if lang == 'ar' %} {% image self.logo.logo_ar width-100 class='h-10 mt-2 w-auto' %} <br /> {% else %} {% image self.logo.logo_fr width-100 class='h-10 mt-2 w-auto' %} {% endif %} </a>

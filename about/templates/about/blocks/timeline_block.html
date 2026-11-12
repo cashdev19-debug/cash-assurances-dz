@@ -13,7 +13,7 @@
 
     <!-- Track: the full-height gradient line + its animated fill -->
     <div
-      class="timeline-track absolute md:start-8 start-8 top-0 bottom-0 overflow-hidden w-0.5 bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200 dark:via-neutral-700 to-transparent to-99% [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]"
+      class="timeline-track absolute md:start-8 start-8 top-0 bottom-0 overflow-hidden w-0.5 bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200  to-transparent to-99% [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]"
     >
       <div class="timeline-fill w-0.5 bg-linear-to-b from-gray-200 via-cash to-transparent"></div>
     </div>
@@ -21,18 +21,18 @@
     {% for timeline in self.timeline %}
     <div class="flex justify-start pt-10 md:pt-40 md:gap-10">
       <div class="sticky flex flex-col md:flex-row z-5 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
-        <div class="h-10 absolute start-3 md:start-3 w-10 rounded-full bg-white dark:bg-black flex items-center justify-center">
-          <div class="h-4 w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2"></div>
+        <div class="h-10 absolute start-3 md:start-3 w-10 rounded-full bg-white  flex items-center justify-center">
+          <div class="h-4 w-4 rounded-full bg-neutral-200  border border-neutral-300  p-2"></div>
         </div>
-        <h3 class="hidden md:block text-xl md:ps-20 md:text-5xl font-bold text-neutral-500 dark:text-neutral-500">
+        <h3 class="hidden md:block text-xl md:ps-20 md:text-5xl font-bold text-neutral-500 ">
           {{ timeline.title }}
         </h3>
       </div>
       <div class="relative ps-20 pe-4 md:ps-4 w-full">
-        <h3 class="md:hidden block text-2xl mb-4 text-start font-bold text-neutral-500 dark:text-neutral-500">
+        <h3 class="md:hidden block text-2xl mb-4 text-start font-bold text-neutral-500 ">
           {{ timeline.title }}
         </h3>
-        <p class="text-neutral-600 font-bold dark:text-neutral-200 text-md md:text-md mb-8">
+        <p class="text-neutral-600 font-bold  text-md md:text-md mb-8">
           {{timeline.text|striptags}}
         </p>
         <div class="grid grid-cols-2 gap-4">

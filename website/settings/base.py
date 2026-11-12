@@ -95,6 +95,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    "website.middleware.OneLineHtmlMinifyMiddleware"
 ]
 
 ROOT_URLCONF = "website.urls"

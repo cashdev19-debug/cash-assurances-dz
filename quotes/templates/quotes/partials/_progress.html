@@ -4,9 +4,6 @@
 {% else %}
   {% widthratio step.index|add:1 steps|length 100 as pct %}
 {% endif %}
-
-
-
 <div id="form-progress" {% if oob %}hx-swap-oob="true"{% endif %} class="mb-8 border-b bg-gray-50/50 p-6"
      role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ pct }}">
   <ol class="mb-3 flex items-center justify-between text-sm">

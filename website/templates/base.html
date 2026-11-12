@@ -145,14 +145,9 @@
       <script src="{% static 'js/website.js' %}"></script>
       
       <script src="{% static 'chatbot/chat.js' %}" defer></script>
-<script>
-  window.CHATBOT_CONFIG = {
-    apiUrl: "{% url 'chatbot:chat_api' %}",
-    suggestionsUrl: "{% url 'chatbot:suggestions_api' %}",
-    historyUrl: "{% url 'chatbot:history_api' %}",
-    dir: document.documentElement.getAttribute('dir') || 'ltr',
-  };
-</script>
+{% endcompress %}
+{% compress js inline%}
+<script>window.CHATBOT_CONFIG = { apiUrl: "{% url 'chatbot:chat_api' %}", suggestionsUrl: "{% url 'chatbot:suggestions_api' %}", historyUrl: "{% url 'chatbot:history_api' %}", dir: document.documentElement.getAttribute('dir') || 'ltr', };</script>
 {% endcompress %}
     {% block extra_js %}
     {% endblock %}

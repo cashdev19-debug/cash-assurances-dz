@@ -6,10 +6,10 @@
 {% get_site_root as site_root %}
 {% spaceless %}
 <footer>
-  <div class="bg-cash-800/80 dark:bg-neutral-900 py-8 px-4 md:px-8">
+  <div class="bg-cash-800/80  py-8 px-4 md:px-8">
     <div class="max-w-[75%] mx-auto flex md:flex-row flex-col text-center items-center justify-between gap-6">
       <div class="max-w-sm">
-        <h1 class="text-white dark:text-slate-50 text-lg font-bold mb-4">
+        <h1 class="text-white  text-lg font-bold mb-4">
           {% if lang == 'fr' %}
             {{ settings.base.preFooter.title_fr }}
           {% elif lang == 'en' %}
@@ -43,6 +43,6 @@
     </div>
   </div>
 
-  <hr class="border-slate-300 dark:border-neutral-700" />
+  <hr class="border-slate-300" />
 </footer>
 {% endspaceless %}

@@ -4,13 +4,12 @@
 {% load i18n %}
 {% load compress %}
 {% get_current_language as LANGUAGE_CODE %}
-
 {% block content %}
   <main class="max-w-2xl mx-auto px-6 py-12">
     <div class="border border-cash rounded-lg bg-white p-6 shadow-sm">
       <div class="flex items-center justify-between mb-5 pb-4 border-b border-gray-200">
         <div class="flex items-center gap-2 text-sm">
-          <span class="font-bold  text-lg">{{ self.title }}</span>
+          <span class="font-bold text-lg">{{ self.title }}</span>
         </div>
       </div>
       {% for page in settings.base.top_navbar.links %}
@@ -123,27 +122,9 @@
     </div>
   </main>
 
-  <script>
-    ;(function () {
-      const toggleNodes = document.querySelectorAll('[data-toggle]')
-      toggleNodes.forEach((node) => {
-        node.addEventListener('click', function (e) {
-          e.stopPropagation()
-          const toggleId = this.getAttribute('data-toggle')
-          const childrenContainer = document.querySelector(`.${toggleId}-children`)
-          const icon = this.querySelector('.toggle-icon svg')
-          if (childrenContainer) {
-            childrenContainer.classList.toggle('hidden')
-            if (childrenContainer.classList.contains('hidden')) {
-              icon.classList.add('-rotate-90')
-              icon.classList.add('rtl:rotate-90')
-            } else {
-              icon.classList.remove('-rotate-90')
-              icon.classList.remove('rtl:rotate-90')
-            }
-          }
-        })
-      })
-    })()
-  </script>
+  {% block extra_js %}
+    {% compress js %}
+    <script src="{% static 'js/siteplan.js' %}"></script>
+    {% endcompress %}
+  {% endblock %}
 {% endblock %}

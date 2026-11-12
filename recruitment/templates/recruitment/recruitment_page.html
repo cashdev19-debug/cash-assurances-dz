@@ -1,21 +1,11 @@
 {% extends 'base.html' %}
 {% load static wagtailcore_tags wagtailimages_tags widget_tweaks compress %}
-
 {% partialdef form %}
-
 <form hx-post="{% pageurl page %}" hx-target="#form-container" hx-swap="innerHTML" enctype="multipart/form-data" class="grid md:grid-cols-1 gap-6 rounded-3xl p-6 bg-white border border-slate-300 md:p-8">
   {% csrf_token %}
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     {% for field in form %}
-      <div class="{% if field|widget_type == 'clearablefileinput' or field|widget_type == 'checkboxinput' %}
-          
-          
-          col-span-full
-
-
-        {% else %}
-          {{ field.field.widget.attrs.class_div }}
-        {% endif %} space-y-1.5">
+      <div class="{% if field|widget_type == 'clearablefileinput' or field|widget_type == 'checkboxinput' %}col-span-full{% else %}{{ field.field.widget.attrs.class_div }}{% endif %} space-y-1.5">
         {% if field|widget_type == 'textarea' %}
           <label>{{ field.label }}</label>
           {% render_field field class='textarea w-full focus:border-cash/30 focus:outline-cash' placeholder=field.label %}
@@ -103,9 +93,7 @@
   </div>
   <button type="submit" class="mt-6 py-2.5 px-4 text-sm rounded-3xl max-w-full font-semibold cursor-pointer text-white border border-cash bg-cash hover:bg-cash-800 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cash">{{ page.button_text }}</button>
 </form>
-
 {% endpartialdef %}
-
 {% partialdef result %}
 <div class="bg-white rounded-2xl mx-auto max-w-5xl w-full p-6 sm:p-8 text-center border border-slate-200 transform scale-95 transition-transform duration-300" id="modalContainer">
   <div class="w-16 h-16 bg-brand-50 text-brand-500 rounded-full flex text-green-700 items-center justify-center mx-auto mb-5 text-2xl">
@@ -120,12 +108,11 @@
   </div>
 </div>
 {% endpartialdef %}
-
 {% block content %}
   <section>
     <div class="max-w-full p-10 mx-auto text-center bg-gray-100">
-      <h2 class="text-black text-3xl font-bold mb-6 md:text-4xl dark:text-cash-50">{{ page.title }}</h2>
-      <p class="text-slate-600 text-base leading-relaxed dark:text-slate-400">{{ page.intro|safe }}</p>
+      <h2 class="text-black text-3xl font-bold mb-6 md:text-4xl ">{{ page.title }}</h2>
+      <p class="text-slate-600 text-base leading-relaxed ">{{ page.intro|safe }}</p>
     </div>
   </section>
   <section class="border border-slate-300 p-10">
