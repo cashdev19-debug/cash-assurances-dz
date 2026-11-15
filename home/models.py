@@ -3,7 +3,7 @@ from django.db import models
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.fields import StreamField
-
+from django.utils.translation import gettext_lazy as _
 # import MultiFieldPanel:
 from .blocks import (
     CarouselBlock,
@@ -103,6 +103,31 @@ class CustomFormBuilder(FormBuilder):
 
         return wrapped_create_field_function
 
+from django.utils.translation import get_language
+
+VALIDATION_ERRORS = {
+    "phone": {
+        "invalid_algerian": {
+            "fr": "Veuillez entrer un numéro de téléphone algérien valide (ex: 0550123456 ou +213550123456).",
+            "en": "Please enter a valid Algerian phone number (e.g., 0550123456 or +213550123456).",
+            "ar": "يرجى إدخال رقم هاتف جزائري صالح (مثل: 0550123456 أو +213550123456)."
+        }
+    },
+    "email": {
+        "already_registered": {
+            "fr": "Cette adresse e-mail est déjà enregistrée.",
+            "en": "This email address has already been registered.",
+            "ar": "عنوان البريد الإلكتروني هذا مسجل بالفعل."
+        }
+    }
+}
+
+# Helper function with 'fr' as the default fallback language
+def get_error_message(field_type, error_key):
+    current_lang = get_language() or "fr" 
+    field_dict = VALIDATION_ERRORS.get(field_type, {})
+    error_dict = field_dict.get(error_key, {})
+    return error_dict.get(current_lang, error_dict.get("fr", error_dict.get("en", "Une erreur s'est produite.")))
 
 
 class FormPage(AbstractForm):
@@ -165,28 +190,43 @@ class FormPage(AbstractForm):
                         stripped_phone = re.sub(r'[\s\-\.\(\)]', '', phone_value)
                     
                         if not re.match(algeria_regex, stripped_phone):
+                            error_msg = get_error_message('phone', 'invalid_algerian')
                             self.add_error(
                             field_name,
-                            ValidationError("Please enter a valid Algerian phone number (e.g., 0550123456 or +213550123456).")
+                            ValidationError(error_msg)
                             )
-                field_to_check = "email"
-                user_value = cleaned_data.get(field_to_check)
-                if user_value:
-                    if page_instance.form_type == 'newsletter' or page_instance.__class__.__name__ == 'NewsletterPage':
-                        submissions = FormSubmission.objects.filter(page=page_instance)
-                        for sub in submissions:
-                            data = sub.get_data()
-                            if data.get(field_to_check) == user_value:
-                                self.add_error(
-                                    field_to_check,
-                                    ValidationError(
-                                        "This email address has already been registered."
-                                    ),
-                                )
+                email_field_names = [
+                    f.clean_name for f in page_instance.form_fields.all() 
+                    if f.field_type == 'email'
+                ]
+
+                for field_name in email_field_names:
+                    user_value = cleaned_data.get(field_name)
+                    if user_value:
+                        if page_instance.form_type == 'Newsletter' or page_instance.__class__.__name__ == 'NewsletterPage':
+                    
+                    # Get all translated versions of this page (EN, FR, AR variants)
+                            if hasattr(page_instance, 'get_translations'):
+                                all_language_pages = page_instance.get_translations(inclusive=True)
+                            else:
+                                all_language_pages = [page_instance]
+                            submissions = FormSubmission.objects.filter(page__in=all_language_pages)
+                            email_exists = False
+                            for sub in submissions:
+                                data = sub.get_data()
+                                if any(val.lower() == user_value.lower() for val in data.values() if isinstance(val, str)):
+                                    email_exists = True
+                                    break
+                            
+                            if email_exists:
+                                error_msg = get_error_message('email', 'already_registered')
+                                self.add_error(field_name, ValidationError(error_msg))
                                 break
-                    elif page_instance.form_type == 'contact':
-                        pass
-                    return cleaned_data
+                        
+                        elif page_instance.form_type == 'contact':
+                            pass
+
+                return cleaned_data
 
         return UniqueValidatedForm
     

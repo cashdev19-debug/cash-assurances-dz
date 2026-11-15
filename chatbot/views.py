@@ -9,8 +9,9 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.views.decorators.http import require_GET, require_POST
 
-from .matcher import find_best_answer, get_suggestions
+from .matcher import find_best_answer, get_suggestions, resolve_locale
 from .models import ChatMessage, ChatSession
+
 SUPPORTED_LOCALES = ("fr", "ar", "en")
 DEFAULT_LOCALE = "fr"
 FALLBACKS = {
@@ -26,6 +27,24 @@ FALLBACKS = {
         "I'm not sure about that. I can help with products, coverage, claims "
         "and pricing. Try rephrasing, or contact our team."
     ),
+}
+
+SMALLTALK = {
+    "greeting": {
+        "fr": "Bonjour ! Comment puis-je vous aider avec vos questions d'assurance ?",
+        "ar": "مرحباً! كيف يمكنني مساعدتك في أسئلة التأمين؟",
+        "en": "Hello! How can I help you with your insurance questions?",
+    },
+    "thanks": {
+        "fr": "Avec plaisir ! N'hésitez pas si vous avez d'autres questions.",
+        "ar": "على الرحب والسعة! لا تتردد في طرح أي سؤال آخر.",
+        "en": "You're welcome! Let me know if you have any other question.",
+    },
+    "bye": {
+        "fr": "Au revoir ! Bonne journée.",
+        "ar": "مع السلامة! أتمنى لك يوماً سعيداً.",
+        "en": "Goodbye! Have a great day.",
+    },
 }
 
 RATE_LIMIT_MESSAGES = {
@@ -59,6 +78,10 @@ def _get_or_create_session(request):
             session = ChatSession.objects.get(id=sid)
             if session.last_seen_at < timezone.now() - timedelta(hours=SESSION_TTL_HOURS):
                 session = None
+            else:
+                # last_seen_at is auto_now but only updates on save(): without this the
+                # session expired 24h after creation even for active users.
+                session.save(update_fields=["last_seen_at"])
         except (ChatSession.DoesNotExist, ValueError):
             session = None
 
@@ -91,6 +114,14 @@ def _set_session_cookie(response, session):
     return response
 
 
+def _alternatives(debug, limit=3):
+    """'Did you mean...' questions found by the matcher, in the suggestions format."""
+    return [
+        {"question": a["question"], "topic": a.get("topic")}
+        for a in (debug.get("alternatives") or [])[:limit]
+    ]
+
+
 # ---------------------------------------------------------------------------
 # Views
 # ---------------------------------------------------------------------------
@@ -112,6 +143,9 @@ def chat_api(request):
         return JsonResponse(
             {"reply": FALLBACKS[locale], "error": True, "locale": locale}, status=400
         )
+    # Arabic message on a French/English page -> answer in Arabic
+    locale = resolve_locale(message, locale)
+
     session = _get_or_create_session(request)
     if _rate_limit_exceeded(session):
         resp = JsonResponse(
@@ -119,31 +153,39 @@ def chat_api(request):
             status=429,
         )
         return _set_session_cookie(resp, session)
-    prev = (
-        session.messages.filter(role="user").order_by("-created_at").first()
-    )
+
+    prev = session.messages.filter(role="user").order_by("-created_at").first()
     previous_text = prev.text if prev else None
 
     ChatMessage.objects.create(session=session, role="user", text=message)
 
-    # 5. Find the best answer in the user's language
     qa, score, debug = find_best_answer(
         message,
         previous_text=previous_text,
         locale=locale,
     )
+    status = (debug or {}).get("status")
+    suggestions = []
+    links = []
 
-    if qa is None:
+    if status == "smalltalk":
+        intent = debug["intent"]
+        reply_text = SMALLTALK[intent][locale]
+        if intent == "greeting":
+            suggestions = get_suggestions(locale=locale)
+    elif qa is None:
         reply_text = FALLBACKS[locale]
-        links = []
+        # near-miss questions first, starter questions as a last resort
+        suggestions = _alternatives(debug) or get_suggestions(locale=locale)
     else:
         reply_text = qa.answer
         links = [
             {"label": l.label, "url": l.url, "new_tab": l.open_new_tab}
             for l in qa.links.all()
         ]
+        if status == "ambiguous":
+            suggestions = _alternatives(debug)
 
-    # 6. Log the bot response
     ChatMessage.objects.create(
         session=session,
         role="bot",
@@ -162,9 +204,10 @@ def chat_api(request):
             "topic": qa.topic.name if qa and qa.topic else None,
             "matched_question": qa.question if qa else None,
             "confidence": round(score, 2),
-            "matched": qa is not None,
+            "matched": qa is not None or status == "smalltalk",
+            "ambiguous": status == "ambiguous",
             "locale": locale,
-            "suggestions": get_suggestions(locale=locale) if qa is None else [],
+            "suggestions": suggestions,
             "session_id": str(session.id),
             "debug": debug if settings.DEBUG else None,
         }
@@ -187,6 +230,7 @@ def history_api(request):
         for m in session.messages.all()[:100]
     ]
     return JsonResponse({"messages": msgs, "session_id": str(session.id)})
+
 
 @require_GET
 def suggestions_api(request):

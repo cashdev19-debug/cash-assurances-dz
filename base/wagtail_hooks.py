@@ -62,7 +62,7 @@ from chatbot.models import ChatSession, InsuranceQA,InsuranceTopic
 class InsuranceQAViewSet(SnippetViewSet):
     model = InsuranceQA
     icon = "help"
-    menu_label = "Q&A Pairs"
+    menu_label = "Questions et reponses"
     list_display = ["question", "topic", "locale", "priority", "is_active"]
     search_fields = ["question", "answer", "keywords"]
 
@@ -111,3 +111,4 @@ def clear_cache_on_unpublish(request, page):
 @hooks.register('after_delete_page')
 def clear_cache_on_delete(request, page):
     clear_cache()
+    

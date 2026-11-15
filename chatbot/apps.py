@@ -1,3 +1,7 @@
+import os
+import sys
+import threading
+
 from django.apps import AppConfig
 
 
@@ -6,6 +10,10 @@ class ChatbotConfig(AppConfig):
     name = "chatbot"
 
     def ready(self):
+        # --- register signals (keeps the matcher index in sync with Wagtail edits)
+        from . import signals  # noqa: F401
+
+        # --- your existing wagtail_localize patch (unchanged)
         from wagtail_localize.models import (
             Translation, StringSegment, StringTranslation,
         )
@@ -28,3 +36,25 @@ class ChatbotConfig(AppConfig):
             return len(segments), translated
 
         Translation.get_progress = get_progress
+
+        # --- warm up the embedding model + index so the first user doesn't wait
+        if self._should_warmup():
+            threading.Thread(target=self._warmup, daemon=True, name="chatbot-warmup").start()
+
+    @staticmethod
+    def _should_warmup() -> bool:
+        """Only when actually serving requests (not migrate, shell, tests, collectstatic...)."""
+        argv = " ".join(sys.argv)
+        if "runserver" in argv:
+            # the autoreloader starts two processes; warm up only the serving one
+            return os.environ.get("RUN_MAIN") == "true" or "--noreload" in argv
+        return any(s in argv for s in ("gunicorn", "uwsgi", "daphne", "uvicorn"))
+
+    @staticmethod
+    def _warmup():
+        from django.db import connection
+        from .matcher import warmup
+        try:
+            warmup()  # logs its own errors
+        finally:
+            connection.close()

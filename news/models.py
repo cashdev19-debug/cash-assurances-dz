@@ -140,7 +140,10 @@ class NewsDetail(Page):
     def get_context(self, request):
         context = super().get_context(request)
         parent_page = self.get_parent()
-        limit = parent_page.article_recents_number or 3
+        limit= 3
+        if hasattr(parent_page,"article_recents_number"):
+            limit = getattr(parent_page,"article_recents_number")
+        
         queryset = (
             NewsDetail.objects.child_of(parent_page)
             .live()

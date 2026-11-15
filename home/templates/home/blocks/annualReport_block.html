@@ -15,7 +15,7 @@
           </div>
           <div class="flex gap-4 max-lg:justify-center mt-8">
             {% for button in self.button %}
-              <a href="{{button.button_url.url}}" class="px-4 py-2 inline-flex items-center rounded-lg text-black text-md bg-white hover:text-white hover:bg-cash duration-100 border tracking-wider cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+              <a href="{%pageurl button.button_url%}" class="px-4 py-2 inline-flex items-center rounded-lg text-black text-md bg-white hover:text-white hover:bg-cash duration-100 border tracking-wider cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                 <div class="flex gap-1">
                   {% svg_icon name=button.button_icon fill='currentColor' classname='size-5 self-center  group-hover:text-white transition-colors duration-300' %}
                   {{ button.button_text }}

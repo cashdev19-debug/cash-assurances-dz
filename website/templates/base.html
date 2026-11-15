@@ -30,7 +30,7 @@
     {% block extra_css %}{% endblock %}
   </head>
   <body class="{% block body_class %}{% endblock %}">
-    {% wagtailuserbar %}
+    {%comment%}{% wagtailuserbar %}{%endcomment%}
 {% include 'includes/header.html' %}
 {% if request.session.has_consented_terms is None and settings.base.loi_18_07_consentement.active %}
 <div id="consent-modal" class="fixed bottom-0 inset-x-0  z-60 ">

@@ -104,7 +104,7 @@
   </div>
   <h3 class="text-2xl font-extrabold text-slate-900 mb-2">{{ thank_you_text|safe }}</h3>
   <div class="pt-4">
-    <a hx-get="{% pageurl page %}" hx-trigger="click" hx-target="#form-container" hx-swap="innerHTML" class="py-2.5 px-6 text-sm rounded-3xl font-semibold cursor-pointer text-white border border-cash bg-cash hover:bg-cash-800 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cash inline-flex items-center gap-2">Submit Another Application</a>
+    <a hx-get="{% pageurl page %}" hx-trigger="click" hx-target="#form-container" hx-swap="innerHTML" class="py-2.5 px-6 text-sm rounded-3xl font-semibold cursor-pointer text-white border border-cash bg-cash hover:bg-cash-800 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cash inline-flex items-center gap-2">{{page.thankyou_button_text}}</a>
   </div>
 </div>
 {% endpartialdef %}

@@ -125,10 +125,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "website.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
 
 DATABASES = {
     "default": {
@@ -152,8 +150,6 @@ DATABASES = {
         },
     },
 }
-
-
 
 CACHES = {
     'default': {
@@ -194,7 +190,11 @@ USE_I18N = True
 USE_TZ = True
 WAGTAIL_I18N_ENABLED = True
 
+WAGTAIL_ENABLE_UPDATE_CHECK = False
 
+LOCALE_PATHS = [
+     BASE_DIR / "static"  # Or os.path.join(BASE_DIR, 'locale') depending on your Django version
+]
 USE_L10N = True
 
 

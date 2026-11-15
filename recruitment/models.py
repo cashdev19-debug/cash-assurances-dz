@@ -150,12 +150,14 @@ class RecruitmentPage(AbstractForm):
     intro = RichTextField(blank=True)
     thank_you_text = RichTextField(blank=True)
     button_text=models.CharField(max_length=60,null=True)
+    thankyou_button_text=models.CharField(max_length=60,null=True)
     content_panels = AbstractForm.content_panels + [
         FieldPanel('cover_image'),
         FieldPanel('intro'),
         InlinePanel('custom_form_fields', label="Champs du formulaire"),
         FieldPanel('button_text'),
         FieldPanel('thank_you_text'),
+        FieldPanel('thankyou_button_text'),
     ]
 
 

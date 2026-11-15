@@ -25,8 +25,7 @@
             <h2 id="slideTitle" class="text-3xl sm:text-4xl md:text-5xl font-bold text-black leading-tight slide-content transition-all duration-500 ease-in-out enter"></h2>
             <p id="slideSubtitle" class="text-xs sm:text-sm font-semibold tracking-[0.12em] uppercase text-cash slide-content transition-all duration-500 ease-in-out enter"></p>
             <p id="slideDescription" class="text-sm sm:text-base text-black/70 leading-relaxed slide-content transition-all duration-500 ease-in-out enter"></p>
-            <button id="slideButton" class="group rounded-3xl max-w-50 bg-cash hover:bg-cash-800 p-2 text-lg text-white border-none slide-content transition-all duration-500 ease-in-out enter"></button>
-            <div id="navArrows" class="flex gap-3 mt-4 slide-content transition-all duration-500 ease-in-out enter">
+<a id="slideButton" class="group rounded-3xl max-w-50 bg-cash hover:bg-cash-800 p-2 text-lg text-white border-none text-center block slide-content transition-all duration-500 ease-in-out enter"></a>            <div id="navArrows" class="flex gap-3 mt-4 slide-content transition-all duration-500 ease-in-out enter">
               <button id="prevBtn" class="group w-10 h-10 md:w-12 md:h-12 rounded-full border border-black/10 bg-white/50 text-black/40 hover:bg-cash hover:text-white hover:border-[#b61615] transition-all duration-200 flex items-center justify-center shadow-sm" aria-label="Previous slide">
                 {% if lang == 'ar' %}
                   <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -65,6 +64,7 @@
             subtitle: "",
             description: "{{ slide.subtitle|escapejs }}",
             button: "{{ slide.button_text|escapejs }}",
+            buttonUrl: "{% pageurl slide.linked_page %}",
             imageUrl: "{{ slide.video.url }}"
         },
         {% endfor %}
