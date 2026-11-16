@@ -142,17 +142,18 @@ class FormPage(AbstractForm):
         FieldPanel("thank_you_text"),
     ]
     def serve(self, request, *args, **kwargs):
+        current_lang = get_language() or "fr"
         if request.method == "POST":
             form = self.get_form(
                 request.POST, request.FILES, page=self, user=request.user
             )
-            if form.is_valid():
+            if form.is_valid(): 
                 form_submission = self.process_form_submission(form)
                 if request.headers.get("HX-Request"):
                     return render(
                         request,
                         "home/partials/contact_form_partial.html",
-                        {"self": self, "form": form},
+                        {"self": self, "form": form,"LANGUAGE_CODE":current_lang},
                     )
                 return self.render_landing_page(
                     request, form_submission=form_submission, *args, **kwargs
@@ -162,7 +163,7 @@ class FormPage(AbstractForm):
                     return render(
                         request,
                         "home/partials/contact_form_partial.html",
-                        {"self": self, "form": form},
+                        {"self": self, "form": form,"LANGUAGE_CODE":current_lang},
                     )
         else:
             form = self.get_form(page=self, user=request.user)

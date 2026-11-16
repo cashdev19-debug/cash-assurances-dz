@@ -2094,6 +2094,9 @@
       font-size: 0.75rem;
     }
   }
+  .row-2 {
+    grid-row: 2;
+  }
   .container {
     width: 100%;
     @media (width >= 40rem) {

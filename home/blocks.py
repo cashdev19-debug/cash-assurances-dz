@@ -24,6 +24,7 @@ class CarouselBlock(blocks.StructBlock):
             "data-controller": "magic1",
             "data-action": "click->magic#abracadabra1",
         }
+        
 
 
 class DevisBlock(blocks.StructBlock):
