@@ -1,5 +1,5 @@
 {% load i18n %}
-
+{%load wagtailcore_tags%}
 {% get_current_language as LANGUAGE_CODE %}
 
 <div class="mb-4">
@@ -17,7 +17,7 @@
     {% if selected_category %}
       <p class="current-filter-info my-2">
         {{self.clear_filter_text}} <strong class="text-black">{{ selected_category.name }}</strong>.
-        <a href="{{ page.url }}" class="text-cash">{{self.clear_filter_button_text}}</a>
+        <a href="{% pageurl page %}" class="text-cash">{{self.clear_filter_button_text}}</a>
       </p>
     {% endif %}
   </ul>
