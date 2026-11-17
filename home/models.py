@@ -33,7 +33,7 @@ from django.shortcuts import render
 from django.core.exceptions import ValidationError
 from wagtail.contrib.forms.models import (AbstractForm, AbstractFormField, FormSubmission,FORM_FIELD_CHOICES)
 from django import forms
-
+from django.db.models import Q
 
 class HomePage(Page):
     sections = StreamField(
@@ -121,39 +121,60 @@ VALIDATION_ERRORS = {
         }
     }
 }
-
-# Helper function with 'fr' as the default fallback language
-def get_error_message(field_type, error_key):
-    current_lang = get_language() or "fr" 
-    field_dict = VALIDATION_ERRORS.get(field_type, {})
-    error_dict = field_dict.get(error_key, {})
-    return error_dict.get(current_lang, error_dict.get("fr", error_dict.get("en", "Une erreur s'est produite.")))
-
-
+def get_error_message(field_type, error_key, lang=None):
+    lang = (lang or get_language() or "fr").split("-")[0]
+    error_dict = VALIDATION_ERRORS.get(field_type, {}).get(error_key, {})
+    return error_dict.get(
+        lang, error_dict.get("fr", error_dict.get("en", "Une erreur s'est produite."))
+    )
 class FormPage(AbstractForm):
-    form_type = models.CharField(max_length=50,null=True,choices={"Contact":"Contact","Newsletter":"Newsletter"})
+    form_type = models.CharField(
+        max_length=50, null=True,
+        choices={"Contact": "Contact", "Newsletter": "Newsletter"},
+    )
     form_builder = CustomFormBuilder
     button_text = models.CharField(max_length=50, null=True)
     thank_you_text = RichTextField(blank=True)
+
+    # Editable error messages (empty = use the default text)
+    phone_error_message = models.CharField(
+        "message d'erreur numéro de téléphone invalide", max_length=255, blank=True,
+        help_text="S'affiche lorsque le numéro de téléphone n'est pas un numéro algérien valide.  "
+                  "Laissez vide pour utiliser le texte par défaut.",
+    )
+    email_exists_error_message = models.CharField(
+        "Message indiquant que l’adresse e-mail est déjà enregistrée", max_length=255, blank=True,
+        help_text="Formulaires de newsletter uniquement. S’affiche lorsque l’adresse e-mail est déjà enregistrée. "
+                  "Laissez vide pour utiliser le texte par défaut.",
+    )
+
     content_panels = AbstractForm.content_panels + [
-         FieldPanel("form_type"),
+        FieldPanel("form_type"),
         InlinePanel("form_fields"),
         FieldPanel("button_text"),
         FieldPanel("thank_you_text"),
+        MultiFieldPanel(
+            [
+                FieldPanel("phone_error_message"),
+                FieldPanel("email_exists_error_message"),
+            ],
+            heading="Error messages",
+        ),
     ]
+
     def serve(self, request, *args, **kwargs):
         current_lang = get_language() or "fr"
         if request.method == "POST":
             form = self.get_form(
                 request.POST, request.FILES, page=self, user=request.user
             )
-            if form.is_valid(): 
+            if form.is_valid():
                 form_submission = self.process_form_submission(form)
                 if request.headers.get("HX-Request"):
                     return render(
                         request,
                         "home/partials/contact_form_partial.html",
-                        {"self": self, "form": form,"LANGUAGE_CODE":current_lang},
+                        {"self": self, "form": form, "LANGUAGE_CODE": current_lang},
                     )
                 return self.render_landing_page(
                     request, form_submission=form_submission, *args, **kwargs
@@ -163,69 +184,70 @@ class FormPage(AbstractForm):
                     return render(
                         request,
                         "home/partials/contact_form_partial.html",
-                        {"self": self, "form": form,"LANGUAGE_CODE":current_lang},
+                        {"self": self, "form": form, "LANGUAGE_CODE": current_lang},
                     )
         else:
             form = self.get_form(page=self, user=request.user)
         context = self.get_context(request)
         context["form"] = form
         return render(request, self.get_template(request), context)
+
+    # ---------- messages ----------
+    def get_message(self, field_type, error_key):
+        custom = {
+            ("phone", "invalid_algerian"): self.phone_error_message,
+            ("email", "already_registered"): self.email_exists_error_message,
+        }.get((field_type, error_key))
+        return custom or get_error_message(
+            field_type, error_key, lang=self.locale.language_code
+        )
+
+    # ---------- duplicate email check ----------
+    def email_already_registered(self, value):
+        pages = type(self).objects.filter(
+            translation_key=self.translation_key
+        ).prefetch_related("form_fields")
+
+        query = Q()
+        for page in pages:
+            for field in page.form_fields.all():
+                if field.field_type == "email":
+                    query |= Q(**{f"form_data__{field.clean_name}__iexact": value})
+        if not query:
+            return False
+        return FormSubmission.objects.filter(page__in=pages).filter(query).exists()
+
     def get_form_class(self):
         form_class = super().get_form_class()
-        page_instance = self
+        page = self
+
+        fields = list(page.form_fields.all())
+        phone_names = [f.clean_name for f in fields if f.field_type == "phone"]
+        email_names = [f.clean_name for f in fields if f.field_type == "email"]
+        is_newsletter = page.form_type == "Newsletter"
+        algeria_regex = re.compile(r"^(\+213|00213|0)[1-9]\d{8}$")
 
         class UniqueValidatedForm(form_class):
             def clean(self):
                 cleaned_data = super().clean()
-                phone_field_names = [
-                f.clean_name for f in page_instance.form_fields.all() 
-                if f.field_type == 'phone'
-                ]
-            
-                algeria_regex = r"^(\+213|00213|0)[1-9]\d{8}$"
-            
-                for field_name in phone_field_names:
-                    phone_value = cleaned_data.get(field_name)
-                    if phone_value:
-                    # Strip out common separators (spaces, dashes, dots, parentheses)
-                        stripped_phone = re.sub(r'[\s\-\.\(\)]', '', phone_value)
-                    
-                        if not re.match(algeria_regex, stripped_phone):
-                            error_msg = get_error_message('phone', 'invalid_algerian')
-                            self.add_error(
-                            field_name,
-                            ValidationError(error_msg)
-                            )
-                email_field_names = [
-                    f.clean_name for f in page_instance.form_fields.all() 
-                    if f.field_type == 'email'
-                ]
 
-                for field_name in email_field_names:
-                    user_value = cleaned_data.get(field_name)
-                    if user_value:
-                        if page_instance.form_type == 'Newsletter' or page_instance.__class__.__name__ == 'NewsletterPage':
-                    
-                    # Get all translated versions of this page (EN, FR, AR variants)
-                            if hasattr(page_instance, 'get_translations'):
-                                all_language_pages = page_instance.get_translations(inclusive=True)
-                            else:
-                                all_language_pages = [page_instance]
-                            submissions = FormSubmission.objects.filter(page__in=all_language_pages)
-                            email_exists = False
-                            for sub in submissions:
-                                data = sub.get_data()
-                                if any(val.lower() == user_value.lower() for val in data.values() if isinstance(val, str)):
-                                    email_exists = True
-                                    break
-                            
-                            if email_exists:
-                                error_msg = get_error_message('email', 'already_registered')
-                                self.add_error(field_name, ValidationError(error_msg))
-                                break
-                        
-                        elif page_instance.form_type == 'contact':
-                            pass
+                for name in phone_names:
+                    value = cleaned_data.get(name)
+                    if value and not algeria_regex.match(re.sub(r"[\s\-\.\(\)]", "", value)):
+                        self.add_error(
+                            name,
+                            ValidationError(page.get_message("phone", "invalid_algerian")),
+                        )
+
+                if is_newsletter:
+                    for name in email_names:
+                        value = cleaned_data.get(name)
+                        if value and page.email_already_registered(value):
+                            self.add_error(
+                                name,
+                                ValidationError(page.get_message("email", "already_registered")),
+                            )
+                            break
 
                 return cleaned_data
 
