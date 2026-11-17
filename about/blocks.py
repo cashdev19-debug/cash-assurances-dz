@@ -37,6 +37,7 @@ class PointsRepereBlock(blocks.StructBlock):
     subtitle =blocks.CharBlock()
     points = blocks.ListBlock(blocks.StructBlock([
         ("title",blocks.CharBlock()),
+        ("subtitle",blocks.CharBlock()),
         ("body",blocks.RichTextBlock()),
         ("icon",IconChooserBlock()),
     ]))
