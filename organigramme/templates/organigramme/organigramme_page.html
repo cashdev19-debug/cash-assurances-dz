@@ -13,7 +13,7 @@
       <main class="grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="block md:hidden space-y-4">
           {% for niveau in niveau_0 %}
-            <div class="bg-slate-900 text-white rounded-2xl p-5 border-l-4 border-cash">
+            <div class="bg-slate-900 text-white rounded-2xl p-5 border-s-4 border-cash">
               <h2 class="text-lg font-bold">{{ niveau.value.title }}</h2>
               <p class="text-xs text-slate-300 mt-1">{{ niveau.value.subtitle }}</p>
             </div>
@@ -31,7 +31,7 @@
           {% endfor %}
           {% for niveau in niveau_2 %}
             <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-              <button onclick="toggleAcc(this)" class="accordion-header w-full flex items-center justify-between p-4 bg-blue-50 hover:bg-blue-100/70 transition text-left border-l-4 border-cash">
+              <button onclick="toggleAcc(this)" class="accordion-header w-full flex items-center justify-between p-4 bg-blue-50 hover:bg-blue-100/70 transition text-left border-s-4 border-cash">
                 <span class="font-bold text-blue-950 text-sm flex items-center gap-2">
                   <i class="fa-solid fa-chart-line text-blue-600"></i>
                   {{ niveau.value.title }}

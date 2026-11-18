@@ -2526,6 +2526,9 @@
   .aspect-16\/12 {
     aspect-ratio: 16/12;
   }
+  .aspect-\[318\/340\] {
+    aspect-ratio: 318/340;
+  }
   .aspect-square {
     aspect-ratio: 1 / 1;
   }
@@ -2622,8 +2625,23 @@
   .h-96 {
     height: calc(var(--spacing) * 96);
   }
+  .h-400 {
+    height: calc(var(--spacing) * 400);
+  }
+  .h-500 {
+    height: calc(var(--spacing) * 500);
+  }
   .h-\[90vh\] {
     height: 90vh;
+  }
+  .h-\[400px\] {
+    height: 400px;
+  }
+  .h-\[450px\] {
+    height: 450px;
+  }
+  .h-\[500px\] {
+    height: 500px;
   }
   .h-\[calc\(100vh-6\.5rem\)\] {
     height: calc(100vh - 6.5rem);
@@ -3267,6 +3285,10 @@
   .border-s-3 {
     border-inline-start-style: var(--tw-border-style);
     border-inline-start-width: 3px;
+  }
+  .border-s-4 {
+    border-inline-start-style: var(--tw-border-style);
+    border-inline-start-width: 4px;
   }
   .border-e-2 {
     border-inline-end-style: var(--tw-border-style);
