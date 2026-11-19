@@ -84,7 +84,7 @@ class ProductsPage(Page):
    
 class ProductDetail(Page):
         subtitle =models.CharField(max_length=200)
-        button_text =models.CharField(max_length=100,null=True)
+        button_text =models.CharField(max_length=100,null=True,blank=True)
         button_link =models.ForeignKey(
                         'wagtailcore.Page',
                         null=True,
@@ -99,8 +99,8 @@ class ProductDetail(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )        
-        description = RichTextField(null=True)
-        garanties = RichTextField(null=True)
+        description = RichTextField(null=True,blank=True)
+        garanties = RichTextField(null=True,blank=True)
         content_panels = Page.content_panels + [
             FieldPanel("subtitle"),
             FieldPanel("button_text"),

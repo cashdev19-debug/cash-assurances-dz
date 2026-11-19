@@ -1,0 +1,11 @@
+{% load i18n %}
+<section class="kf-page" data-kf>
+  {% if value.title %}<h1>{{ value.title }}</h1>{% endif %}
+  {% if value.subtitle %}<h2>{{ value.subtitle }}</h2>{% endif %}
+  {% if value.title or value.subtitle %}<div class="kf-rule"></div>{% endif %}
+  <div data-kf-slot></div>
+  {{ kf_config|json_script:data_id }}
+</section>
+
+
+

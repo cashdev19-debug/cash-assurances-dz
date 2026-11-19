@@ -112,3 +112,6 @@ def clear_cache_on_unpublish(request, page):
 def clear_cache_on_delete(request, page):
     clear_cache()
     
+
+
+

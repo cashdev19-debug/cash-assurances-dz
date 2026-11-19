@@ -13,14 +13,13 @@ from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField,Fo
 from modelcluster.fields import ParentalKey
 
 
-
-
 class aboutPage(Page):
     pages_sections = StreamField([
                         ("Presentation",PresentationBlock()),
                         ("Timeline",TimelineBlock()),
                         ("Points_repere",PointsRepereBlock()),
                         ("CounterBlock",CounterBlock()),
+                        ("ChiffresClesBlock",ChiffresClesBlock()),
                         ("StatsCard",StatsCardBlock()),
                         ("HumainCapital",HumainCapitalBlock()),
                        ],use_json_field=True,blank=True,default=[])

@@ -10,7 +10,7 @@
       {{self.subtitle}}
     </h2>
   </div>
-  <div class="flex flex-wrap items-center justify-center gap-6 max-w-6xl w-full">
+  <div class="flex flex-wrap items-center justify-center gap-6 max-w-7xl w-full">
        {% for serviceCard in self.produit %}
        {% widthratio forloop.counter 1 250 as duration %}
        <a href="{%pageurl serviceCard.linked_page%}">
