@@ -11,7 +11,7 @@
         <div class="w-full lg:w-1/2">
           <div class="lg:max-w-lg space-y-3">
             <h2 class="text-black text-3xl font-bold mb-6 md:text-4xl ">{{ self.title }}</h2>
-            <p class="text-slate-600 text-base leading-relaxed ">{{ self.subtitle }}</p>
+            {%if self.subtitle%}<p class="text-slate-600 text-base leading-relaxed ">{{ self.subtitle }}</p>{%endif%}
             {%if self.button_link%}
             <a href="{%pageurl self.button_link %}" target="_blank" class="btn group rounded-xl w-full bg-cash py-5 text-[15px] text-white border-transparent hover:bg-white hover:border-solid hover:border hover:border-cash hover:text-cash">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
@@ -99,19 +99,13 @@
       {% endif %}
   </section>
   
+  
+  {%if related_products|length != 0 %}
   <section class="max-w-[80%] mx-auto">
     <div class="p-5 my-3 rounded-2xl">
-      <h1 class="text-3xl font-bold">{%if LANGUAGE_CODE == "fr"%}
-        Autre produits
-      {%elif LANGUAGE_CODE == "en"%}
-Other products
-    {%elif LANGUAGE_CODE == "ar"%}
-منتجات أخرى
-  {%endif%}
-  </h1>
+      <h1 class="text-3xl font-bold">{%if LANGUAGE_CODE == "fr"%}Autre produits{%elif LANGUAGE_CODE == "en"%}Other products{%elif LANGUAGE_CODE == "ar"%}منتجات أخرى{%endif%}</h1>
       <div class="max-w-full my-5 px-3 grid grid-cols-fill-full gap-4">
         {% for product in related_products %}
-
           <a href="{%pageurl product%}" target="_blank">
             <div class="flex items-center p-2 border border-black/10 hover:border-black/20 hover:bg-cash/10 transition-colors rounded-xl w-full max-w-105">
               {% picture product.cover_image width-400 alt='Product' class='w-full max-w-29.5 rounded-lg object-cover' %}
@@ -124,4 +118,5 @@ Other products
       </div>
     </div>
   </section>
+  {%endif%}
 {% endblock %}

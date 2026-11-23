@@ -14,7 +14,6 @@
     {% for timeline in self.timeline %}
    <div class="relative">
   <div class="sticky-sentinel h-px w-full -mb-px pointer-events-none"></div>
-
   <div class="flex justify-start pt-10 md:pt-40 md:gap-10">
     <div class="sticky flex flex-col md:flex-row z-5 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
       <div class="sticky-dot h-10 absolute start-3 md:start-3 w-10 rounded-full bg-white flex items-center justify-center transition-colors duration-300">
@@ -24,7 +23,6 @@
         {{ timeline.title }}
       </h3>
     </div>
-
     <div class="relative ps-20 pe-4 md:ps-4 w-full">
       <h3 class="md:hidden block text-2xl mb-4 text-start font-bold text-neutral-500">
         {{ timeline.title }}

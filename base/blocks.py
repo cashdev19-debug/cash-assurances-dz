@@ -18,6 +18,14 @@ class logoBlock(blocks.StructBlock):
         icon = "doc-full-inverse"
         form_classname = "logo-block struct-block"
 
+
+
+class thumbnailBlock(blocks.StructBlock):
+    logo = ImageChooserBlock()
+    class Meta:
+        icon = "doc-full-inverse"
+
+
 from wagtail.blocks import StructValue
 LANGS = ("fr", "en", "ar")
 class CTAStructValue(StructValue):
@@ -55,8 +63,6 @@ class CTAStructValue(StructValue):
 
 
 class LinkBlock(blocks.StructBlock):
-
-
     title_fr = blocks.CharBlock(required=True)
     title_en = blocks.CharBlock(required=True,null=True)
     title_ar = blocks.CharBlock(required=True,null=True)

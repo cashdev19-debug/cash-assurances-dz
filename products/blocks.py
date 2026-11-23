@@ -5,7 +5,7 @@ class oneProductBlock(blocks.StructBlock):
     products = blocks.ListBlock(
             blocks.StructBlock([
                     ("title",blocks.CharBlock()),
-                    ("text",blocks.RichTextBlock()),
+                    ("text",blocks.RichTextBlock(required=False)),
                     ("image",ImageChooserBlock()),
                     ("button_text",blocks.CharBlock()),
                     ("linked_page",blocks.PageChooserBlock()),
@@ -18,11 +18,10 @@ class oneProductBlock(blocks.StructBlock):
 
 class multipleProducstBlock(blocks.StructBlock):
     title = blocks.CharBlock()
-    subtitle = blocks.CharBlock()
+    subtitle = blocks.CharBlock(required=False)
     products = blocks.ListBlock(
                 blocks.StructBlock([
                     ("title",blocks.CharBlock()),
-                    ("text",blocks.RichTextBlock()),
                     ("image",ImageChooserBlock()),
                     ("button_text",blocks.CharBlock()),
                     ("linked_page",blocks.PageChooserBlock()),

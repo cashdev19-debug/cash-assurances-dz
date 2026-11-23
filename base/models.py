@@ -79,7 +79,6 @@ class loi_18_07_consentement(BaseGenericSetting):
 
 
 
-"""***********************************************************************************"""
 
 @register_setting(icon="collapse-up")
 class top_navbar(BaseGenericSetting):
@@ -106,7 +105,7 @@ class top_navbar(BaseGenericSetting):
         )
         ]
 
-"""***********************************************************************************"""
+
 @register_setting(icon="collapse-down")
 class preFooter(BaseGenericSetting):
     title_fr = models.CharField(max_length=255)
@@ -126,7 +125,7 @@ class preFooter(BaseGenericSetting):
                 )
             ]
 
-"""***********************************************************************************"""
+
 @register_setting(icon="collapse-down")
 class footer(BaseGenericSetting):
     logo_fr = models.ForeignKey(
@@ -157,6 +156,7 @@ class footer(BaseGenericSetting):
     copyrights_fr = RichTextField(null=True,)
     copyrights_en = RichTextField(null=True,)
     copyrights_ar = RichTextField(null=True,)
+    copyright_thumbnails = StreamField([("images",thumbnailBlock()),],use_json_field=True,blank=True,default=[])
     panels = [
             MultiFieldPanel(
                 [
@@ -170,13 +170,12 @@ class footer(BaseGenericSetting):
                     FieldPanel("copyrights_fr"),
                     FieldPanel("copyrights_en"),
                     FieldPanel("copyrights_ar"),
+                    FieldPanel("copyright_thumbnails"),
                 ],
                 "Footer",
             )
         ]
 
-
-"""***********************************************************************************"""
 
 @register_setting(icon="info-circle-fill")
 class contactstInfos(BaseGenericSetting):    
@@ -207,9 +206,6 @@ class contactstInfos(BaseGenericSetting):
                 )
             ]
 
-
-
-"""***********************************************************************************"""
 
 from modelcluster.fields import ParentalKey
 class AgenceContact(Orderable):
@@ -316,9 +312,6 @@ class Agence(ClusterableModel):
         verbose_name_plural="Agences"
         
         
-        
-
-
 class MentionsLegalesPage(Page):
     subtitle = models.CharField(max_length=200)
     text = StreamField([
@@ -328,8 +321,6 @@ class MentionsLegalesPage(Page):
         FieldPanel("subtitle"),
         FieldPanel("text"),
     ]
-
-
 class DocumentsLegalesPage(Page):
     subtitle = models.CharField(max_length=200)
     sections = StreamField(

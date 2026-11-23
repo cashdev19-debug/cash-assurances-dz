@@ -83,7 +83,7 @@ class ProductsPage(Page):
     
    
 class ProductDetail(Page):
-        subtitle =models.CharField(max_length=200)
+        subtitle =models.CharField(max_length=200,blank=True)
         button_text =models.CharField(max_length=100,null=True,blank=True)
         button_link =models.ForeignKey(
                         'wagtailcore.Page',
@@ -109,7 +109,6 @@ class ProductDetail(Page):
             FieldPanel("description"),
             FieldPanel("garanties"),
         ]
-        
         def get_context(self, request):
             context = super().get_context(request)
             parent_page = self.get_parent()
