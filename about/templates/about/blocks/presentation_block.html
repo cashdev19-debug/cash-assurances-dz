@@ -5,7 +5,7 @@
   <div class="mx-auto max-w-405 py-10 sm:px-6 sm:py-22 lg:px-8">
     <div class="relative isolate max-md:h-fit md:overflow-hidden border-dashed px-6 pt-16 sm:rounded-3xl sm:px-16 md:pt-24 xl:flex xl:gap-x-20 xl:px-24 xl:pt-0">
       <div class="mx-auto max-w-2xl text-center xl:mx-0 xl:flex-auto xl:py-10 xl:text-start">
-        <h1 class="text-3xl font-bold tracking-tight text-balance sm:text-4xl"  data-reveal="typewriter" data-reveal-steps="30">{{ self.title|richtext }}</h1>
+        <h1 class="text-3xl font-bold tracking-tight text-balance sm:text-4xl"   data-reveal-split="chars" data-reveal-stagger="30" data-reveal-children="fade-up">{{ self.title|richtext }}</h1>
         <p class="mt-6 text-lg text-pretty font-medium text-justify" data-reveal="blur-zoom">{{ self.text|striptags }}</p>
         <div class="flex flex-row gap-y-5 gap-x-0 md:gap-1 text-start border border-[#292929]/12 rounded-[18px] bg-cash/6 p-5 my-5" data-reveal="pop">
           {% for number in self.numbers %}
