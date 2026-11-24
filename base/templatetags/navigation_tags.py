@@ -227,4 +227,38 @@ def style_quotes(value):
     transformed = re.sub(pattern, replacer, content, flags=re.DOTALL | re.IGNORECASE)
     return mark_safe(transformed)
 
-    return mark_safe(content)
+
+
+from collections.abc import Mapping
+from django import template
+
+
+def _get_field(obj, name):
+    if isinstance(obj, Mapping):
+        return obj.get(name)
+    val = getattr(obj, name, None)
+    if val is not None:
+        return val
+    if hasattr(obj, "get"):
+        try:
+            return obj.get(name)
+        except Exception:
+            return None
+    return None
+
+
+@register.simple_tag
+def localized_title(obj, lang="fr", base_field="title"):
+    if not obj:
+        return ""
+
+    # In case `image` (StreamChild) was passed instead of `image.value`
+    if hasattr(obj, "value") and not isinstance(obj, Mapping):
+        obj = obj.value
+
+    lang = (lang or "fr").strip().lower()
+    for candidate in (f"{base_field}_{lang}", f"{base_field}_fr", base_field):
+        val = _get_field(obj, candidate)
+        if val:
+            return val
+    return ""

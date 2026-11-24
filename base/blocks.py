@@ -20,9 +20,12 @@ class logoBlock(blocks.StructBlock):
 
 
 class thumbnailBlock(blocks.StructBlock):
+    title_fr = blocks.CharBlock()
+    title_en = blocks.CharBlock()
+    title_ar = blocks.CharBlock()
     logo = ImageChooserBlock()
     class Meta:
-        icon = "doc-full-inverse"
+        icon = "image"
 
 from wagtail.blocks import StructValue
 LANGS = ("fr", "en", "ar")

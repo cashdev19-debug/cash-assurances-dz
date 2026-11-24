@@ -160,22 +160,19 @@ class footer(BaseGenericSetting):
     panels = [
             MultiFieldPanel(
                 [
-                    FieldPanel("logo_fr"),
-                    FieldPanel("logo_en"),
-                    FieldPanel("logo_ar"),
-                    FieldPanel("text_fr"),
-                    FieldPanel("text_en"),
-                    FieldPanel("text_ar"),
+                     MultiFieldPanel([FieldRowPanel([FieldPanel("logo_fr"),FieldPanel('logo_en'),FieldPanel('logo_ar'),
+                                                        ]),],"Logo"),
+                     MultiFieldPanel([FieldRowPanel([FieldPanel("text_fr"),FieldPanel('text_en'),FieldPanel('text_ar'),
+                                                        ]),],"Text"),
                     FieldPanel("links"),
-                    FieldPanel("copyrights_fr"),
-                    FieldPanel("copyrights_en"),
-                    FieldPanel("copyrights_ar"),
+                     MultiFieldPanel([FieldRowPanel([FieldPanel("copyrights_fr"),FieldPanel('copyrights_en'),FieldPanel('copyrights_ar'),
+                                                        ]),],"Text"),
+                    
                     FieldPanel("copyright_thumbnails"),
                 ],
                 "Footer",
             )
         ]
-
 
 @register_setting(icon="info-circle-fill")
 class contactstInfos(BaseGenericSetting):    

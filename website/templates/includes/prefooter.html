@@ -29,7 +29,7 @@
             {% elif lang == 'ar' %}
               {% pageurl btn.value.link_page_ar %}
             {% endif %}" target="_blank"
-            class="rounded-2xl px-5 py-3 bg-white font-medium hover:bg-slate-100 cursor-pointer border text-black border-slate-400">
+            class="rounded-2xl px-5 py-3 bg-white font-medium hover:bg-slate-200 hover:scale-102 ease-in-out transition-all cursor-pointer  text-black ">
             {% if lang == 'fr' %}
               {{ btn.value.title_fr }}
             {% elif lang == 'en' %}
@@ -42,7 +42,6 @@
       {% endfor %}
     </div>
   </div>
-
   <hr class="border-slate-300" />
 </footer>
 {% endspaceless %}

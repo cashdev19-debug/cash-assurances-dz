@@ -8,11 +8,11 @@
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
           <div class="mx-auto text-center lg:mx-0 lg:flex-auto lg:text-start">
-            <h2 data-reveal="flip-down" class="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">{{ self.subtitle }}</h2>
+            <h2 data-reveal="fade-down" class="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">{{ self.subtitle }}</h2>
             <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start"></div>
           </div>
           {% if self.form %}
-            <div id="newsletter-container" data-reveal="flip-down" class="max-w-xl lg:max-w-lg">
+            <div id="newsletter-container" data-reveal="fade-down" class="max-w-xl lg:max-w-lg">
               <form hx-post="{% pageurl self.form %}" hx-target="#newsletter-container" hx-swap="outerHTML">
                 {% csrf_token %}
                 <div class="mt-6 grid grid-cols-1 sm:grid-cols-[1fr_auto] items-start gap-3 sm:gap-x-4 w-full">
@@ -64,4 +64,5 @@
     </div>
   </div>
 </section>
+
 {%endspaceless%}
