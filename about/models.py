@@ -21,7 +21,8 @@ class aboutPage(Page):
                         ("CounterBlock",CounterBlock()),
                         ("ChiffresClesBlock",ChiffresClesBlock()),
                         ("StatsCard",StatsCardBlock()),
-                        ("HumainCapital",HumainCapitalBlock()),
+                        ("HumainCapital",TimelineBlock()),
+                        ("CapitalHumainBlock",CapitalHumainBlock()),
                        ],use_json_field=True,blank=True,default=[])
     content_panels = Page.content_panels + [
         FieldPanel('pages_sections'),

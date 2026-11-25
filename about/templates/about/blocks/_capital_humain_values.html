@@ -1,0 +1,15 @@
+
+<div data-fit-inner class="w-max whitespace-nowrap text-center leading-tight">
+  {% for v in b.valeurs %}
+    <div dir="ltr">
+      <span class="sr-only">{{ v.prefix }}{{ v.final }}{{ v.unite }}{{ v.symbole }}</span>
+      <span aria-hidden="true"
+            data-count data-target="{{ v.target }}" data-decimals="{{ v.decimals }}"
+            data-prefix="{{ v.prefix }}" data-final="{{ v.final }}" data-delay="{{ delay }}"
+            class="{% if b.xl %}{{ num_xl }}{% else %}{{ num }}{% endif %} font-medium leading-[1.05] tracking-tight tabular-nums">{{ v.prefix }}{{ v.final }}</span>
+      {% if v.unite and not v.below %}<small aria-hidden="true" class="{{ sm }} font-medium">{{ v.unite }}</small>{% endif %}
+      {% if v.symbole %}<span aria-hidden="true" class="{{ num }}">&nbsp;{{ v.symbole }}</span>{% endif %}
+      {% if v.unite and v.below %}<small aria-hidden="true" class="{{ md }} block font-normal leading-none">{{ v.unite }}</small>{% endif %}
+    </div>
+  {% endfor %}
+</div>

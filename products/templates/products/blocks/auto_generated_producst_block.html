@@ -13,7 +13,7 @@
         <div class="grid gap-x-8 gap-y-12 grid-cols-2 xl:grid-cols-3">
           {% for product in categorie.product_pategory.all %}
           <a href="{% pageurl  product %}" target="_blank">
-            <div class="relative flex items-center justify-center text-sm text-white/80 rounded-lg max-w-200 border p-0.5  border-slate-300 hover:border-cash hover:-translate-y-2 transition-all duration-100">
+            <div data-reveal="blur-down" data-reveal-distance="6rem" class="relative flex items-center justify-center text-sm text-white/80 rounded-lg max-w-200 border p-0.5  border-slate-300 hover:border-cash hover:-translate-y-2 transition-all duration-100" >
               <div class="absolute bottom-2 flex items-center justify-around backdrop-blur-sm w-full max-w-full bg-white/80 border-2 shadow-xl border-y-cash py-2">
                 <p class="text-start ps-2 font-bold text-black text-[1rem]">{{product.title}}</p>
               </div>

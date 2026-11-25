@@ -1,0 +1,84 @@
+    {% with POP='opacity-0 scale-[.2] transition-[opacity,transform] duration-700 ease-[cubic-bezier(.34,1.56,.64,1)] [transition-delay:var(--d)] group-data-[play]:opacity-100 group-data-[play]:scale-100 motion-reduce:!opacity-100 motion-reduce:!scale-100 motion-reduce:!transition-none' FADE='opacity-0 translate-y-3 transition-[opacity,transform] duration-700 ease-out [transition-delay:var(--d)] group-data-[play]:opacity-100 group-data-[play]:translate-y-0 motion-reduce:!opacity-100 motion-reduce:!translate-y-0 motion-reduce:!transition-none' DRAW='[stroke-dasharray:1] [stroke-dashoffset:1] transition-[stroke-dashoffset] duration-700 ease-out [transition-delay:var(--d)] group-data-[play]:[stroke-dashoffset:0] motion-reduce:![stroke-dashoffset:0] motion-reduce:!transition-none' DOT='[transform-box:fill-box] origin-center scale-0 transition-transform duration-500 ease-[cubic-bezier(.34,1.56,.64,1)] [transition-delay:var(--d)] group-data-[play]:scale-100 motion-reduce:!scale-100 motion-reduce:!transition-none' %}
+  {% with FLOAT='group-data-[play]:animate-[float-y_4.5s_ease-in-out_var(--f)_infinite] motion-reduce:!animate-none' PULSE='opacity-0 [transform-box:fill-box] origin-center group-data-[play]:animate-[pulse-ring_3.2s_ease-in-out_2.5s_infinite] motion-reduce:!animate-none' RING='[transform-box:fill-box] origin-center -rotate-90' BUBBLE='flex aspect-square items-center justify-center rounded-full bg-gradient-to-br from-[#f3f3f3] to-[#e6e6e6] shadow-[0_6px_18px_rgba(0,0,0,.06)] transition duration-300 p-1 border border-transparent hover:border-solid hover:border-cash/30 hover:scale-105 hover:shadow-[0_12px_28px_rgba(138,16,16,.22)]' %}
+    <noscript>
+      <style>
+        [data-root] * {
+          opacity: 1 !important;
+          transform: none !important;
+          stroke-dashoffset: 0 !important;
+        }
+      </style>
+    </noscript>
+    <section>
+      {% if value.title or value.subtitle %}
+        <header class="text-center mb-12 px-4">
+          {% if value.title %}
+            <p class="text-sm font-semibold tracking-widest text-cash uppercase mb-3">{{ value.title }}</p>
+          {% endif %}
+          {% if value.subtitle %}
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">{{ value.subtitle }}</h2>
+          {% endif %}
+        </header>
+      {% endif %}
+      <div data-root class="group mx-auto max-w-4xl px-4 py-10">
+        <div class="hidden sm:block sm:px-10">
+          <div class="relative @container" style="aspect-ratio:{{ canvas_w }} / {{ canvas_h }}">
+            <svg class="absolute inset-0 h-full w-full" viewBox="0 0 {{ canvas_w }} {{ canvas_h }}" fill="none" aria-hidden="true">
+              <circle class="{{ DRAW }} {{ RING }}" style="--d:0s" cx="{{ cx }}" cy="{{ cy }}" r="{{ ring_out }}" stroke="#d9d9d9" stroke-width="5" pathLength="1" />
+              <circle class="{{ DRAW }} {{ RING }}" style="--d:.15s" cx="{{ cx }}" cy="{{ cy }}" r="{{ ring_in }}" stroke="#8a1010" stroke-width="8" fill="#fff" pathLength="1" />
+              <circle class="{{ PULSE }}" cx="{{ cx }}" cy="{{ cy }}" r="{{ ring_out }}" stroke="#8a1010" stroke-width="3" />
+              {% for b in bubbles %}
+                <line class="{{ DRAW }}" style="--d:{{ b.t }}s" pathLength="1" stroke="#7a0d0d" stroke-width="6" x1="{{ b.red.x1 }}" y1="{{ b.red.y1 }}" x2="{{ b.red.x2 }}" y2="{{ b.red.y2 }}" />
+                <line class="{{ DRAW }}" style="--d:{{ b.t }}s" pathLength="1" stroke="#dcdcdc" stroke-width="2" x1="{{ b.grey.x1 }}" y1="{{ b.grey.y1 }}" x2="{{ b.grey.x2 }}" y2="{{ b.grey.y2 }}" />
+                <circle class="{{ DOT }}" style="--d:{{ b.t_dot }}s" cx="{{ b.dot.0 }}" cy="{{ b.dot.1 }}" r="8" fill="#d4d4d4" />
+              {% endfor %}
+            </svg>
+            <div data-fit class="absolute flex aspect-square items-center justify-center" style="left:{{ centre.left }};top:{{ centre.top }};width:{{ centre.width }}">
+              <div class="{{ FADE }} wrap-break-words text-balance text-center text-[length:calc(3.1cqw*var(--k,1))] leading-[1.35] text-neutral-900 rtl:leading-[1.6]" style="--d:.4s;width:{{ centre.text_w }}">{{ centre_html }}</div>
+            </div>
+            {% for b in bubbles %}
+              <div class="absolute" style="left:{{ b.left }};top:{{ b.top }};width:{{ b.width }}">
+                <div class="{{ POP }}" style="--d:{{ b.t_pop }}s">
+                  <div class="{{ FLOAT }}" style="--f:{{ b.t_float }}s">
+                    <div data-fit class="{{ BUBBLE }}">
+                      {% include 'about/blocks/_capital_humain_values.html' with b=b delay=b.t_pop num='text-[length:calc(5cqw*var(--k,1))]' num_xl='text-[length:calc(6cqw*var(--k,1))]' sm='text-[length:calc(2.3cqw*var(--k,1))]' md='text-[length:calc(2.4cqw*var(--k,1))]' %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="absolute -translate-x-1/2 -translate-y-1/2" style="left:{{ b.lx }};top:{{ b.ly }}">
+                <div class="{{ FADE }} w-max max-w-[18cqw] text-center text-[2.15cqw] leading-[1.3] text-gray-800" style="--d:{{ b.t_label }}s">
+                  {{ b.label }}{% if b.sous_label %}
+                    <span class="block text-[1.5cqw] font-semibold text-black">{{ b.sous_label }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        {# ===== Mobile: 2-column cards ===== #}
+        <div class="sm:hidden">
+          <p class="{{ FADE }} mb-8 text-center text-2xl leading-snug" style="--d:.1s">{{ centre_html }}</p>
+          <div class="grid grid-cols-2 gap-x-4 gap-y-10">
+            {% for b in bubbles %}
+              <div class="text-center">
+                <div class="{{ POP }}" style="--d:{{ b.t_card }}s">
+                  <div data-fit class="{{ BUBBLE }} mx-auto h-36 w-36">
+                    {% include 'about/blocks/_capital_humain_values.html' with b=b delay=b.t_card num='text-[length:calc(2.2rem*var(--k,1))]' num_xl='text-[length:calc(2.5rem*var(--k,1))]' sm='text-[length:calc(1.05rem*var(--k,1))]' md='text-[length:calc(1rem*var(--k,1))]' %}
+                  </div>
+                </div>
+                <p class="{{ FADE }} mt-3 text-sm text-gray-700" style="--d:{{ b.t_card_label }}s">
+                  {{ b.label }}{% if b.sous_label %}
+                    <span class="font-semibold">{{ b.sous_label }}</span>
+                  {% endif %}
+                </p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+  {% endwith %}
+{% endwith %}

@@ -1,9 +1,17 @@
 @import "tailwindcss";
 
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: light --default;
+};
 @tailwindcss/typography
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  [x-cloak] {
+    display: none !important;
+  }
+}
 
 @font-face {
   font-family: 'Montserrat';
@@ -164,6 +172,7 @@
   --font-montserrat: "Montserrat", sans-serif;
   --grid-template-columns-fill-full: repeat(auto-fill, minmax(300px, 1fr));
   
+  
   @keyframes scroll {
     0% {
       transform: translateX(0);
@@ -184,6 +193,26 @@
     }
   }
 
+  @keyframes float-y {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-0.8cqw);
+        }
+      }
+  @keyframes pulse-ring {
+        0%,
+        100% {
+          opacity: 0.35;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0;
+          transform: scale(1.06);
+        }
+      }
   
 }
 

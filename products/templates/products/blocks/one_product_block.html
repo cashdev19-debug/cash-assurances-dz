@@ -6,7 +6,7 @@
     <div class="space-y-8">
       {% for product in self.products %}
         {% if forloop.counter0|divisibleby:2 %}
-          <div class="flex flex-col items-center gap-8  p-4  lg:flex-row lg:gap-12 ">
+          <div class="flex flex-col items-center gap-8  p-4  lg:flex-row lg:gap-12" data-reveal="blur-right">
             <div class="w-full aspect-16/12 h-80 rounded-3xl overflow-hidden  shadow-2xl">
             {% picture product.image format-{avif} original alt="Competitive Market" class="object-cover  rounded-3xl w-full h-full " %}
             </div>
@@ -17,7 +17,7 @@
             </div>
           </div>
         {% else %}
-          <div class="flex flex-col items-center gap-8  p-4  lg:flex-row lg:gap-12 ">
+          <div class="flex flex-col items-center gap-8  p-4  lg:flex-row lg:gap-12" data-reveal="blur-left">
             <div class="pb-4 lg:pb-0 lg:pl-8 w-full">
               <h2 class="text-slate-900 md:text-2xl text-xl  font-semibold mb-4 ">{{ product.title }}</h2>
               <p class="text-base text-slate-600 leading-relaxed ">{{ product.text }}</p>
