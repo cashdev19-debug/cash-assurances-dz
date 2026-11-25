@@ -10,7 +10,10 @@
       <div class="space-y-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-10">
           {% for category in sorted_documents %}
+           {% widthratio forloop.counter 1 50 as duree %} 
+          
             {% include_block category %}
+          
           {% endfor %}
         </div>
       </div>
