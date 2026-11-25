@@ -3,7 +3,7 @@ from django import template
 # import site:
 from wagtail.models import Site, Locale
 from django.utils.html import format_html,format_html_join
-from products.models import Product,ProductCategory
+from products.models import ProductCategory
 from django.utils.safestring import mark_safe
 import re
 
@@ -34,13 +34,6 @@ def purecounterDisplay(value):
             value,
         )
 
-
-@register.inclusion_tag('products/tags/products.html', takes_context=True)
-def products(context):
-    return {
-        'products': Product.objects.filter(locale=Locale.get_active()),
-        'request': context['request'],
-    }
 
 
 @register.inclusion_tag('products/tags/product_categories.html', takes_context=True)

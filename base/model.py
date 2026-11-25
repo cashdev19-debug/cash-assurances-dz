@@ -1,18 +1,14 @@
 from django.db import models
-# import register_snippet:
 from wagtail.snippets.models import register_snippet
 
 from wagtail.admin.panels import (
     FieldPanel,
     MultiFieldPanel,
-    # import PublishingPanel:
     PublishingPanel,
 )
 
-# import RichTextField:
 from wagtail.fields import RichTextField
 
-# import DraftStateMixin, PreviewableMixin, RevisionMixin, TranslatableMixin:
 from wagtail.models import (
     DraftStateMixin,
     PreviewableMixin,
@@ -24,7 +20,7 @@ from wagtail.contrib.settings.models import (
     BaseGenericSetting,
     register_setting,
 )
-# ...keep the definition of the NavigationSettings model and add the FooterText model:
+
 @register_snippet
 class FooterText(
     DraftStateMixin,
@@ -33,7 +29,6 @@ class FooterText(
     TranslatableMixin,
     models.Model,
 ):
-
     body = RichTextField()
     panels = [
         FieldPanel("body"),

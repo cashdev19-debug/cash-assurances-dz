@@ -4,7 +4,7 @@
     if (slides.length === 0) return;
     const MAIN_COLOR = '#b61615';
     const INACTIVE_COLOR = '#d1d5db';
-    const SLIDE_DURATION = 6000;
+    const SLIDE_DURATION = 10000;
     const TRANSITION_DURATION = 800;
     const wrapper = document.getElementById('carousel');
     const slideCounter = document.getElementById('slideCounter');
