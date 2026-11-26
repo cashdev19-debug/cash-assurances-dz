@@ -1,92 +1,128 @@
-<div id="agencyInfo">
-  <div class="flex mb-5">
-    <div class="text-2xl font-bold text-gray-800 mb-1">{{ agence.nom }}</div>
-    <span dir="ltr" class="inline-flex items-center rounded-lg bg-white mx-5 px-2 py-1 text-xs text-cash font-semibold inset-ring inset-ring-slate-700/10 shadow">
-    {{ agence.code }}
-    </span>
-  </div>
-  <div class="space-y-1.5 text-sm">
-    <div class="flex items-start gap-2 py-1.5 border-b border-dashed border-gray-200">
-      <span class="flex w-30 text-xs font-semibold text-gray-500 uppercase">
-        <i class="text-cash w-5">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
-          </svg>
-        </i>{{label_responsable}}
-      </span>
-      <span class="text-gray-700 font-semibold">{{ agence.responsable }}</span>
+{% if agence %}
+  <div id="agencyInfo" data-reveal-trigger="load">
+    <div class="flex mb-5" data-reveal="blur-down">
+      <div class="text-2xl font-bold text-gray-800 mb-1">{{ agence.nom }}</div>
+      <span dir="ltr" class="inline-flex items-center rounded-lg bg-white mx-5 px-2 py-1 text-xs text-cash font-semibold inset-ring inset-ring-slate-700/10 shadow">{{ agence.code }}</span>
     </div>
-  {%if emails%}
-    <div class="flex flex-wrap items-start gap-2 py-1.5 border-b border-dashed border-gray-200">
-      <span class="flex w-30 text-xs font-semibold text-gray-500 uppercase">
-        <i class="text-cash w-5">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-at-fill" viewBox="0 0 16 16">
-            <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2zm-2 9.8V4.698l5.803 3.546zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.5 4.5 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586zM16 9.671V4.697l-5.803 3.546.338.208A4.5 4.5 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671" />
-            <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791" />
+    <div class="space-y-1.5 text-sm">
+      {% if agence.responsable %}
+        <div class="flex items-start gap-2 py-1.5 border-b border-dashed border-gray-200" data-reveal="blur-down">
+          <span class="flex w-30 text-xs font-semibold text-gray-500 uppercase">
+            <i class="text-cash w-5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+              </svg>
+            </i>{{ label_responsable }}
+          </span>
+          <span class="text-gray-700 font-semibold">{{ agence.responsable }}</span>
+        </div>
+      {% endif %}
+      {% if emails %}
+        <div class="flex flex-wrap items-start gap-2 py-1.5 border-b border-dashed border-gray-200" data-reveal="blur-down">
+          <span class="flex w-30 text-xs font-semibold text-gray-500 uppercase">
+            <i class="text-cash w-5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-at-fill" viewBox="0 0 16 16">
+                <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2zm-2 9.8V4.698l5.803 3.546zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.5 4.5 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586zM16 9.671V4.697l-5.803 3.546.338.208A4.5 4.5 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671" />
+                <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791" />
+              </svg>
+            </i>{{ label_email }}
+          </span>
+          <div class="flex flex-col">
+            {% for email in emails %}
+              <span class="text-gray-700 break-all font-semibold">{{ email.value|safe }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+      {% if agence.adresse %}
+        <div class="flex items-start gap-2 py-1.5 border-b border-dashed border-gray-200" data-reveal="blur-down">
+          <span class="flex w-30 text-xs font-semibold text-gray-500 uppercase">
+            <i class="text-cash w-5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z" />
+                <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z" />
+              </svg>
+            </i>{{ label_adresse }}
+          </span><span class="text-gray-700 font-semibold">{{ agence.adresse }}</span>
+        </div>
+      {% endif %}
+      {% if fixs %}
+        <div class="flex items-start gap-2 py-1.5 border-b border-dashed border-gray-200" data-reveal="blur-down">
+          <span class="flex w-30 text-xs font-semibold text-gray-500 uppercase">
+            <i class="text-cash w-5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+              </svg>
+            </i>{{ label_fix }}
+          </span>
+          <div class="flex flex-col">
+            {% for fix in fixs %}
+              <span class="text-gray-700 font-semibold" dir="ltr">{{ fix.value }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+      {% if faxs %}
+        <div class="flex items-start gap-2 py-1.5 border-b border-dashed border-gray-200" data-reveal="blur-down">
+          <span class="flex w-30 text-xs font-semibold text-gray-500 uppercase">
+            <i class="text-cash w-5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
+                <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1" />
+                <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
+              </svg>
+            </i>{{ label_fax }}
+          </span>
+          {% for fax in faxs %}
+            <span class="text-gray-700 font-semibold" dir="ltr">{{ fax.value }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% if mobiles %}
+        <div class="flex items-start gap-2 py-1.5 border-b border-dashed border-gray-200" data-reveal="blur-down">
+          <span class="flex w-30 text-xs font-semibold text-gray-500 uppercase">
+            <i class="text-cash w-5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-phone-fill" viewBox="0 0 16 16">
+                <path d="M3 2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm6 11a1 1 0 1 0-2 0 1 1 0 0 0 2 0" />
+              </svg>
+            </i>{{ label_mobile }}
+          </span>
+          {% for mobile in mobiles %}
+            <span class="text-gray-700 font-semibold" dir="ltr">{{ mobile.value }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% else %}
+  <div id="agencyInfo" data-reveal="blur-up" class="flex-1 flex flex-col">
+    <div class="empty-state flex-1 flex flex-col items-center justify-center text-center w-full py-8 px-4 text-gray-500">
+      <i class="text-4xl text-gray-300 block mb-3 mx-auto w-10">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-hand-index-thumb-fill" viewBox="0 0 16 16">
+          <path d="M8.5 1.75v2.716l.047-.002c.312-.012.742-.016 1.051.046.28.056.543.18.738.288.273.152.456.385.56.642l.132-.012c.312-.024.794-.038 1.158.108.37.148.689.487.88.716q.113.137.195.248h.582a2 2 0 0 1 1.99 2.199l-.272 2.715a3.5 3.5 0 0 1-.444 1.389l-1.395 2.441A1.5 1.5 0 0 1 12.42 16H6.118a1.5 1.5 0 0 1-1.342-.83l-1.215-2.43L1.07 8.589a1.517 1.517 0 0 1 2.373-1.852L5 8.293V1.75a1.75 1.75 0 0 1 3.5 0" />
+        </svg>
+      </i>
+      <p class="text-sm font-medium">{{ self.text_empty_details }}</p>
+    </div>
+  </div>
+{% endif %}
+
+<div id="secondOneToupdate" hx-swap-oob="true" class="flex-1 bg-white min-h-65 md:min-h-80 relative">
+  {% if agence.localisation %}
+    <iframe id="mapIframe" src="{{ agence.localisation }}" loading="lazy" allowfullscreen class="w-full h-full min-h-65 md:min-h-80 block border-0 sm:min-h-85"></iframe>
+  {% else %}
+    <div id="secondOneToupdate"  hx-swap-oob="true" class="flex-1 bg-white min-h-65 md:min-h-80 relative flex flex-col">
+      <div data-reveal="blur-up" class="empty-state flex-1 flex flex-col items-center justify-center text-center w-full h-full py-8 px-4 bg-white text-gray-500">
+        <i class="block mb-3 mx-auto">
+          <svg width="55" height="55" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g opacity="0.4">
+              <path d="M6.94795 5.17894C6.83907 5.61196 6.78125 6.06526 6.78125 6.53206C6.78125 8.54162 7.61088 10.2638 8.43945 11.4975V20.5885L4.02728 19.508C3.02055 19.2614 2.3125 18.3591 2.3125 17.3226V6.91123C2.3125 5.4519 3.68027 4.37868 5.09771 4.72581L6.94795 5.17894Z" fill="#323544" />
+              <path d="M16.193 11.4971C17.0181 10.263 17.8442 8.54081 17.8442 6.53206C17.8442 5.90655 17.7403 5.30529 17.549 4.74458L20.5972 5.4911C21.604 5.73766 22.312 6.64004 22.312 7.67652V18.0879C22.312 19.5472 20.9443 20.6204 19.5268 20.2733L16.193 19.4568V11.4971Z" fill="#323544" />
+              <path d="M10.9074 14.2492L10.9085 14.2501C11.7347 14.9167 12.9144 14.9151 13.7388 14.2464L13.7399 14.2455L13.7436 14.2425L13.7496 14.2376L13.7652 14.2248C13.7771 14.2149 13.7922 14.2023 13.8102 14.1871C13.8462 14.1567 13.8939 14.1157 13.9517 14.0647C14.067 13.9628 14.2235 13.8198 14.4074 13.6396C14.4961 13.5528 14.5918 13.4566 14.693 13.3514V19.4495L9.93945 20.5903V13.3449C10.045 13.4542 10.1448 13.554 10.2369 13.6437C10.4217 13.8239 10.5789 13.9668 10.6948 14.0686C10.7528 14.1196 10.8007 14.1605 10.8369 14.1909C10.8549 14.2061 10.8701 14.2186 10.8821 14.2285L10.8977 14.2413L10.9037 14.2462L10.9074 14.2492Z" fill="#323544" />
+            </g>
+            <path d="M12.9586 12.9399C12.9095 12.9833 12.8701 13.017 12.8422 13.0407L12.7934 13.0801C12.5186 13.303 12.125 13.3032 11.8496 13.081L11.8019 13.0419C11.7738 13.0183 11.7343 12.9846 11.6849 12.9412C11.5863 12.8546 11.4483 12.7292 11.2838 12.5689C10.9558 12.2493 10.5186 11.7866 10.0801 11.2121C9.21625 10.0802 8.28125 8.4276 8.28125 6.53146C8.28125 4.30494 10.0862 2.5 12.3127 2.5C14.5392 2.5 16.3442 4.30494 16.3442 6.53146C16.3442 8.42636 15.4146 10.0784 14.5551 11.2105C14.119 11.7851 13.684 12.2478 13.3577 12.5676C13.1941 12.7278 13.0567 12.8533 12.9586 12.9399ZM11.0625 6.53125C11.0625 7.22161 11.6221 7.78125 12.3125 7.78125H12.3225C13.0129 7.78125 13.5725 7.22161 13.5725 6.53125C13.5725 5.84089 13.0129 5.28125 12.3225 5.28125H12.3125C11.6221 5.28125 11.0625 5.84089 11.0625 6.53125Z" fill="#323544" />
           </svg>
-        </i>{{label_email}}
-      </span>
-      <div class="flex flex-col">
-        {% for email in emails %}
-          <span class="text-gray-700 break-all font-semibold">{{ email.value|safe }}</span>
-        {% endfor %}
+        </i>
       </div>
     </div>
-    {%endif%}
-    <div class="flex items-start gap-2 py-1.5 border-b border-dashed border-gray-200">
-      <span class="flex w-30 text-xs font-semibold text-gray-500 uppercase">
-        <i class="text-cash w-5">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z" />
-            <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z" />
-          </svg>
-        </i>{{label_adresse}}
-      </span><span class="text-gray-700 font-semibold">{{ agence.adresse }}</span>
-    </div>
-     {%if fixs%}
-    <div class="flex items-start gap-2 py-1.5 border-b border-dashed border-gray-200">
-      <span class="flex w-30 text-xs font-semibold text-gray-500 uppercase">
-        <i class="text-cash w-5">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
-          </svg>
-        </i>{{label_fix}}
-      </span>     
-      <div class="flex flex-col">
-        {% for fix in fixs %}
-          <span class="text-gray-700 font-semibold" dir="ltr">{{ fix.value }}</span>
-        {% endfor %}
-      </div>
-    </div>
-    {%endif%}
-    {%if faxs%}
-    <div class="flex items-start gap-2 py-1.5 border-b border-dashed border-gray-200">
-      <span class="flex w-30 text-xs font-semibold text-gray-500 uppercase">
-        <i class="text-cash w-5">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
-            <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1" />
-            <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
-          </svg>
-        </i>{{label_fax}}
-      </span>
-      {% for fax in faxs %}
-        <span class="text-gray-700 font-semibold" dir="ltr">{{ fax.value }}</span>
-      {% endfor %}
-    </div>
-    {%endif%}
-    {%if mobiles%}
-    <div class="flex items-start gap-2 py-1.5 border-b border-dashed border-gray-200">
-      <span class="flex w-30 text-xs font-semibold text-gray-500 uppercase">
-        <i class="text-cash w-5">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-phone-fill" viewBox="0 0 16 16">
-            <path d="M3 2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm6 11a1 1 0 1 0-2 0 1 1 0 0 0 2 0" />
-          </svg>
-        </i>{{label_mobile}}
-      </span>
-      {% for mobile in mobiles %}
-        <span class="text-gray-700 font-semibold" dir="ltr">{{ mobile.value }}</span>
-      {% endfor %}
-    </div>
-    {%endif%}
-  </div>
+  {% endif %}
 </div>

@@ -179,7 +179,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+WAGTAILIMAGES_AVIF_QUALITY = 73
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 

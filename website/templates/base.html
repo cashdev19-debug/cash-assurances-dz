@@ -131,8 +131,9 @@
 {% endif %}
 {% endcomment %}
 {% block content %}{% endblock %}
-<div class="w-full  bg-[url('/media/images/Illustration_panoramique.jpg')] bg-cover bg-center bg-no-repeat bg-blend-multiply">
-{% include 'includes/prefooter.html' %}{% include 'includes/footer.html' %}</div>{% include "chatbot/widget.html" %}
+<div class="w-full bg-white  md:bg-contain bg-cover bg-no-repeat max-md:bg-[url('/media/images/Illustration_panoramique-mobile.png')]  max-md:bg-contain md:bg-[url('/media/images/Illustration_panoramique.png')]  bg-center">  
+  {% include 'includes/prefooter.html' %}{% include 'includes/footer.html' %}</div>
+  {% include "chatbot/widget.html" %}
 <script  src="{% static 'js/reveal.js' %}"></script>     
 {% compress js %}
 <script defer src="{%static 'js/intersect.js'%}"></script>

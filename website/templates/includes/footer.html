@@ -5,7 +5,7 @@
 {% get_current_language as lang %}
 {% get_site_root as site_root %}
 {% spaceless %}
-<footer class="footer sm:footer-horizontal bg-cash-800/95 text-white p-10 lg:px-60 ">
+<footer class="footer sm:footer-horizontal bg-cash-800/90 text-white p-10 lg:px-60 ">
   <aside>
     {% picture settings.base.footer.logo_fr width-100 %}
     <p>
@@ -57,9 +57,9 @@
   {% endfor %}
 </footer>
 <hr class="text-gray-500" />
-<footer class="footer sm:footer-horizontal bg-cash-800/95 footer-center text-white p-4 ">
+<footer class="footer sm:footer-horizontal bg-cash-800/90 footer-center text-white p-4 ">
   <aside>
-    <div class="flex items-center justify-between flex-wrap gap-6">
+    <div class="flex items-center justify-between flex-wrap gap-6 ">
       <div>
         {% localized_title settings.base.footer  lang 'copyrights' as copyrights %}
           {{ copyrights|safe }}

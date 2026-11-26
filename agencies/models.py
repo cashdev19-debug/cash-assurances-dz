@@ -69,6 +69,12 @@ class AgenciesPage(Page):
     def serve(self, request):  
         if request.headers.get('HX-Request') and 'agence_code' in request.GET:
             agence_code = request.GET.get('agence_code')
+            if not agence_code:
+                return render(request, 'agencies/partials/agence_infos.html', {
+                    'self': self,
+                    'page': self,
+                })
+            
             agence = Agence.objects.get(code=agence_code) if agence_code else []
             agenceInfos = AgenceContact.objects.filter(page=agence.id)
             fix = agenceInfos.filter(contact_type="FIX")
